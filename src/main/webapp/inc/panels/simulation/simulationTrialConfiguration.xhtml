@@ -57,7 +57,7 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
 	<ice:selectOneMenu id="criteria" partialSubmit="true"
-		value="#{simulationSubjectProperty.selectedCriterion}">
+		value="#{simulationSubjectProperty.selectedCriterionString}">
 		<f:selectItems value="#{simulationSubjectProperty.criteriaItems}" />
 		<f:converter binding="#{simulationSubjectProperty.criterionConverter}" />
 	</ice:selectOneMenu>

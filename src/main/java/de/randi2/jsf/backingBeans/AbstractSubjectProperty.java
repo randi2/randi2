@@ -45,6 +45,24 @@ public abstract class AbstractSubjectProperty {
 	@Getter
 	@Setter
 	private AbstractCriterion<?, ?> selectedCriterion;
+	
+	@Getter
+	private String selectedCriterionString;
+	
+	
+	public void setSelectedCriterionString(String selectedCriterionString) {
+		this.selectedCriterionString = selectedCriterionString;
+		try {
+			selectedCriterion = criterionConverter.findGenderForl16edValue(selectedCriterionString);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	private List<SelectItem> criteriaItems;
 
@@ -55,8 +73,9 @@ public abstract class AbstractSubjectProperty {
 					"de.randi2.jsf.i18n.criteria",
 					loginHandler.getChosenLocale());
 			for (AbstractCriterion<?, ?> c : trialHandler.getCriteriaList()) {
-				criteriaItems.add(new SelectItem(c, rb.getString(c.getClass()
-						.getName())));
+				String s = rb.getString(c.getClass()
+						.getName());
+				criteriaItems.add(new SelectItem(s, s));
 			}
 		}
 		return criteriaItems;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 import lombok.Setter;
 import de.randi2.jsf.controllerBeans.SimulationHandler;
@@ -20,7 +20,7 @@ import de.randi2.jsf.wrappers.CriterionWrapper;
  * 
  */
 @ManagedBean(name="simulationSubjectProperty")
-@RequestScoped
+@SessionScoped
 public class SimulationSubjectProperty extends AbstractSubjectProperty{
 
 	@ManagedProperty("#{simulationHandler}")

@@ -36,7 +36,7 @@
 	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
 	<ice:panelGrid columns="3">
 		<ice:selectOneMenu id="criteria" partialSubmit="true"
-			value="#{subjectPropertiesConfig.selectedCriterion}">
+			value="#{subjectPropertiesConfig.selectedCriterionString}">
 			<f:selectItems value="#{subjectPropertiesConfig.criteriaItems}" />
 			<f:converter
 				binding="#{subjectPropertiesConfig.criterionConverter}" />

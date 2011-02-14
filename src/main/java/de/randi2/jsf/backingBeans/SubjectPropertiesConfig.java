@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.criteria.AbstractCriterion;
@@ -36,7 +37,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
  * 
  */
 @ManagedBean(name = "subjectPropertiesConfig")
-@RequestScoped
+@SessionScoped
 public class SubjectPropertiesConfig extends AbstractSubjectProperty {
 	@SuppressWarnings("unchecked")
 	@Override

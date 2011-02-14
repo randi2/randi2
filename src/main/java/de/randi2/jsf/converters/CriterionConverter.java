@@ -21,29 +21,29 @@ public class CriterionConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-		try {
-			return findGenderForl16edValue(arg2);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
+//		try {
+//			return findGenderForl16edValue(arg2);
+//		} catch (InstantiationException e) {
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+		return arg2;
 	}
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object value) {
-		String result = null;
-		if (value != null && value instanceof AbstractCriterion<?, ?>) {
-			result = ResourceBundle.getBundle("de.randi2.jsf.i18n.criteria",
-					locale).getString(value.getClass().getCanonicalName());
-		}
-		return result;
+//		String result = null;
+//		if (value != null && value instanceof AbstractCriterion<?, ?>) {
+//			result = ResourceBundle.getBundle("de.randi2.jsf.i18n.criteria",
+//					locale).getString(value.getClass().getCanonicalName());
+//		}
+		return (String) value;
 	}
 
-	private AbstractCriterion<?, ?> findGenderForl16edValue(String l16edValue)
+	public AbstractCriterion<?, ?> findGenderForl16edValue(String l16edValue)
 			throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
 		ResourceBundle rb = ResourceBundle.getBundle(
