@@ -23,7 +23,7 @@ import java.util.HashSet;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +39,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.services.TrialService;
 
 @ManagedBean(name = "tSubjectAdd")
-@RequestScoped
+@SessionScoped
 public class TSubjectAdd {
 	@ManagedProperty(value = "#{popups}")
 	@Setter

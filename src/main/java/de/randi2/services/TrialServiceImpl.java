@@ -46,6 +46,7 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.utility.mail.MailServiceInterface;
+import de.randi2.utility.mail.exceptions.MailErrorException;
 
 @Service("trialService")
 public class TrialServiceImpl implements TrialService {
@@ -53,17 +54,17 @@ public class TrialServiceImpl implements TrialService {
 	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
 	@Autowired
 	private TrialDao trialDao;
-	
+
 	@Autowired
 	private TrialSiteDao trialSiteDao;
-	
+
 	protected EntityManager entityManager;
 
 	@PersistenceContext
-    public void setEntityManager(EntityManager entityManager) {
-	        this. entityManager = entityManager;
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
-	
+
 	@Autowired
 	private MailServiceInterface mailService;
 
@@ -90,8 +91,8 @@ public class TrialServiceImpl implements TrialService {
 		logger.debug("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " randomized in trial " + trial.getName());
-		subject.setTrialSite(trialSiteDao.get(((Login) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getPerson())); //TODO if trialSiteDao.get == null
+		subject.setTrialSite(trialSiteDao.get(((Login) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal()).getPerson())); // TODO if trialSiteDao.get == null
 		subject.setInvestigator(((Login) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()));
 		TreatmentArm assignedArm = trial.getRandomizationConfiguration()
@@ -106,8 +107,12 @@ public class TrialServiceImpl implements TrialService {
 			subject.setIdentification(subject.getRandNumber());
 		entityManager.persist(subject);
 		assignedArm.addSubject(subject);
-		sendRandomisationMail(trial, ((Login) SecurityContextHolder
-				.getContext().getAuthentication().getPrincipal()), subject);
+		try {
+			sendRandomisationMail(trial, ((Login) SecurityContextHolder
+					.getContext().getAuthentication().getPrincipal()), subject);
+		} catch (MailErrorException e) {
+			logger.error("mail error", e);
+		}
 		Trial t = trialDao.update(trial);
 		entityManager.flush();
 		return t;
@@ -234,16 +239,19 @@ public class TrialServiceImpl implements TrialService {
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " get trial site with id=" + objectID);
 		Trial trial = trialDao.get(objectID);
-		//lazy loading for participating sites and subject criteria
-		if(trial.getParticipatingSites().size()>0) trial.getParticipatingSites().iterator().next();
-		if(trial.getCriteria().size()>0){
+		// lazy loading for participating sites and subject criteria
+		if (trial.getParticipatingSites().size() > 0)
+			trial.getParticipatingSites().iterator().next();
+		if (trial.getCriteria().size() > 0) {
 			trial.getCriteria().get(0);
-			for(AbstractCriterion<?, ?> crit : trial.getCriteria()){
-				if(crit.getStrata().size()>0) crit.getStrata().get(0);
+			for (AbstractCriterion<?, ?> crit : trial.getCriteria()) {
+				if (crit.getStrata().size() > 0)
+					crit.getStrata().get(0);
 			}
 		}
-		for(TreatmentArm arm : trial.getTreatmentArms()){
-			if(arm.getSubjects().size()>0) arm.getSubjects().get(0);
+		for (TreatmentArm arm : trial.getTreatmentArms()) {
+			if (arm.getSubjects().size() > 0)
+				arm.getSubjects().get(0);
 		}
 		return trial;
 	}
@@ -288,10 +296,11 @@ public class TrialServiceImpl implements TrialService {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator) {
-		if(trial.getId()>0){
+		if (trial.getId() > 0) {
 			trial = trialDao.refresh(trial);
 			return trialDao.getSubjects(trial, investigator);
-		}else return new ArrayList<TrialSubject>();
+		} else
+			return new ArrayList<TrialSubject>();
 	}
 
 	/**
