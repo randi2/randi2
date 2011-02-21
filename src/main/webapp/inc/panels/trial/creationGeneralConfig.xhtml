@@ -112,9 +112,6 @@
 				<f:selectItems value="#{loginHandler.trialSites}" />
 				<f:converter binding="#{trialSiteHandler.trialSiteConverter}" />
 			</ice:selectOneMenu>
-			<ice:message for="leadingTrialSite" styleClass="errorMsg" />
-			
-
 			<ice:outputLabel for="sponsorInvestigator"
 				value="#{labels['trial.sponsorInvestigator']}"
 				rendered="#{trialHandler.leadingSite!=null}" />
