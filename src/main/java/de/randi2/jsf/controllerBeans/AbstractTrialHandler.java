@@ -5,6 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.el.ValueExpression;
 import javax.faces.bean.ManagedProperty;
@@ -17,6 +20,7 @@ import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.wrappers.ConstraintWrapper;
 import de.randi2.jsf.wrappers.CriterionWrapper;
+import de.randi2.jsf.wrappers.TreatmentArmWrapper;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.criteria.AbstractCriterion;
@@ -28,23 +32,29 @@ import de.randi2.utility.ReflectionUtil;
 
 /**
  * <p>
- * This class contains an trial object and some helpful 
- * methods to work with this object for the UI.
+ * This class contains an trial object and some helpful methods to work with
+ * this object for the UI.
  * </p>
  * 
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net> & ds@randi2.de
  */
-public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
+public abstract class AbstractTrialHandler extends AbstractHandler<Trial> {
 
-	@ManagedProperty(value="#{loginHandler}")
+	@ManagedProperty(value = "#{loginHandler}")
 	@Getter
 	@Setter
 	protected LoginHandler loginHandler;
-	
+
+	@Getter
+	@Setter
+	protected List<TreatmentArmWrapper> listArmsWrapper = new ArrayList<TreatmentArmWrapper>();
+
+	private int armWrapperIdSequence = 0;
+
 	/*
 	 * Access to the application popups.
 	 */
-	@ManagedProperty(value="#{popups}")
+	@ManagedProperty(value = "#{popups}")
 	@Setter
 	@Getter
 	private Popups popups;
@@ -83,22 +93,19 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	protected Trial createPlainObject() {
 		Trial t = new Trial();
 		// Start & End Date will be initalised with the today's date
 		t.setStartDate(new GregorianCalendar());
 		t.setEndDate(new GregorianCalendar());
-		// Each new Trial has automatic 2 Treatment Arms
-		t.getTreatmentArms().add(new TreatmentArm());
-		t.getTreatmentArms().add(new TreatmentArm());
 		return t;
 	}
 
 	@Override
 	public String refreshShowedObject() {
-			return null; // TODO What should we do at this point?
+		return null; // TODO What should we do at this point?
 	}
 
 	/*
@@ -111,22 +118,26 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 		return null; // Currently there is no posibility to edit the trial
 						// object - therefore no implementation of this method
 	}
-	
-	protected ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configureCriteriaStep4(){
+
+	protected ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configureCriteriaStep4() {
 		/* SubjectProperties Configuration - done in Step4 */
-		ValueExpression ve1 = FacesContext.getCurrentInstance()
-				.getApplication().getExpressionFactory()
+		ValueExpression ve1 = FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getExpressionFactory()
 				.createValueExpression(
 						FacesContext.getCurrentInstance().getELContext(),
-						"#{subjectPropertiesConfig}", SubjectPropertiesConfig.class);
-		SubjectPropertiesConfig currentStep4 = (SubjectPropertiesConfig) ve1.getValue(FacesContext
-				.getCurrentInstance().getELContext());
+						"#{subjectPropertiesConfig}",
+						SubjectPropertiesConfig.class);
+		SubjectPropertiesConfig currentStep4 = (SubjectPropertiesConfig) ve1
+				.getValue(FacesContext.getCurrentInstance().getELContext());
 		/* End of SubjectProperites Configuration */
 		return addAllConfiguredCriteria(currentStep4.getCriteria());
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> addAllConfiguredCriteria(ArrayList<CriterionWrapper<? extends Serializable>> criteriaList){
+	protected ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> addAllConfiguredCriteria(
+			ArrayList<CriterionWrapper<? extends Serializable>> criteriaList) {
 		ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> configuredCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
 		for (CriterionWrapper<? extends Serializable> cr : criteriaList) {
 			/* Strata configuration */
@@ -157,11 +168,10 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 			configuredCriteria
 					.add((AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>) cr
 							.getWrappedCriterion());
-		};
+		}
 		return configuredCriteria;
 	}
-	
-	
+
 	/**
 	 * Action listener for adding a new treatment arm.
 	 * 
@@ -169,19 +179,10 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 	 */
 	public void addArm(ActionEvent event) {
 		assert (currentObject != null);
-		TreatmentArm temp = new TreatmentArm();
-		currentObject.getTreatmentArms().add(temp);
-	}
-
-	/**
-	 * Action listener for removing an existing treatment arm.
-	 * 
-	 * @param event
-	 */
-	public void removeArm(ActionEvent event) {
-		assert (currentObject != null);
-		currentObject.getTreatmentArms().remove(
-				currentObject.getTreatmentArms().size() - 1);
+		TreatmentArmWrapper armWrapper = new TreatmentArmWrapper(this);
+		armWrapper.setArm(new TreatmentArm());
+		armWrapper.setId(armWrapperIdSequence++);
+		listArmsWrapper.add(armWrapper);
 	}
 
 	/**
@@ -193,8 +194,26 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial>{
 		assert (currentObject != null);
 		return currentObject.getTreatmentArms().size();
 	}
-	
+
 	public ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> getCriteriaList() {
 		return criteriaList;
+	}
+
+	protected Set<TreatmentArm> getTreatmentArms() {
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
+		for (TreatmentArmWrapper armWrapper : listArmsWrapper) {
+			arms.add(armWrapper.getArm());
+		}
+		return arms;
+	}
+
+	public void cleanTreatmentArms() {
+		listArmsWrapper = new ArrayList<TreatmentArmWrapper>();
+		for (int i = 0; i < 2; i++) {
+			TreatmentArmWrapper armWrapper = new TreatmentArmWrapper(this);
+			armWrapper.setArm(new TreatmentArm());
+			armWrapper.setId(armWrapperIdSequence++);
+			listArmsWrapper.add(armWrapper);
+		}
 	}
 }

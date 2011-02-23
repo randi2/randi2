@@ -204,6 +204,8 @@ public class TrialHandler extends AbstractTrialHandler {
 				currentObject.setSponsorInvestigator(sponsorInvestigator
 						.getPerson());
 
+			// configure the treatment arms
+			currentObject.setTreatmentArms(getTreatmentArms());
 			// TODO Protokoll
 			// TODO Status
 			currentObject.setStatus(TrialStatus.ACTIVE);
@@ -342,11 +344,20 @@ public class TrialHandler extends AbstractTrialHandler {
 		AlgorithmConfig currentStep5 = (AlgorithmConfig) ve2
 				.getValue(FacesContext.getCurrentInstance().getELContext());
 		currentStep5.clean();
-
+		cleanTreatmentArms();
 		// setRandomizationConfig(null);
 		currentObject = null;
 		leadingSite = null;
 		sponsorInvestigator = null;
 	}
 
+	@Override
+	public Trial getCurrentObject() {
+		if (listArmsWrapper.isEmpty()) {
+			return super.getCurrentObject();
+		} else {
+			currentObject.setTreatmentArms(getTreatmentArms());
+			return currentObject;
+		}
+	}
 }

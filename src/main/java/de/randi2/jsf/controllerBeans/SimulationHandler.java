@@ -222,10 +222,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 
 		} else if (currentObject == null && simOnly) {
 			currentObject = new Trial();
-			Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
-			arms.add(new TreatmentArm());
-			arms.add(new TreatmentArm());
-			currentObject.setTreatmentArms(arms);
+			cleanTreatmentArms();
 		}
 		if (simOnly && criterionChanged) {
 			/* SubjectProperties Configuration - done in Step4 */
@@ -370,6 +367,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 	public void simTrial() {
 		simulationResults = null;
 		simResult = null;
+		currentObject.setTreatmentArms(getTreatmentArms());
 		List<DistributionSubjectProperty> properties = new ArrayList<DistributionSubjectProperty>();
 		if (distributedCriterions != null) {
 			for (DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>> dcw : distributedCriterions) {

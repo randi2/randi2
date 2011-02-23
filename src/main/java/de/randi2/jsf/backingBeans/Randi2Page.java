@@ -223,6 +223,7 @@ public class Randi2Page {
 		trialHandler.cancelEditing();
 		trialHandler.startEditing(); //TODO
 		trialHandler.setCurrentObject(null);
+		trialHandler.cleanTreatmentArms();
 		activePanel = "trialCreatePanel";
 		trialSelected = false;
 	}
@@ -245,6 +246,7 @@ public class Randi2Page {
 		simulationHandler.setSimOnly(true);
 		simulationHandler.getSimTrial();
 		simulationHandler.setSimulationResults(null);
+		simulationHandler.cleanTreatmentArms();
 		popups.hideSimulationCompletePopup();
 		activePanel = "simulationOnlyPanel";
 		trialHandler.cancelEditing();

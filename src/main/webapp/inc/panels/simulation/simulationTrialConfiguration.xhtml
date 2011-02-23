@@ -38,21 +38,19 @@
 	<ice:commandButton image="/resources/img/icons/add16.png"
 		actionListener="#{simulationHandler.addArm}" style="margin-right:5px;"
 		immediate="true" />
-	<ice:commandButton image="/resources/img/icons/remove16.png"
-		disabled="#{simulationHandler.treatmentArmsCount==0}"
-		actionListener="#{simulationHandler.removeArm}" immediate="true" />
-</ice:panelGrid> <ice:panelGroup styleClass="clearer"
+</ice:panelGrid> 
+<ice:panelGrid columns="1"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:messages tooltip="true" showDetail="false" showSummary="true"
-		errorClass="errorMsg" layout="table" />
-</ice:panelGroup> <ice:panelGroup styleClass="exampleBox"
+<ice:panelGroup styleClass="exampleBox"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-	<ice:panelSeries value="#{simulationHandler.simTrial.treatmentArms}"
-		var="arm" style="padding:10px;">
+	<ice:panelSeries value="#{simulationHandler.listArmsWrapper}"
+		var="armWrapper" style="padding:10px;">
 		<ui:include src="/inc/panels/trial/treatmentArm.xhtml" />
 	</ice:panelSeries>
-</ice:panelGroup> <!-- Configuration for subject properties --> <ice:panelGrid
+</ice:panelGroup> 
+
+<!-- Configuration for subject properties --> <ice:panelGrid
 	columns="4" xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
@@ -77,4 +75,5 @@
 		xmlns:ui="http://java.sun.com/jsf/facelets">
 		<ui:include src="/inc/panels/trial/criterionPanel.xhtml" />
 	</ice:panelSeries>
-</ice:panelGroup></div>
+</ice:panelGroup>
+</ice:panelGrid></div>

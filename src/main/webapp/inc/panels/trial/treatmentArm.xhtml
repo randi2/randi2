@@ -23,31 +23,33 @@
 	<b class="b3"></b>
 	<b class="b4"></b>
 	<ice:panelGroup styleClass="contentb">
-		<ice:panelGrid columns="2">
+		<ice:panelGrid columns="3">
 			<h:graphicImage name="/img/icons/arm16.png" />
 			<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
+			<ice:commandButton image="/resources/img/icons/remove16.png"
+		actionListener="#{armWrapper.removeArm}" partialSubmit="true"/>
 		</ice:panelGrid>
 		<ice:panelGrid>
 			<ice:outputLabel for="name" value="#{labels['treatmentArm.name']}" />
 			<ice:panelGroup>
-				<ice:inputText id="name" value="#{arm.name}" size="22"
-					required="#{arm.requiredFields['name']}" partialSubmit="true">
+				<ice:inputText id="name" value="#{armWrapper.arm.name}" size="22"
+					required="#{armWrapper.arm.requiredFields['name']}" partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{arm}" />
+					<f:attribute name="dObject" value="#{armWrapper.arm}" />
 				</ice:inputText>
 			<ice:message for="name" styleClass="errorMsg" />
 			</ice:panelGroup>
 			<ice:outputLabel for="description"
 				value="#{labels['treatmentArm.description']}" />
 			<ice:panelGroup>
-				<ice:inputTextarea id="description" value="#{arm.description}"
+				<ice:inputTextarea id="description" value="#{armWrapper.arm.description}"
 					style="width:135px;height:40px;overflow: auto;"
-					required="#{arm.requiredFields['description']}"
+					required="#{armWrapper.arm.requiredFields['description']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{arm}" />
+					<f:attribute name="dObject" value="#{armWrapper.arm}" />
 				</ice:inputTextarea>
 			<ice:message for="description" styleClass="errorMsg" />
 			</ice:panelGroup>
@@ -55,12 +57,12 @@
 				value="#{labels['treatmentArm.plannedSubjects']}" />
 			<ice:panelGroup>
 				<ice:inputText id="plannedSubjects"
-					value="#{arm.plannedSubjects}" size="22"
-					required="#{arm.requiredFields['plannedSubjects']}"
+					value="#{armWrapper.arm.plannedSubjects}" size="22"
+					required="#{armWrapper.arm.requiredFields['plannedSubjects']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-					<f:attribute name="dObject" value="#{arm}" />
+					<f:attribute name="dObject" value="#{armWrapper.arm}" />
 				</ice:inputText>
 				<ice:message for="plannedSubjects" styleClass="errorMsg" />
 			</ice:panelGroup>
