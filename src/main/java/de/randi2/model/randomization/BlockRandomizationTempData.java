@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,7 +40,7 @@ public class BlockRandomizationTempData extends AbstractRandomizationTempData {
 	private static final long serialVersionUID = -5150967612749185875L;
 
 	
-	 @CollectionOfElements(targetElement = Block.class)
+	 @CollectionOfElements(targetElement = Block.class, fetch=FetchType.EAGER)
 	 @MapKey(targetElement = String.class, columns = {@Column(name="mapkey",nullable=false)})
 	 private Map<String, Block> blocks = new HashMap<String, Block>();
 	 

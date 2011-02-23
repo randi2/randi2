@@ -19,6 +19,7 @@ package de.randi2.model.randomization;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
@@ -57,7 +58,7 @@ public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 	
 	
 	@Getter @Setter
-	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE}, fetch=FetchType.EAGER)
 	protected AbstractRandomizationTempData tempData;
 	
 	
