@@ -223,7 +223,7 @@ public class TrialServiceImpl implements TrialService {
 
 	@Override
 	@Secured({ "AFTER_ACL_COLLECTION_READ" })
-	@Transactional(propagation = Propagation.SUPPORTS)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Trial> getAll() {
 		logger.info("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
@@ -233,7 +233,7 @@ public class TrialServiceImpl implements TrialService {
 
 	@Override
 	@Secured({ "ROLE_USER", "AFTER_ACL_READ" })
-	@Transactional(propagation = Propagation.SUPPORTS)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Trial getObject(long objectID) {
 		logger.info("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
@@ -294,7 +294,7 @@ public class TrialServiceImpl implements TrialService {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator) {
 		if (trial.getId() > 0) {
 			trial = trialDao.refresh(trial);

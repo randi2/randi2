@@ -500,7 +500,7 @@ public class Bootstrap {
 	private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {
 		// long time1 = System.nanoTime();
 		EntityTransaction transaction = entityManager.getTransaction();
-		
+		transaction.begin();
 		trial = entityManager.find(Trial.class, trial.getId());
 
 		TrialSubject subject = new TrialSubject();
@@ -546,7 +546,6 @@ public class Bootstrap {
 		trialService.randomize(trial, subject);
 		subject = entityManager.find(TrialSubject.class, subject.getId());
 		subject.setCreatedAt(date);
-		transaction.begin();
 		subject = entityManager.merge(subject);
 		transaction.commit();
 		// System.out.println("time random before: " +

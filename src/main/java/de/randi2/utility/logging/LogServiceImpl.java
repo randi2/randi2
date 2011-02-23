@@ -71,6 +71,7 @@ public class LogServiceImpl implements LogService {
 
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void logGet(LogEntry.ActionType action, String username) {
 		LogEntry entry = new LogEntry();
 		entry.setAction(action);
@@ -80,7 +81,7 @@ public class LogServiceImpl implements LogService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<LogEntry> getLogEntries() {
 		return entityManager.createQuery(
 				"from LogEntry").getResultList();
@@ -88,7 +89,7 @@ public class LogServiceImpl implements LogService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<LogEntry> getLogEntries(
 			Class<? extends AbstractDomainObject> clazz, long id) {
 		List<LogEntry> entries = entityManager.createQuery(
@@ -99,7 +100,7 @@ public class LogServiceImpl implements LogService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<LogEntry> getLogEntries(String username) {
 		List<LogEntry> entries = entityManager.createQuery(
 				"from LogEntry as entry where entry.username = ?")
