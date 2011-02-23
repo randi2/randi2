@@ -21,9 +21,10 @@ This panel configured the simulation parameters.
 	<h:graphicImage name="/img/icons/info48.png"/>
 	<ice:outputLabel
 		value="#{labels['pages.simulation.configurationDesc']}"></ice:outputLabel>
-</ice:panelGrid> <ice:panelGroup xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
+</ice:panelGrid>
+<ice:panelGrid columns="1" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
+ <ice:panelGroup>
 	<ice:panelGrid columns="2">
 	<ice:panelCollapsible expanded="true" toggleOnClick="false">
 		<f:facet name="header">
@@ -51,7 +52,7 @@ This panel configured the simulation parameters.
 	</ice:panelCollapsible>
 	</ice:panelGrid>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false"
-		style="margin-left: 3px; width: 500px">
+		style="margin-left: 3px;">
 		<f:facet name="header">
 			<ice:outputLabel
 				value="#{labels['pages.simulation.trialSiteDistribution']}"></ice:outputLabel>
@@ -111,7 +112,7 @@ This panel configured the simulation parameters.
 			var="dCriterion">
 			<ice:panelGroup
 				style="float:left; padding-left: 2px; padding-top: 5px;"
-				rendered="#{criterion.possibleStrata}">
+				rendered="#{dCriterion.criterion.possibleStrata}">
 				<b class="b1"></b>
 				<b class="b2"></b>
 				<b class="b3"></b>
@@ -143,7 +144,9 @@ This panel configured the simulation parameters.
 		</ice:panelSeries>
 	</ice:panelCollapsible>
 
-</ice:panelGroup> <ice:commandButton value="#{labels['buttons.back']}"
+</ice:panelGroup>
+<ice:panelGroup>
+ <ice:commandButton value="#{labels['buttons.back']}"
 	actionListener="#{randi2Page.simulateTrialBack}"
 	rendered="#{not simulationHandler.simOnly}"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" /> <ice:commandButton
@@ -154,4 +157,7 @@ This panel configured the simulation parameters.
 	value="#{labels['buttons.simulate']}"
 	action="#{popups.showSimulationCompletePopup}"
 	rendered="#{simulationHandler.simOnly}"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" /></div>
+	xmlns:ice="http://www.icesoft.com/icefaces/component" />
+	</ice:panelGroup>
+</ice:panelGrid>
+	</div>
