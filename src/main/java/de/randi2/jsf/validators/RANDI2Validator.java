@@ -76,17 +76,12 @@ public class RANDI2Validator implements Validator, Serializable {
 		try {
 			dObject.checkValue(arg1.getId(), arg2);
 		} catch (ValidationException exp) {
-			// TODO Befor deploy - delete this sysout
-			exp.printStackTrace();
 			StringBuffer messages = new StringBuffer();
 			for (String m : exp.getMessages()) {
 				messages.append(m + " ");
 			}
 			throw new ValidatorException(new FacesMessage(
 					FacesMessage.SEVERITY_ERROR, messages.toString(), null));
-		} catch (Exception exp1) {
-			// TODO Befor deploy - delete this sysout
-			exp1.printStackTrace();
 		}
 
 	}
