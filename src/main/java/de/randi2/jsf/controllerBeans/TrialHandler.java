@@ -85,6 +85,13 @@ public class TrialHandler extends AbstractTrialHandler {
 	@Setter
 	@Getter
 	private boolean editing = false;
+	
+	/**
+	 * Defines if the current trial is a new one.
+	 */
+	@Setter
+	@Getter
+	private boolean create = false;
 
 	@Getter
 	@Setter
@@ -349,6 +356,7 @@ public class TrialHandler extends AbstractTrialHandler {
 		currentObject = null;
 		leadingSite = null;
 		sponsorInvestigator = null;
+		create = false;
 	}
 
 	@Override
@@ -356,6 +364,7 @@ public class TrialHandler extends AbstractTrialHandler {
 		if (listArmsWrapper.isEmpty()) {
 			return super.getCurrentObject();
 		} else {
+			if(currentObject == null) currentObject = createPlainObject();
 			currentObject.setTreatmentArms(getTreatmentArms());
 			return currentObject;
 		}
