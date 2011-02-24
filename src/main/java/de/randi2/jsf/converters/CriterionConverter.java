@@ -53,7 +53,6 @@ public class CriterionConverter implements Converter {
 				return (AbstractCriterion<?, ?>) Class.forName(key)
 						.newInstance();
 		}
-		System.out.println("no role found!!!!");
 		return null;
 	}
 }

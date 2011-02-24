@@ -20,9 +20,9 @@ package de.randi2.model.randomization;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Column;
 import javax.persistence.FetchType;
 
 import lombok.Data;

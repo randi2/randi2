@@ -372,7 +372,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 */
 		authenticatAsInvestigator();
 		int expectedAmount = 50;
-//		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
 		for(int i=0;i<expectedAmount;i++){
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
@@ -399,7 +398,6 @@ public class TrialServiceTest extends AbstractServiceTest{
 		 * Randomizing another set of subjects
 		 */
 		int nextSet = 40;
-//		System.out.println("user: " + SecurityContextHolder.getContext().getAuthentication().getName() + " randomized in trial " +t.getName());
 		for(int i=0;i<nextSet;i++){
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("anotherId" + i);

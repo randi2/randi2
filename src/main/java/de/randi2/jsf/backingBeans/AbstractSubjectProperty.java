@@ -85,7 +85,6 @@ public abstract class AbstractSubjectProperty {
 
 	@SuppressWarnings("unchecked")
 	public void addCriterion(ActionEvent event) {
-		System.out.println("Small test");
 		if (selectedCriterion != null)
 			try {
 				if (criteria == null)

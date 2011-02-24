@@ -44,7 +44,6 @@ public class RoleConverter implements Converter {
 			if (rb.getString(key).equals(l16edValue))
 				return service.getRole(key);
 		}
-		System.out.println("no role found!!!!");
 		return null;
 	}
 

@@ -371,8 +371,6 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public Login getLoggedInUser() {
 		if (loggedInUser == null) {
 			try {
-				System.out.println(SecurityContextHolder.getContext()
-						.getAuthentication().getPrincipal().getClass().getCanonicalName());
 				loggedInUser = (Login) SecurityContextHolder.getContext()
 						.getAuthentication().getPrincipal();
 				/*
