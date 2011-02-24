@@ -70,7 +70,7 @@ import de.randi2.utility.validations.DateDependence;
 @EqualsAndHashCode(callSuper = true, exclude = { "randomConf",
 		"participatingSites", "sponsorInvestigator", "subjectCriteria" })
 @NamedQuery(name = "trial.AllTrialsWithSpecificParticipatingTrialSite", query = "select trial from Trial as trial join trial.participatingSites site where site.id = ?")
-@ToString(callSuper=true, exclude={"participatingSites", "protocol", "treatmentArms", "leadingSite", "subjectCriteria"})
+@ToString(callSuper=true, of={"name", "abbreviation", "status", "startDate", "endDate"})
 public class Trial extends AbstractDomainObject {
 
 	public static final Comparator<TrialSubject> SUBJECT_COUNT_COMPERATOR = new Comparator<TrialSubject>() {
