@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	private RolesAndRights rolesAndRights;
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Transactional(propagation = Propagation.SUPPORTS)
 	@Secured({ "ROLE_USER", "AFTER_ACL_READ" })
 	public Login getUser(String username) {
 		return loginDao.get(username);
