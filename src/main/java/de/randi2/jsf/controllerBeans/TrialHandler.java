@@ -18,6 +18,8 @@
 package de.randi2.jsf.controllerBeans;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -315,8 +317,14 @@ public class TrialHandler extends AbstractTrialHandler {
 
 	public List<TrialSubject> getSubjectsList() {
 		if (currentObject != null) {
-			return trialService.getSubjects(currentObject,
+			List<TrialSubject> subjects = trialService.getSubjects(currentObject,
 					loginHandler.getLoggedInUser());
+			Collections.sort(subjects, new Comparator<TrialSubject>(){
+				@Override
+				public int compare(TrialSubject o1, TrialSubject o2) {
+					return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+				}});
+			return subjects;
 		}
 		return null;
 	}
