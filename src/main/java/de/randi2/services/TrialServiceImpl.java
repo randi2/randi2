@@ -45,8 +45,11 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
+import de.randi2.utility.logging.LogService;
 import de.randi2.utility.mail.MailServiceInterface;
 import de.randi2.utility.mail.exceptions.MailErrorException;
+
+import de.randi2.utility.logging.LogEntry.ActionType;
 
 @Service("trialService")
 public class TrialServiceImpl implements TrialService {
@@ -54,6 +57,9 @@ public class TrialServiceImpl implements TrialService {
 	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
 	@Autowired
 	private TrialDao trialDao;
+	
+	@Autowired 
+	private LogService logService;
 
 	@Autowired
 	private TrialSiteDao trialSiteDao;
@@ -218,6 +224,8 @@ public class TrialServiceImpl implements TrialService {
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " update trial site with name "
 				+ trial.getName() + "(id: " + trial.getId() + ")");
+		logService.logTrialChange(ActionType.UPDATE, SecurityContextHolder.getContext().getAuthentication()
+				.getName(), oldObject, trial);
 		return trialDao.update(trial);
 	}
 

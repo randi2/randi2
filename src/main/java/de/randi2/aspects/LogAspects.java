@@ -68,8 +68,9 @@ public class LogAspects {
 	 */
 	@Around("execution(public * de.randi2.services.*.update*(..))")
 	public Object logUpdateObject(ProceedingJoinPoint pjp) throws Throwable{
-		Object o = pjp.proceed();		
-		logService.logChange(ActionType.UPDATE, SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
+		Object o = pjp.proceed();	
+		if(!pjp.getSignature().toShortString().equals("TrialServiceImpl.update(..)"))
+			logService.logChange(ActionType.UPDATE, SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
 		return o;
 	}
 	

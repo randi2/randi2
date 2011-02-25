@@ -17,6 +17,7 @@
  */
 package de.randi2.utility.logging;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,8 +117,50 @@ public class LogServiceImpl implements LogService {
 		return strings;
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void logTrialChange(LogEntry.ActionType action, String username, Trial oldTrial, Trial changedTrial){
+		LogEntry entry = new LogEntry();
+		entry.setAction(action);
+		entry.setUsername(username);
+		entry.setClazz(Trial.class);
+		entry.setIdentifier(changedTrial.getId());
+		
 
-
+		StringBuilder sb = new StringBuilder();
+		if(!oldTrial.getName().equals(changedTrial.getName())){
+			sb.append("Name: ").append(oldTrial.getName()).append(" -> ").append(changedTrial.getName()).append(" | ");
+		}
+		if(!oldTrial.getAbbreviation().equals(changedTrial.getAbbreviation())){
+			sb.append("Abbreviation: ").append(oldTrial.getAbbreviation()).append(" -> ").append(changedTrial.getAbbreviation()).append(" | ");
+		}
+		if(!oldTrial.getDescription().equals(changedTrial.getDescription())){
+			sb.append("Description: ").append(oldTrial.getDescription()).append(" -> ").append(changedTrial.getDescription()).append(" | ");
+		}
+		if(!oldTrial.getStartDate().equals(changedTrial.getStartDate())){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sb.append("Start-Date: ").append(sdf.format(oldTrial.getStartDate().getTime())).append(" -> ").append(sdf.format(changedTrial.getStartDate().getTime())).append(" | ");
+		}
+		if(!oldTrial.getEndDate().equals(changedTrial.getEndDate())){
+			 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sb.append("End-Date: ").append(sdf.format(oldTrial.getEndDate().getTime())).append(" -> ").append(sdf.format(changedTrial.getEndDate().getTime())).append(" | ");
+		}
+		if(!oldTrial.getLeadingSite().equals(changedTrial.getLeadingSite())){
+			sb.append("Leading Site: ").append(oldTrial.getLeadingSite().getName()).append(" -> ").append(changedTrial.getLeadingSite().getName()).append(" | ");
+		}
+		if(!oldTrial.getSponsorInvestigator().equals(changedTrial.getSponsorInvestigator())){
+			sb.append("Sponsor investigator: ").append(oldTrial.getSponsorInvestigator().getUIName()).append(" -> ").append(changedTrial.getSponsorInvestigator().getUIName()).append(" | ");
+		}
+		if(!(oldTrial.getStatus() == changedTrial.getStatus())){
+			sb.append("Status: ").append(oldTrial.getStatus()).append(" -> ").append(changedTrial.getStatus());
+		}
+		if(sb.length()==0){
+			sb.append(changedTrial.getAbbreviation());
+		}
+		entry.setUiName(sb.toString());
+		entry.setValue(sb.toString());
+		entityManager.persist(entry);
+	}
 
 	
 }

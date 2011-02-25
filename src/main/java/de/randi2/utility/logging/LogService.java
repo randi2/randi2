@@ -22,18 +22,21 @@ import java.util.List;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
+import de.randi2.utility.logging.LogEntry.ActionType;
 
 public interface LogService {
 
-	public void logRandomize(LogEntry.ActionType action, String username, Trial trial, TrialSubject trialSubject);
+	public void logRandomize(ActionType action, String username, Trial trial, TrialSubject trialSubject);
 	
-	public void logChange(LogEntry.ActionType action, String username, AbstractDomainObject value);
+	public void logChange(ActionType action, String username, AbstractDomainObject value);
 	
-	public void logGet(LogEntry.ActionType action, String username);
+	public void logGet(ActionType action, String username);
 	
 	public List<LogEntry> getLogEntries();
 	
 	public List<LogEntry> getLogEntries(String username);
 	
 	public List<LogEntry> getLogEntries(Class<? extends AbstractDomainObject> clazz, long id);
+
+	void logTrialChange(ActionType action, String username, Trial oldTrial,	Trial changedTrial);
 }
