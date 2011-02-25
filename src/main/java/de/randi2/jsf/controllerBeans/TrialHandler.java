@@ -128,8 +128,7 @@ public class TrialHandler extends AbstractTrialHandler {
 	 * @return
 	 */
 	public boolean isAddingSubjectsEnabled() {
-		// TODO Inject the trial state logic
-		addingSubjectsEnabled = !creatingMode && currentObject != null;
+		addingSubjectsEnabled = !creatingMode && currentObject != null && currentObject.getId()>0 && currentObject.getStatus()==TrialStatus.ACTIVE;
 		return addingSubjectsEnabled;
 	}
 
@@ -209,8 +208,7 @@ public class TrialHandler extends AbstractTrialHandler {
 			// configure the treatment arms
 			currentObject.setTreatmentArms(getTreatmentArms());
 			// TODO Protokoll
-			// TODO Status
-			currentObject.setStatus(TrialStatus.ACTIVE);
+			currentObject.setStatus(TrialStatus.IN_PREPARATION);
 			// configure subject properties
 			currentObject.setCriteria(configureCriteriaStep4());
 			// create trial
@@ -234,7 +232,9 @@ public class TrialHandler extends AbstractTrialHandler {
 	 */
 	public String saveTrial() {
 		try {
-			currentObject = trialService.update(currentObject);
+			trialService.update(currentObject);
+			//get the changed trial with initialized properties
+			currentObject = trialService.getObject(currentObject.getId());
 			getPopups().showTrialCreatedPopup();
 			editing = false;
 		} catch (IllegalArgumentException e) {
