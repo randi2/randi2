@@ -24,6 +24,7 @@
 		<constructor-arg value="de.randi2.utility.mail.MailServiceInterface" />
 	</bean>
 	<bean id="trialService" class="de.randi2.services.TrialServiceImpl" />
+	<bean id="logService" class="de.randi2.utility.logging.LogServiceImpl" />
 	<bean id="testStringUtil"
 		class="de.randi2.testUtility.utility.TestStringUtil">
 	</bean>

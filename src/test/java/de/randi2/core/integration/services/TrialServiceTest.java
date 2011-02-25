@@ -23,6 +23,7 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
@@ -50,6 +51,7 @@ public class TrialServiceTest extends AbstractServiceTest{
 		validTrial.setSponsorInvestigator(user.getPerson());
 		validTrial.setLeadingSite(trialSiteService.getTrialSiteFromPerson(user.getPerson()));
 		validTrial.addParticipatingSite(trialSiteService.getTrialSiteFromPerson(user.getPerson()));
+		validTrial.setStatus(TrialStatus.IN_PREPARATION);
 		assertNotNull(validTrial.getLeadingSite());
 	}
 	
@@ -121,7 +123,9 @@ public class TrialServiceTest extends AbstractServiceTest{
 		service.create(validTrial);
 		validTrial.setTreatmentArms(arms);
 		validTrial.setRandomizationConfiguration(new CompleteRandomizationConfig());
-		service.update(validTrial);
+		validTrial = service.update(validTrial);
+		validTrial.setStatus(TrialStatus.ACTIVE);
+		validTrial = service.update(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();
@@ -155,13 +159,14 @@ public class TrialServiceTest extends AbstractServiceTest{
 		arms.add(arm1);
 		arms.add(arm2);
 	
-		service.create(validTrial);
+		
 		validTrial.setTreatmentArms(arms);
 		BlockRandomizationConfig config =  new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(config);
-		validTrial = service.update(validTrial);
+		validTrial.setStatus(TrialStatus.ACTIVE);
+		service.create(validTrial);
 		
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
@@ -205,11 +210,10 @@ public class TrialServiceTest extends AbstractServiceTest{
 		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
-	
-		service.create(validTrial);
 		validTrial.setTreatmentArms(arms);
 		validTrial.setRandomizationConfiguration(new TruncatedBinomialDesignConfig());
-		service.update(validTrial);
+		validTrial.setStatus(TrialStatus.ACTIVE);
+		service.create(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();
@@ -243,16 +247,15 @@ public class TrialServiceTest extends AbstractServiceTest{
 		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
-	
-		service.create(validTrial);
 		validTrial.setTreatmentArms(arms);
 		
 		UrnDesignConfig conf = new UrnDesignConfig();
 		conf.setInitializeCountBalls(4);
 		conf.setCountReplacedBalls(2);
 		validTrial.setRandomizationConfiguration(conf);
+		validTrial.setStatus(TrialStatus.ACTIVE);
 		
-		validTrial = service.update(validTrial);
+		service.create(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
 		assertTrue(validTrial.getRandomizationConfiguration().getId()>0);
@@ -287,14 +290,14 @@ public class TrialServiceTest extends AbstractServiceTest{
 		arms.add(arm1);
 		arms.add(arm2);
 	
-		service.create(validTrial);
 		validTrial.setTreatmentArms(arms);
 		UrnDesignConfig conf = new UrnDesignConfig();
 		conf.setInitializeCountBalls(4);
 		conf.setCountReplacedBalls(2);
 		validTrial.setRandomizationConfiguration(conf);
+		validTrial.setStatus(TrialStatus.ACTIVE);
 		
-		service.update(validTrial);
+		service.create(validTrial);
 		assertTrue(validTrial.getId()>0);
 		assertEquals(2,validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();

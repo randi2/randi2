@@ -6,6 +6,7 @@ import static junit.framework.Assert.assertTrue;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,6 +27,7 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.Gender;
+import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.services.ChartData;
@@ -34,7 +36,6 @@ import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.unsorted.ContraintViolatedException;
 import de.randi2.utility.BoxedException;
-import java.util.Arrays;
 
 @Transactional
 public class ChartsServiceTest extends AbstractServiceTest {
@@ -57,6 +58,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		validTrial.setLeadingSite(site);
 		validTrial.setSponsorInvestigator(user.getPerson());
 		validTrial.addParticipatingSite(site);
+		validTrial.setStatus(TrialStatus.IN_PREPARATION);
 	}
 
 	@Transactional
@@ -78,13 +80,13 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		armsSet.add(arm1);
 		armsSet.add(arm2);
 		entityManager.clear();
-		trialService.create(validTrial);
 		validTrial.setTreatmentArms(armsSet);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(config);
-		validTrial = trialService.update(validTrial);
+		validTrial.setStatus(TrialStatus.ACTIVE);
+		trialService.create(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();
@@ -93,7 +95,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
 			subject.setTrialSite(validTrial.getLeadingSite());
-			trialService.randomize(validTrial, subject);
+			validTrial = trialService.randomize(validTrial, subject);
 			assertTrue(subject.getId()>0);
 			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(2009, i % 12, 1));
@@ -111,7 +113,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			assertTrue((blocksize / 2) >= diff
 					&& (-1) * (blocksize / 2) <= diff);
 		}
-
+		entityManager.flush();
+		entityManager.clear();
 		Trial dbTrial = trialService.getObject(validTrial.getId());
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
@@ -127,6 +130,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		entityManager.flush();
 	}
 
+	@Transactional
 	private void randomizeInValidTrialTwoYears() throws IllegalArgumentException, TrialStateException {
 		authenticatAsPrincipalInvestigator();
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
@@ -144,23 +148,23 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		Set<TreatmentArm> armsSet = new HashSet<TreatmentArm>();
 		armsSet.add(arm1);
 		armsSet.add(arm2);
-
-		trialService.create(validTrial);
 		validTrial.setTreatmentArms(armsSet);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(config);
-		trialService.update(validTrial);
+		validTrial.setStatus(TrialStatus.ACTIVE);
+		trialService.create(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		authenticatAsInvestigator();
+	
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(validTrial.getTreatmentArms());;
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
 			subject.setTrialSite(validTrial.getLeadingSite());
-			trialService.randomize(validTrial, subject);
+			validTrial = trialService.randomize(validTrial, subject);
 			subject = entityManager.find(TrialSubject.class, subject.getId());
 			subject.setCreatedAt(new GregorianCalendar(
 					2009 + (i >= 120 ? 1 : 0), i % 12, 1));
@@ -170,15 +174,15 @@ public class ChartsServiceTest extends AbstractServiceTest {
 						.size(), arms.get(1)
 						.getSubjects().size());
 			}
-
 			int diff = arms.get(0).getSubjects()
 					.size()
 					- arms.get(1).getSubjects().size();
 			assertTrue((blocksize / 2) >= diff
 					&& (-1) * (blocksize / 2) <= diff);
 		}
-
-		Trial dbTrial = trialService.getObject(validTrial.getId());
+		entityManager.flush();
+		entityManager.clear();
+		Trial dbTrial = entityManager.find(Trial.class, validTrial.getId());
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
 		assertEquals(2, dbTrial.getTreatmentArms().size());
@@ -236,11 +240,9 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialSite1.setPassword("1$heidelberg");
 		trialSite1.setContactPerson(cp1);
 		trialSiteService.create(trialSite1);
-
 		validTrial.addParticipatingSite(trialSite1);
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2009, 11, 1));
-
 		authenticatAsPrincipalInvestigator();
 		int blocksize = 4;
 		int randomizations = 120;
@@ -255,14 +257,13 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		Set<TreatmentArm> armsSet = new HashSet<TreatmentArm>();
 		armsSet.add(arm1);
 		armsSet.add(arm2);
-
-		trialService.create(validTrial);
 		validTrial.setTreatmentArms(armsSet);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(config);
-		trialService.update(validTrial);
+		validTrial.setStatus(TrialStatus.ACTIVE);
+		trialService.create(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		Iterator<TrialSite> it = validTrial.getParticipatingSites().iterator();
@@ -294,7 +295,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			assertTrue((blocksize / 2) >= diff
 					&& (-1) * (blocksize / 2) <= diff);
 		}
-
+		entityManager.flush();
+		entityManager.clear();
 		Trial dbTrial = trialService.getObject(validTrial.getId());
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
@@ -327,11 +329,9 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		trialSite1.setPassword("1$heidelberg");
 		trialSite1.setContactPerson(cp1);
 		trialSiteService.create(trialSite1);
-
 		validTrial.addParticipatingSite(trialSite1);
 		validTrial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		validTrial.setEndDate(new GregorianCalendar(2009, 11, 1));
-
 		authenticatAsPrincipalInvestigator();
 		int blocksize = 4;
 		int randomizations = 120;
@@ -346,14 +346,13 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		Set<TreatmentArm> armsSet = new HashSet<TreatmentArm>();
 		armsSet.add(arm1);
 		armsSet.add(arm2);
-
-		trialService.create(validTrial);
 		validTrial.setTreatmentArms(armsSet);
 		BlockRandomizationConfig config = new BlockRandomizationConfig();
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(config);
-		trialService.update(validTrial);
+		validTrial.setStatus(TrialStatus.ACTIVE);		
+		trialService.create(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
 		Iterator<TrialSite> it = validTrial.getParticipatingSites().iterator();
@@ -364,7 +363,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		for (int i = 0; i < randomizations; i++) {
 			TrialSubject subject = new TrialSubject();
 			subject.setIdentification("identification" + i);
-			trialService.randomize(validTrial, subject);
+			validTrial = trialService.randomize(validTrial, subject);
 			subject = entityManager.find(TrialSubject.class, subject.getId());
 			if (i < 90) {
 				subject.setTrialSite(site1);
@@ -385,7 +384,8 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			assertTrue((blocksize / 2) >= diff
 					&& (-1) * (blocksize / 2) <= diff);
 		}
-
+		entityManager.flush();
+		entityManager.clear();
 		Trial dbTrial = trialService.getObject(validTrial.getId());
 		assertNotNull(dbTrial);
 		assertEquals(validTrial.getName(), dbTrial.getName());
@@ -484,6 +484,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		config.setMaximum(blocksize);
 		config.setMinimum(blocksize);
 		validTrial.setRandomizationConfiguration(config);
+		validTrial.setStatus(TrialStatus.ACTIVE);
 		trialService.create(validTrial);
 		assertTrue(validTrial.getId() > 0);
 		assertEquals(2, validTrial.getTreatmentArms().size());
