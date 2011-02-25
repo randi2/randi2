@@ -129,6 +129,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public List<SelectItem> getTrialSites() {
 		if (trialSites == null) {
 			trialSites = new ArrayList<SelectItem>();
+			trialSites.add(new SelectItem(null, "please select"));
 			for (TrialSite site : siteService.getAll()) {
 				trialSites.add(new SelectItem(site, site.getName()));
 			}
