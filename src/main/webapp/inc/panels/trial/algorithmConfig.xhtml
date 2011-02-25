@@ -63,7 +63,7 @@
 	</ice:panelStack>
 </ice:panelGrid> <ice:commandButton type="submit" value="#{labels['buttons.save']}"
 	action="#{trialHandler.createTrial}"
-	rendered="#{trialHandler.create}"
+	rendered="#{trialHandler.creatingMode}"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" /> <ice:commandButton
 	value="#{labels['buttons.simulate']}"

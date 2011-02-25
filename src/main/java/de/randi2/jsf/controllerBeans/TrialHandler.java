@@ -87,13 +87,6 @@ public class TrialHandler extends AbstractTrialHandler {
 	@Setter
 	@Getter
 	private boolean editing = false;
-	
-	/**
-	 * Defines if the current trial is a new one.
-	 */
-	@Setter
-	@Getter
-	private boolean create = false;
 
 	@Getter
 	@Setter
@@ -364,7 +357,7 @@ public class TrialHandler extends AbstractTrialHandler {
 		currentObject = null;
 		leadingSite = null;
 		sponsorInvestigator = null;
-		create = false;
+		creatingMode = false;
 	}
 
 	@Override

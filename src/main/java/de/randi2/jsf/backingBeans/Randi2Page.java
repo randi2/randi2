@@ -179,7 +179,7 @@ public class Randi2Page {
 		trialHandler.setCurrentObject(_trial);
 		activePanel = "trialShowPanel";
 		trialHandler.cancelEditing();
-		trialHandler.setCreate(false);
+		trialHandler.setCreatingMode(false);
 		trialSelected = true;
 	}
 
@@ -223,7 +223,7 @@ public class Randi2Page {
 	public void createTrial(ActionEvent event) {
 		trialHandler.cancelEditing();
 		trialHandler.startEditing(); //TODO
-		trialHandler.setCreate(true);
+		trialHandler.setCreatingMode(true);
 		trialHandler.setCurrentObject(null);
 		trialHandler.cleanTreatmentArms();
 		activePanel = "trialCreatePanel";
@@ -275,7 +275,7 @@ public class Randi2Page {
 	public void showCurrentTrial(ActionEvent event){
 		if(trialSelected){
 			trialHandler.cancelEditing();
-			trialHandler.setCreate(false);
+			trialHandler.setCreatingMode(false);
 			activePanel = "trialShowPanel";
 		}
 	}
