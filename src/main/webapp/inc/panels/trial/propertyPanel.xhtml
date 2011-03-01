@@ -39,10 +39,11 @@
 							<ice:panelGrid columns="2">
 								<ice:selectInputDate id="date"
 									value="#{criterion.subjectProperty.value.time}"
-									renderAsPopup="true">
+									renderAsPopup="true" required="true">
 									<f:convertDateTime locale="#{loginHandler.chosenLocale}"
 										dateStyle="medium" timeZone="#{randi2Page.zone}" />
 								</ice:selectInputDate>
+								<ice:message for="date" styleClass="errorMsg" />
 							</ice:panelGrid>
 						</ice:panelGrid>
 					</ice:panelGroup>
@@ -51,9 +52,10 @@
 							<ice:outputLabel
 								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGroup>
-								<ice:selectOneRadio value="#{criterion.subjectProperty.value}">
+								<ice:selectOneRadio id="dichValue" value="#{criterion.subjectProperty.value}" required="true">
 									<f:selectItems value="#{criterion.selectItems}" />
 								</ice:selectOneRadio>
+								<ice:message for="dichValue" styleClass="errorMsg" />
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelGroup>
@@ -63,7 +65,8 @@
 								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGroup>
 								<ice:inputText id="text"
-									value="#{criterion.subjectProperty.value}" />
+									value="#{criterion.subjectProperty.value}" required="true"/>
+									<ice:message for="text" styleClass="errorMsg" />
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelGroup>
@@ -72,9 +75,10 @@
 							<ice:outputLabel
 								value="#{labels['pages.propertyPanel.subjectsValue']}" />
 							<ice:panelGroup>
-								<ice:selectOneRadio value="#{criterion.subjectProperty.value}">
+								<ice:selectOneRadio id="ordValue" value="#{criterion.subjectProperty.value}" required="true">
 									<f:selectItems value="#{criterion.selectItems}" />
 								</ice:selectOneRadio>
+								<ice:message for="ordValue" styleClass="errorMsg" />
 							</ice:panelGroup>
 						</ice:panelGrid>
 					</ice:panelGroup>

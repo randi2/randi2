@@ -32,14 +32,11 @@
 						</f:facet>
 						<ice:panelGroup
 							rendered="#{!tSubjectAdd.currentTrial.generateIds}">
-							<ice:inputText id="id" value="#{tSubjectAdd.subjectID}"
-								required="#{tSubjectAdd.trialSubject.requiredFields['identification']}"
-								partialSubmit="true" size="25">
-								<f:validator
-									validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-								<f:attribute name="dObject" value="#{tSubjectAdd.trialSubject}" />
+							<ice:inputText id="identification" value="#{tSubjectAdd.subjectID}"
+								required="true"
+								size="25">
 							</ice:inputText>
-							<ice:message for="id" id="idError" styleClass="errorMsg" />
+							<ice:message for="identification" id="idError" styleClass="errorMsg" />
 						</ice:panelGroup>
 						<ice:inputText rendered="#{tSubjectAdd.currentTrial.generateIds}"
 							disabled="true"
