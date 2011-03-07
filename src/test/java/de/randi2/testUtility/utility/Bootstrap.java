@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
@@ -62,6 +61,7 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.Gender;
+import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig.TYPE;
 import de.randi2.services.ServiceException;
@@ -371,6 +371,7 @@ public class Bootstrap {
 		trial.addParticipatingSite(trialSite1);
 		trial.setStartDate(new GregorianCalendar(2009, 0, 1));
 		trial.setEndDate(new GregorianCalendar(2010, 11, 1));
+		trial.setStatus(TrialStatus.ACTIVE);
 
 		BlockRandomizationConfig randConf = new BlockRandomizationConfig();
 		randConf.setMaximum(8);
@@ -544,6 +545,8 @@ public class Bootstrap {
 		proberties.add(subprob2);
 		subject.setProperties(proberties);
 		trialService.randomize(trial, subject);
+		transaction.commit();
+		transaction.begin();
 		subject = entityManager.find(TrialSubject.class, subject.getId());
 		subject.setCreatedAt(date);
 		subject = entityManager.merge(subject);
