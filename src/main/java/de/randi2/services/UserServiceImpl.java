@@ -203,10 +203,9 @@ public class UserServiceImpl implements UserService {
 			rolesAndRights.registerPersonRole(changedObject, r);
 		}
 		
-		//TODO implementation to delete the rights
-//		for(Role r: removedRoles){
-//			rolesAndRights.removedPersonRole(changedObject, r);
-//		}
+		for(Role r: removedRoles){
+			rolesAndRights.removedPersonRole(changedObject, r);
+		}
 	}
 
 	@Override

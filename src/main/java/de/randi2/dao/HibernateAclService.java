@@ -33,7 +33,6 @@ import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.model.security.AccessControlEntryHibernate;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
@@ -272,10 +271,6 @@ public class HibernateAclService implements AclService {
 
 	public void removeACEs(String sidName, String roleName){
 		SidHibernate sid = createSidIfNotSaved(sidName);
-		//FIXME use faster implementation 
-		List<AccessControlEntryHibernate> aces = entityManager.createQuery("from AccessControlEntryHibernate ace where ace.roleName = ? and ace.sid = ?").setParameter(1, roleName).setParameter(2, sid).getResultList();
-		for(AccessControlEntryHibernate ace: aces){
-			entityManager.remove(ace);
-		}
+		entityManager.createQuery("DELETE FROM AccessControlEntryHibernate ace where ace.roleName = ? and ace.sid = ?").setParameter(1, roleName).setParameter(2, sid).executeUpdate();
 	}
 }
