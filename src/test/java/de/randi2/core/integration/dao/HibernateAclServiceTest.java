@@ -4,10 +4,6 @@ import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
-import javax.persistence.Transient;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,7 +19,6 @@ import de.randi2.dao.HibernateAclService;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
-import de.randi2.model.security.AccessControlEntryHibernate;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
