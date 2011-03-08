@@ -4,6 +4,10 @@ import static de.randi2.utility.security.ArrayListHelper.sidsOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+import javax.persistence.Transient;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.HibernateAclService;
 import de.randi2.model.Login;
+import de.randi2.model.Role;
 import de.randi2.model.TrialSite;
+import de.randi2.model.security.AccessControlEntryHibernate;
 import de.randi2.model.security.AclHibernate;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
@@ -82,4 +88,14 @@ public class HibernateAclServiceTest extends AbstractDaoTest{
 		assertEquals(PermissionHibernate.READ.getMask(), newAcl.getEntries().get(0).getPermission().getMask());
 	}
 	
+	@Test
+	@Transactional
+	public void testRemoveACEs(){
+		assertEquals(2, entityManager.createQuery("from AccessControlEntryHibernate ace where ace.roleName = ? and ace.sid.sidname = ?").setParameter(1, Role.ROLE_MONITOR.getName()).setParameter(2, "monitor@trialsite1.de").getResultList().size());
+		aclService.removeACEs("monitor@trialsite1.de", Role.ROLE_MONITOR.getName());
+		entityManager.flush();
+		assertEquals(0, entityManager.createQuery("from AccessControlEntryHibernate ace where ace.roleName = ? and ace.sid.sidname = ?").setParameter(1, Role.ROLE_MONITOR.getName()).setParameter(2, "monitor@trialsite1.de").getResultList().size());
+	}
+	
 }
+	
