@@ -13,7 +13,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.TreatmentArm;
@@ -302,6 +301,7 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 			else if(key.equals("investigator")) {assertFalse(map.get(key));} 
 			else if(key.equals("serialVersionUID")) {assertFalse(map.get(key));}
 			else if(key.equals("$VRc")) {assertFalse(map.get(key));}
+			else if(key.equals("responseProperty")) {assertFalse(map.get(key));}
 			else fail(key + " not checked");
 		}
 	}
@@ -543,5 +543,21 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 	    assertEquals("dichotom Crit 1: option2|dichotom Crit 2: option2|dichotom Crit 3: option2|", subjects.get(7).getPropertiesUIString());
 
 	}
+	
+	@Test
+	public void testResponsePropertyNull(){
+		validSubject.setResponseProperty(null);
+		assertEquals(null, validSubject.getResponseProperty());
+		assertValid(validSubject);
+	}
+	
+	@Test
+	public void testResponsePropertyCorrect(){
+		SubjectProperty<String> responseProperty = new SubjectProperty<String>(new DichotomousCriterion());
+		validSubject.setResponseProperty(responseProperty);
+		assertEquals(responseProperty, validSubject.getResponseProperty());
+		assertValid(validSubject);
+	}
+	
 	
 }

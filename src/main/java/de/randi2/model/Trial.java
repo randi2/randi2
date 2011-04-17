@@ -55,6 +55,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
+import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.utility.Pair;
@@ -164,7 +165,13 @@ public class Trial extends AbstractDomainObject {
 	/** The subject criteria. */
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>> subjectCriteria = new ArrayList<AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>>>();
-
+	
+	/** The treatment response criteria. */
+	@OneToOne(cascade = CascadeType.ALL)
+	@Getter
+	@Setter
+	private DichotomousCriterion treatmentResponse;
+	
 	/** The random conf. */
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private AbstractRandomizationConfig randomConf;
