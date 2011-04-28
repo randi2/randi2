@@ -1,0 +1,47 @@
+<!-- 
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ice:panelGrid xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" columns="3"
+	rendered="#{!trialHandler.editing}" width="450px">
+</ice:panelGrid> <ice:panelGrid columns="3" width="420px"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ice:outputLabel
+		value="#{labels['pages.trialCreatePanel.responseLabel']}" />
+	<ice:panelGrid columns="3">
+		<ice:selectOneMenu id="resonseCriteria" partialSubmit="true">
+			<f:selectItem
+				itemLabel="#{criteria['de.randi2.model.criteria.DichotomousCriterion']}"
+				itemValue="#{criteria['de.randi2.model.criteria.DichotomousCriterion']}" />
+			<f:converter binding="#{responsePropertyConfig.criterionConverter}" />
+		</ice:selectOneMenu>
+		<ice:commandButton id="addCriterion"
+			image="/resources/img/icons/add16.png"
+			actionListener="#{responsePropertyConfig.addCriterion}"
+			visible="#{responsePropertyConfig.criteriaEmpty}"
+			style="margin-right:5px;" />
+	</ice:panelGrid>
+</ice:panelGrid> <ice:panelGroup styleClass="clearer"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" /><ice:panelGroup
+	visible="#{!responsePropertyConfig.criteriaEmpty}"
+	styleClass="exampleBox"
+	style="width: 420px;" 
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelSeries value="#{responsePropertyConfig.criteria}"
+		var="criterion" style="padding:10px;">
+		<ui:include src="/inc/panels/trial/responseCriterionPanel.xhtml" />
+	</ice:panelSeries>
+</ice:panelGroup></div>
