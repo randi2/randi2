@@ -31,6 +31,7 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 
 import javax.faces.bean.ManagedBean;
@@ -66,6 +67,8 @@ public class AlgorithmInfo {
 		StringBuffer furtherDetails = new StringBuffer();
 		ResourceBundle bundle = ResourceBundle.getBundle(
 				"de.randi2.jsf.i18n.labels", loginHandler.getChosenLocale());
+		ResourceBundle responseBundle = ResourceBundle.getBundle(
+				"de.randi2.jsf.i18n.criteria", loginHandler.getChosenLocale());
 		Trial currentTrial = trialHandler.getCurrentObject();
 		if (BlockRandomizationConfig.class.isInstance(currentTrial
 				.getRandomizationConfiguration())) {
@@ -123,7 +126,45 @@ public class AlgorithmInfo {
 			furtherDetails.append("</b> ");
 			furtherDetails.append(conf.getP());
 			furtherDetails.append("<br//>");
-		} else {
+		} else if (ResponseAdaptiveRConfig.class.isInstance(currentTrial
+				.getRandomizationConfiguration())) {
+			ResponseAdaptiveRConfig conf = ResponseAdaptiveRConfig.class.cast(trialHandler
+					.getCurrentObject().getRandomizationConfiguration());
+			furtherDetails.append("<b>");
+			furtherDetails.append(bundle.getString("pages.responseAdaptiveR.initialCount"));
+			furtherDetails.append("</b> ");
+			furtherDetails.append(conf.getInitializeCountBallsResponseAdaptiveR());
+			furtherDetails.append("<br//>");
+			furtherDetails.append("<b>");
+			furtherDetails.append(bundle.getString("pages.responseAdaptiveR.countReplacedBalls"));
+			furtherDetails.append("<br//>");
+			furtherDetails.append(bundle.getString("pages.responseAdaptiveR.responseSuccessCount"));
+			furtherDetails.append("</b> ");
+			furtherDetails.append(conf.getCountBallsResponseSuccess());
+			furtherDetails.append("<br//>");
+			furtherDetails.append("<b>");
+			furtherDetails.append(bundle.getString("pages.responseAdaptiveR.responseFailureCount"));
+			furtherDetails.append("</b> ");
+			furtherDetails.append(conf.getCountBallsResponseFailure());
+			furtherDetails.append("<br//>");
+			furtherDetails.append("<b>");
+			furtherDetails.append(bundle.getString("pages.trialCreatePanel.responseLabel"));
+			furtherDetails.append("<br//>");
+			furtherDetails.append(responseBundle.getString("de.randi2.model.criteria.AbstractCriterion.name"));
+			furtherDetails.append("</b> ");
+			furtherDetails.append(conf.getTrial().getTreatmentResponse().getName());
+			furtherDetails.append("<br//>");
+			furtherDetails.append("<b>");
+			furtherDetails.append(responseBundle.getString("de.randi2.model.criteria.DichotomousCriterion.response.option1"));
+			furtherDetails.append("</b> ");
+			furtherDetails.append(conf.getTrial().getTreatmentResponse().getOption1());
+			furtherDetails.append("<br//>");
+			furtherDetails.append("<b>");
+			furtherDetails.append(responseBundle.getString("de.randi2.model.criteria.DichotomousCriterion.response.option2"));
+			furtherDetails.append("</b> ");
+			furtherDetails.append(conf.getTrial().getTreatmentResponse().getOption2());
+			furtherDetails.append("<br//>");
+		}else {
 			furtherDetails.append("--");
 		}
 		return furtherDetails.toString();
