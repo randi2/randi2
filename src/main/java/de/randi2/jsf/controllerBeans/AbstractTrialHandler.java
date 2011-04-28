@@ -16,6 +16,7 @@ import javax.faces.event.ActionEvent;
 
 import lombok.Getter;
 import lombok.Setter;
+import de.randi2.jsf.backingBeans.ResponsePropertyConfig;
 import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.wrappers.ConstraintWrapper;
@@ -170,6 +171,43 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial> {
 							.getWrappedCriterion());
 		}
 		return configuredCriteria;
+	}
+	
+	protected DichotomousCriterion configureResponse() {
+		ValueExpression ve1 = FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getExpressionFactory()
+				.createValueExpression(
+						FacesContext.getCurrentInstance().getELContext(),
+						"#{responsePropertyConfig}",
+						ResponsePropertyConfig.class);
+		ResponsePropertyConfig response = (ResponsePropertyConfig) ve1
+				.getValue(FacesContext.getCurrentInstance().getELContext());
+
+		for (CriterionWrapper<? extends Serializable> cr : response
+				.getCriteria()) {
+			if (cr.isStrataFactor()) {
+				if (DichotomousCriterion.class.isInstance(cr
+						.getWrappedCriterion())) {
+					DichotomousCriterion temp = DichotomousCriterion.class
+							.cast(cr.getWrappedCriterion());
+					temp.setStrata(new ArrayList<DichotomousConstraint>());
+					try {
+						temp.addStrata(new DichotomousConstraint(Arrays
+								.asList(new String[] { temp
+										.getConfiguredValues().get(0) })));
+						temp.addStrata(new DichotomousConstraint(Arrays
+								.asList(new String[] { temp
+										.getConfiguredValues().get(1) })));
+					} catch (ContraintViolatedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return (DichotomousCriterion) cr.getWrappedCriterion();
+		}
+		return null;
 	}
 
 	/**

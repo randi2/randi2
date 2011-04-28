@@ -43,8 +43,10 @@ import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.utility.logging.LogEntry;
@@ -211,6 +213,9 @@ public class TrialHandler extends AbstractTrialHandler {
 			currentObject.setStatus(TrialStatus.IN_PREPARATION);
 			// configure subject properties
 			currentObject.setCriteria(configureCriteriaStep4());
+			if(currentObject.getRandomizationConfiguration() instanceof ResponseAdaptiveRConfig){
+				currentObject.setTreatmentResponse(configureResponse());
+			}
 			// create trial
 			trialService.create(currentObject);
 
