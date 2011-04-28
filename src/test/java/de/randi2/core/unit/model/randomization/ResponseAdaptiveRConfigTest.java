@@ -12,23 +12,23 @@ import org.junit.Test;
 
 import de.randi2.core.unit.randomization.RandomizationHelper;
 import de.randi2.model.Trial;
-import de.randi2.model.randomization.ResponseAdaptiveRandomizationConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.randomization.RandomizationAlgorithm;
 import de.randi2.testUtility.utility.AbstractDomainTest;
 
 
-public class ResponseAdaptiveRandomizationConfigTest extends
-		AbstractDomainTest<ResponseAdaptiveRandomizationConfig> {
+public class ResponseAdaptiveRConfigTest extends
+		AbstractDomainTest<ResponseAdaptiveRConfig> {
 
-	ResponseAdaptiveRandomizationConfig conf;
+	ResponseAdaptiveRConfig conf;
 	
-	public ResponseAdaptiveRandomizationConfigTest() {
-		super(ResponseAdaptiveRandomizationConfig.class);
+	public ResponseAdaptiveRConfigTest() {
+		super(ResponseAdaptiveRConfig.class);
 	}
 	
 	@Test
 	public void testTrial_null(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(null);
 		assertNull(conf.getTrial());
 	}
@@ -36,7 +36,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testTrial_withEmptyRandomizationConfig(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		Trial trial = new Trial();
 		assertNull(trial.getRandomizationConfiguration());
 		conf.setTrial(trial);
@@ -46,9 +46,9 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testTrial_withRandomizationConfig(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		Trial trial = new Trial();
-		trial.setRandomizationConfiguration(new ResponseAdaptiveRandomizationConfig());
+		trial.setRandomizationConfiguration(new ResponseAdaptiveRConfig());
 		assertNotNull(trial.getRandomizationConfiguration());
 		conf.setTrial(trial);
 		assertEquals(trial, conf.getTrial());
@@ -57,7 +57,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testGetAlgortihm_withSeed(){
-		conf = new ResponseAdaptiveRandomizationConfig(1234l);
+		conf = new ResponseAdaptiveRConfig(1234l);
 		conf.setTrial(new Trial());
 		RandomizationAlgorithm<?> algorithm = conf.getAlgorithm();
 		assertNotNull(algorithm);
@@ -68,7 +68,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testGetAlgortihm_withoutSeed(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
 		RandomizationAlgorithm<?> algorithm = conf.getAlgorithm();
 		assertNotNull(algorithm);
@@ -78,7 +78,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testResetAlgorithm_withSeed(){
-		conf = new ResponseAdaptiveRandomizationConfig(1234l);
+		conf = new ResponseAdaptiveRConfig(1234l);
 		conf.setTrial(new Trial());
 		RandomizationAlgorithm<?> algorithm = conf.getAlgorithm();
 		assertEquals(1234, algorithm.getSeed());
@@ -91,7 +91,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testResetAlgortihm_withoutSeed(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
 		RandomizationAlgorithm<?> algorithm = conf.getAlgorithm();
 		assertEquals(Long.MIN_VALUE, algorithm.getSeed());
@@ -104,7 +104,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testResetAlgorithmWithNextSeed(){
-		conf = new ResponseAdaptiveRandomizationConfig(1234l);
+		conf = new ResponseAdaptiveRConfig(1234l);
 		conf.setTrial(new Trial());
 		RandomizationAlgorithm<?> algorithm = conf.getAlgorithm();
 		assertEquals(1234, algorithm.getSeed());
@@ -117,7 +117,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testResetAlgorithmWithNextSeed_withoutSeed(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
 		RandomizationAlgorithm<?> algorithm = conf.getAlgorithm();
 		assertEquals(Long.MIN_VALUE, algorithm.getSeed());
@@ -130,7 +130,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testResetAlgorithmNewSeed(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
 		RandomizationAlgorithm<?> algorithm = conf.getAlgorithm();
 		assertEquals(Long.MIN_VALUE, algorithm.getSeed());
@@ -143,7 +143,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testCountBallsResponseSuccess(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
 		conf.setCountBallsResponseSuccess(8);
 		assertEquals(8, conf.getCountBallsResponseSuccess());
@@ -151,30 +151,30 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testCountBallsResponseFailure(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
 		conf.setCountBallsResponseFailure(2);
 		assertEquals(2, conf.getCountBallsResponseFailure());
 	}
 	
 	@Test
-	public void testInitializeCountBalls(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+	public void testInitializeCountBallsResponseAdaptiveR(){
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
-		conf.setInitializeCountBalls(10);
-		assertEquals(10, conf.getInitializeCountBalls());
+		conf.setInitializeCountBallsResponseAdaptiveR(10);
+		assertEquals(10, conf.getInitializeCountBallsResponseAdaptiveR());
 	}
 	
 	@Test
 	public void testTempData(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTempData(null);
 		assertNotNull(conf.getTempData());
 	}
 	
 	@Test
 	public void testInvalidConfig(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
 		RandomizationHelper.addArms(conf.getTrial(), 10, 15);
 		conf.setCountBallsResponseFailure(6);	
@@ -184,7 +184,7 @@ public class ResponseAdaptiveRandomizationConfigTest extends
 	
 	@Test
 	public void testValidConfig(){
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		conf.setTrial(new Trial());
 		RandomizationHelper.addArms(conf.getTrial(), 10, 10, 10);
 		conf.setCountBallsResponseFailure(4);	
