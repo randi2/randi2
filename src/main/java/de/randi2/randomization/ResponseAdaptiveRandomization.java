@@ -25,7 +25,7 @@ import java.util.Random;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.randomization.ResponseAdaptiveRandomizationConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.model.randomization.ResponseAdaptiveRandomizationTempData;
 import de.randi2.model.randomization.ResponseAdaptiveUrn;
 
@@ -33,7 +33,7 @@ import de.randi2.model.randomization.ResponseAdaptiveUrn;
  * @author Natalie Waskowzow
  *
  */
-public class ResponseAdaptiveRandomization extends RandomizationAlgorithm<ResponseAdaptiveRandomizationConfig> {
+public class ResponseAdaptiveRandomization extends RandomizationAlgorithm<ResponseAdaptiveRConfig> {
 
 	public ResponseAdaptiveRandomization(Trial trial) {
 		super(trial);

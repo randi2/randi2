@@ -20,14 +20,14 @@ package de.randi2.utility.validations.randomizationConfiguration;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import de.randi2.model.randomization.ResponseAdaptiveRandomizationConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 
 /**
  * @author Natalie Waskowzow
  *
  */
 public class ResponseAdaptiveRandomizationConfigValidator implements
-		ConstraintValidator<ResponseAdaptiveRandomizationConfigA, ResponseAdaptiveRandomizationConfig> {
+		ConstraintValidator<ResponseAdaptiveRandomizationConfigA, ResponseAdaptiveRConfig> {
 
 	@Override
 	public void initialize(
@@ -35,7 +35,7 @@ public class ResponseAdaptiveRandomizationConfigValidator implements
 	}
 
 	@Override
-	public boolean isValid(ResponseAdaptiveRandomizationConfig config,
+	public boolean isValid(ResponseAdaptiveRConfig config,
 			ConstraintValidatorContext constraintContext) {
 		
 		int countBallsResponseFailure = config.getCountBallsResponseFailure();

@@ -54,10 +54,10 @@ public class ResponseAdaptiveUrn extends AbstractDomainObject {
 			inverseJoinColumns = { @JoinColumn(name = "Treatmentarm_id") })
 	private List<TreatmentArm> responseAdaptiveUrn = new ArrayList<TreatmentArm>();
 	
-	public static ResponseAdaptiveUrn generate(ResponseAdaptiveRandomizationConfig config){
+	public static ResponseAdaptiveUrn generate(ResponseAdaptiveRConfig config){
 		ResponseAdaptiveUrn responseAdaptiveUrn = new ResponseAdaptiveUrn();
 		Set<TreatmentArm> arms = config.getTrial().getTreatmentArms();
-	    int initializeCount = config.getInitializeCountBalls();
+	    int initializeCount = config.getInitializeCountBallsResponseAdaptiveR();
 		if (initializeCount != 0) {
 			for (int i : upto(initializeCount)) {
 				for (TreatmentArm arm : arms) {
@@ -73,7 +73,7 @@ public class ResponseAdaptiveUrn extends AbstractDomainObject {
 		responseAdaptiveUrn.add(arm);
 	}
 	
-	public TreatmentArm drawFromUrn(ResponseAdaptiveRandomizationConfig config, Random rand) {
+	public TreatmentArm drawFromUrn(ResponseAdaptiveRConfig config, Random rand) {
 		if (responseAdaptiveUrn.size() != 0) {
 			return responseAdaptiveUrn.remove(rand.nextInt(responseAdaptiveUrn
 					.size()));

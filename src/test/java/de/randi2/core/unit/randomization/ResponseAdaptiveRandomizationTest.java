@@ -16,7 +16,7 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.model.randomization.ResponseAdaptiveRandomizationConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.model.randomization.ResponseAdaptiveRandomizationTempData;
 import de.randi2.model.randomization.ResponseAdaptiveUrn;
 import de.randi2.randomization.ResponseAdaptiveRandomization;
@@ -27,12 +27,12 @@ public class ResponseAdaptiveRandomizationTest {
 	
 	private Trial trial;
 	private TrialSubject s;
-	private ResponseAdaptiveRandomizationConfig conf;
+	private ResponseAdaptiveRConfig conf;
 	
 	@Before
 	public void setUp() {
 		trial = new Trial();
-		conf = new ResponseAdaptiveRandomizationConfig();
+		conf = new ResponseAdaptiveRConfig();
 		trial.setRandomizationConfiguration(conf);
 	}
 	
@@ -42,7 +42,7 @@ public class ResponseAdaptiveRandomizationTest {
 		int countSuccess= 10;
 		int countFailure=2;
 		RandomizationHelper.addArms(trial, 50, 50);
-		conf.setInitializeCountBalls(initializeCount);
+		conf.setInitializeCountBallsResponseAdaptiveR(initializeCount);
 		conf.setCountBallsResponseFailure(countFailure);
 		conf.setCountBallsResponseSuccess(countSuccess);
 		s = new TrialSubject();
@@ -85,7 +85,7 @@ public class ResponseAdaptiveRandomizationTest {
 		int countSuccess= 10;
 		int countFailure=2;
 		RandomizationHelper.addArms(trial, 50, 50);
-		conf.setInitializeCountBalls(initializeCount);
+		conf.setInitializeCountBallsResponseAdaptiveR(initializeCount);
 		conf.setCountBallsResponseFailure(countFailure);
 		conf.setCountBallsResponseSuccess(countSuccess);
 		s = new TrialSubject();
@@ -131,7 +131,7 @@ public class ResponseAdaptiveRandomizationTest {
 		int countSuccess= 10;
 		int countFailure=4;
 		RandomizationHelper.addArms(trial, 50, 50, 50);
-		conf.setInitializeCountBalls(initializeCount);
+		conf.setInitializeCountBallsResponseAdaptiveR(initializeCount);
 		conf.setCountBallsResponseFailure(countFailure);
 		conf.setCountBallsResponseSuccess(countSuccess);
 		s = new TrialSubject();

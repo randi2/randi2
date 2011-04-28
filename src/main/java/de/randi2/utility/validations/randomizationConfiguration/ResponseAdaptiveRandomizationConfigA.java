@@ -35,11 +35,11 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ResponseAdaptiveRandomizationConfigA {
-	
-	String message() default "{validator.responseAdaptiveRandomization}"; 
-	
-    Class<?>[] groups() default {};
-    
-    Class<? extends Payload>[] payload() default {};
-	
+
+	String message() default "{validator.responseAdaptiveRandomization}";
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+
 }
