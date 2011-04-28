@@ -33,7 +33,7 @@ import de.randi2.utility.validations.randomizationConfiguration.ResponseAdaptive
 @ResponseAdaptiveRandomizationConfigA
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ResponseAdaptiveRandomizationConfig extends
+public class ResponseAdaptiveRConfig extends
 		AbstractRandomizationConfig {
 	
 	/**
@@ -41,15 +41,15 @@ public class ResponseAdaptiveRandomizationConfig extends
 	 */
 	private static final long serialVersionUID = -6445531786408124628L;
 	
-	private int initializeCountBalls;
+	private int initializeCountBallsResponseAdaptiveR;
 	private int countBallsResponseSuccess;
 	private int countBallsResponseFailure;
 
-	public ResponseAdaptiveRandomizationConfig(Long seed) {
+	public ResponseAdaptiveRConfig(Long seed) {
 		super(seed);
 	}
 	
-	public ResponseAdaptiveRandomizationConfig(){
+	public ResponseAdaptiveRConfig(){
 		super(null);
 	}
 
