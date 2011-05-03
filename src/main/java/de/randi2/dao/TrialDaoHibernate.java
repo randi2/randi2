@@ -28,6 +28,9 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.Block;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationTempData;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRandomizationTempData;
+import de.randi2.model.randomization.ResponseAdaptiveUrn;
 import de.randi2.model.randomization.Urn;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.model.randomization.UrnDesignTempData;
@@ -81,6 +84,20 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 				Urn u = ((UrnDesignTempData) ((UrnDesignConfig) object
 						.getRandomizationConfiguration()).getTempData())
 						.getUrns().get(s);
+				if (u != null
+						&& u.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
+					entityManager.persist(u);
+				}
+
+			}
+		}else if (object.getRandomizationConfiguration() instanceof ResponseAdaptiveRConfig) {
+			entityManager.persist(object.getRandomizationConfiguration());
+			for (String s : ((ResponseAdaptiveRandomizationTempData) ((ResponseAdaptiveRConfig) object
+					.getRandomizationConfiguration()).getTempData()).getResponseAdaptiveUrns()
+					.keySet()) {
+				ResponseAdaptiveUrn u = ((ResponseAdaptiveRandomizationTempData) ((ResponseAdaptiveRConfig) object
+						.getRandomizationConfiguration()).getTempData())
+						.getResponseAdaptiveUrns().get(s);
 				if (u != null
 						&& u.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
 					entityManager.persist(u);
