@@ -67,5 +67,7 @@ public interface TrialService extends AbstractService<Trial> {
 	 * @return A list of all found subjects
 	 */
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator);
+	
+	public void addResponse(Trial trial, TrialSubject subject, Login investigator);
 
 }
