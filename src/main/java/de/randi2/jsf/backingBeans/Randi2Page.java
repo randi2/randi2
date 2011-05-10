@@ -290,6 +290,17 @@ public class Randi2Page {
 			activePanel = "tSubjectAddPanel";
 		}
 	}
+	
+	public void addResponse(ActionEvent event) {
+		if (trialSelected) {
+			((ResponseAdd) FacesContext.getCurrentInstance().getApplication()
+					.getELResolver().getValue(
+							FacesContext.getCurrentInstance().getELContext(),
+							null, "responseAdd")).setCurrentTrial(trialHandler
+									.getCurrentObject());
+			activePanel = "responseAddPanel";
+		}
+	}
 
 	public String showAbout() {
 		this.aboutVisible = true;
