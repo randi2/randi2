@@ -1,0 +1,125 @@
+<!-- 
+ This page/panel should be used to add a new response.
+
+ This file is part of RANDI2.
+ RANDI2 is free software: you can redistribute it and or modify it under the
+ terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ RANDI2 is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with
+ RANDI2. If not, see http://www.gnu.org/licenses/.
+ -->
+<div><ui:include src="/inc/popups/subjectAddedPopup.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets" /> <ice:form
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ice:panelTabSet style="font-size: 9;display: block;">
+		<ice:panelTab label="#{labels['pages.responseAddPanel.response']}">
+			<ice:panelGroup style="width: 450px;">
+
+				<!-- Trial Subject Identification    -->
+				<ice:panelGrid columns="1" style="width: 450px;">
+					<ice:panelCollapsible expanded="true" toggleOnClick="false"
+						style="width: 400px;">
+						<f:facet name="header">
+							<ice:outputLabel
+								value="#{labels['pages.responseAddPanel.identification']}" />
+						</f:facet>
+						<ice:panelGroup style="width: 400px;">
+							<ice:panelGrid columns="2" style="width: 400px;">
+								<ice:outputLabel
+									value="#{labels['pages.responseAddPanel.subjectId']}" />
+								<ice:inputText id="tSubjectIdentification"
+									value="#{responseAdd.tSubjectID}" required="true" size="25"
+									partialSubmit="true">
+								</ice:inputText>
+								<!--  	<ice:message for="tSubjectIdentification" id="idError"
+									styleClass="errorMsg" />-->
+							</ice:panelGrid>
+						</ice:panelGroup>
+					</ice:panelCollapsible>
+				</ice:panelGrid>
+
+				<ice:panelGroup style="width: 420px;"
+					rendered="#{responseAdd.tSubjectIdentified}">
+					<!-- Trial and Treatmentarm names -->
+					<ice:panelGroup style="width: 410px;">
+						<ice:panelGrid columns="2" style="width: 410px;">
+							<ice:panelCollapsible expanded="true" toggleOnClick="false"
+								style="width: 195px;">
+								<f:facet name="header">
+									<ice:outputLabel
+										value="#{labels['pages.responseAddPanel.trial']}" />
+								</f:facet>
+								<ice:panelGroup style="width: 195px;">
+									<ice:panelGrid columns="1" style="width: 195px;">
+										<ice:outputLabel
+											value="#{responseAdd.currentTrial.name}" />
+									</ice:panelGrid>
+								</ice:panelGroup>
+							</ice:panelCollapsible>
+							<ice:panelCollapsible expanded="true" toggleOnClick="false"
+								style="width: 195px;">
+								<f:facet name="header">
+									<ice:outputLabel
+										value="#{labels['pages.responseAddPanel.treatmentArm']}" />
+								</f:facet>
+								<ice:panelGroup style="width: 195px;">
+									<ice:panelGrid columns="1" style="width: 195px;">
+										<ice:outputLabel
+											value="#{responseAdd.tSubject.arm.name}" />
+									</ice:panelGrid>
+								</ice:panelGroup>
+							</ice:panelCollapsible>
+						</ice:panelGrid>
+					</ice:panelGroup>
+
+					<!-- Trial Subject Properties -->
+					<ice:panelGrid columns="1" style="width: 450px;">
+						<ice:panelCollapsible expanded="true" toggleOnClick="false"
+							style="width: 400px;">
+							<f:facet name="header">
+								<ice:outputLabel
+									value="#{labels['pages.responseAddPanel.tSubjectProperties']}" />
+							</f:facet>
+							<ice:panelGrid columns="1">
+								<ice:panelGroup>
+									<ice:outputLabel
+										value="#{responseAdd.tSubject.propertiesUIString}" />
+								</ice:panelGroup>
+							</ice:panelGrid>
+						</ice:panelCollapsible>
+					</ice:panelGrid>
+
+					<!--Response Property -->
+					<ice:panelGrid columns="1" style="width: 450px;">
+						<ice:panelCollapsible expanded="true" toggleOnClick="false"
+							style="width: 400px;">
+							<f:facet name="header">
+								<ice:outputLabel
+									value="#{labels['pages.responseAddPanel.responseProperties']}" />
+							</f:facet>
+							<ice:panelGroup>
+								<ice:selectOneRadio id="responseValue"
+									value="#{responseAdd.responsePropertyValue}" required="true">
+									<f:selectItems value="#{responseAdd.selectItems}" />
+								</ice:selectOneRadio>
+								<ice:message for="responseValue" styleClass="errorMsg" />
+							</ice:panelGroup>
+						</ice:panelCollapsible>
+					</ice:panelGrid>
+				</ice:panelGroup>
+			</ice:panelGroup>
+		</ice:panelTab>
+	</ice:panelTabSet>
+	<ice:panelGrid border="0" columns="3">
+		<ice:commandButton type="submit" value="#{labels['buttons.add']}"
+			action="#{responseAdd.addResponse}" />
+		<ice:messages globalOnly="true" errorClass="errorMsg" layout="table" />
+	</ice:panelGrid>
+</ice:form></div>
