@@ -51,7 +51,7 @@
 		</ice:menuItem>
 		<ice:menuItem id="tSubjectMenu" value="#{labels['pages.menu.trialSubject']}" rendered="#{permissionVerifier.allowedRandomize}">
 			<ice:menuItem id="add" value="#{labels['pages.menu.add']}" actionListener="#{randi2Page.addTrialSubject}" />
-			<ice:menuItem id="addResponse" value="#{labels['pages.menu.response']}" actionListener="#{randi2Page.addResponse}" />
+			<ice:menuItem id="addResponse" value="#{labels['pages.menu.response']}" rendered="#{permissionVerifier.allowedAddResponse}" actionListener="#{randi2Page.addResponse}" />
 		</ice:menuItem>
 		<ice:menuItem value="#{labels['pages.menu.trialSite']}" rendered="#{permissionVerifier.allowedReadTrialSite}">
 			<ice:menuItem value="#{labels['pages.menu.myTrialSite']}"

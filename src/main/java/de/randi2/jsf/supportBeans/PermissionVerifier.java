@@ -38,6 +38,7 @@ import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.model.security.ObjectIdentityHibernate;
 import de.randi2.model.security.PermissionHibernate;
 
@@ -178,6 +179,10 @@ public class PermissionVerifier {
 								PermissionHibernate.ADMINISTRATION));
 	}
 
+	
+	public boolean isAllowedAddResponse() {
+		return trialHandler.getCurrentObject().getRandomizationConfiguration() instanceof ResponseAdaptiveRConfig;
+	}
 
 	/**
 	 * Checks if the user can access the randomization data/details
