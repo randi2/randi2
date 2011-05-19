@@ -347,7 +347,7 @@ public class TrialServiceImpl implements TrialService {
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void addResponse(Trial trial, TrialSubject subject, Login investigator) {
+	public void addResponse(Trial trial, TrialSubject subject) {
 		if (subject == null) {
 			throw new IllegalArgumentException("Trial subject can't be NULL");
 		} else if (subject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {

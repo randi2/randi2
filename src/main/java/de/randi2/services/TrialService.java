@@ -68,6 +68,11 @@ public interface TrialService extends AbstractService<Trial> {
 	 */
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator);
 	
-	public void addResponse(Trial trial, TrialSubject subject, Login investigator);
+	/**
+	 * Add a new response to the given trial and to the given subject.
+	 * @param trial specific trial
+	 * @param subject specific subject
+	 */
+	public void addResponse(Trial trial, TrialSubject subject);
 
 }

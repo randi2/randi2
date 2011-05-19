@@ -92,7 +92,7 @@ public class ResponseAdd {
 	
 	public String addResponse(){
 		
-		trialService.addResponse(currentTrial, tSubject, loginHandler.getLoggedInUser());
+		trialService.addResponse(currentTrial, tSubject);
 		resetResponse();
 		return Randi2.SUCCESS;
 	}
