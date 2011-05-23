@@ -34,13 +34,18 @@
 							<ice:panelGrid columns="2" style="width: 400px;">
 								<ice:outputLabel
 									value="#{labels['pages.responseAddPanel.subjectId']}" />
-								<ice:inputText id="tSubjectIdentification"
+								<ice:inputText id="identification"
 									value="#{responseAdd.tSubjectID}" required="true" size="25"
 									partialSubmit="true">
+									<f:validator
+										validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+									<f:attribute name="dObject" value="#{responseAdd.tSubject}" />
+									<f:validator
+										validatorId="de.randi2.jsf.validators.RESPONSE_VALIDATOR" />
+									<f:attribute name="responseAdd" value="#{responseAdd}" />
 								</ice:inputText>
-								<!--  	<ice:message for="tSubjectIdentification" id="idError"
-									styleClass="errorMsg" />-->
 							</ice:panelGrid>
+					    	<ice:message for="identification" styleClass="errorMsg" />
 						</ice:panelGroup>
 					</ice:panelCollapsible>
 				</ice:panelGrid>
