@@ -60,7 +60,7 @@ public class ResponseAdd {
 	
 	private SubjectProperty<String> responseProperty=null;
 	
-	private TrialSubject tSubject = null;
+	private TrialSubject tSubject = new TrialSubject();
 
 	private String tSubjectID="";
 	
@@ -153,12 +153,31 @@ public class ResponseAdd {
 			for(TrialSubject tSubject:tSubjects){
 				if(tSubject.getIdentification().equals(tSubjectID)){
 					this.tSubject = tSubject;
-					this.tSubject.setResponseProperty(this.getResponseProperty());
+					if (tSubject.getResponseProperty() == null) {
+						this.tSubject.setResponseProperty(this
+								.getResponseProperty());
+					}
 					this.tSubjectIdentified = true;
 					break;
 				}
 			}
 		}
+	}
+	
+	public boolean isResponseAdded(String tSubjectId){
+		if(currentTrial!=null){
+			List<TrialSubject> tSubjects = currentTrial.getSubjects();
+			for(TrialSubject tSubject:tSubjects){
+				if(tSubject.getIdentification().equals(tSubjectId)){
+					if (tSubject.getResponseProperty() == null) {
+						return false;
+					}else{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	public Trial getCurrentTrial() {
