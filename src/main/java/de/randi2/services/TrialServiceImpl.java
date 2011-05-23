@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ValidationException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -353,6 +354,11 @@ public class TrialServiceImpl implements TrialService {
 		} else if (subject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
 			throw new IllegalArgumentException(
 					"Trial subject must be a persistent object");
+		} else if (entityManager.find(TrialSubject.class, subject.getId())
+				.getResponseProperty() != null) {
+			throw new ValidationException(
+					"Response for trial subject with id: " + subject.getId()
+							+ " is already saved");
 		}
 		trial = entityManager.find(Trial.class, trial.getId());
 		logger.debug("user: "
