@@ -358,7 +358,7 @@ public class TrialServiceImpl implements TrialService {
 				.getResponseProperty() != null) {
 			throw new ValidationException(
 					"Response for trial subject with id: " + subject.getId()
-							+ " is already saved");
+							+ " has been already saved");
 		}
 		trial = entityManager.find(Trial.class, trial.getId());
 		logger.debug("user: "
