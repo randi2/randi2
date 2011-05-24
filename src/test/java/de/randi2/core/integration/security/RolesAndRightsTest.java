@@ -705,10 +705,12 @@ public class RolesAndRightsTest {
 
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setName("arm1");
+		arm1.setDescription("arm1");
 		arm1.setPlannedSubjects(10);
 		arm1.setTrial(trial);
 		TreatmentArm arm2 = new TreatmentArm();
 		arm2.setName("arm2");
+		arm2.setDescription("arm2");
 		arm2.setPlannedSubjects(10);
 		arm2.setTrial(trial);
 		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
@@ -786,10 +788,12 @@ public class RolesAndRightsTest {
 
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setName("arm1");
+		arm1.setDescription("arm1");
 		arm1.setPlannedSubjects(10);
 		arm1.setTrial(trial);
 		TreatmentArm arm2 = new TreatmentArm();
 		arm2.setName("arm2");
+		arm2.setDescription("arm2");		
 		arm2.setPlannedSubjects(10);
 		arm2.setTrial(trial);
 		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
@@ -866,10 +870,12 @@ public class RolesAndRightsTest {
 
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setName("arm1");
+		arm1.setDescription("arm1");
 		arm1.setPlannedSubjects(10);
 		arm1.setTrial(trial);
 		TreatmentArm arm2 = new TreatmentArm();
 		arm2.setName("arm2");
+		arm2.setDescription("arm2");
 		arm2.setPlannedSubjects(10);
 		arm2.setTrial(trial);
 		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();

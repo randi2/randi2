@@ -47,13 +47,14 @@ public class TreatmentArm extends AbstractDomainObject{
 	private static final long serialVersionUID = -1745930698279268352L;
 
 	/** The name. */
-	@NotNull()
-	@NotEmpty()
+	@NotNull
+	@NotEmpty
 	@Length(max = MAX_VARCHAR_LENGTH)
 	private String name = null;
 
 	/** The description. */
 	@Lob
+	@NotNull
 	private String description = null;
 	
 	/** The planned subjects. */

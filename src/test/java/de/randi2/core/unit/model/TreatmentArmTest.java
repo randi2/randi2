@@ -38,10 +38,10 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 	}
 
 	@Test
-	public void testDescriptionNull() {
+	public void testDescriptionNotNull() {
 		validTreatmentArm.setDescription(null);
 		assertNull(validTreatmentArm.getDescription());
-		assertValid(validTreatmentArm);
+		assertInvalid(validTreatmentArm);
 	}
 
 	@Test
@@ -272,7 +272,7 @@ public class TreatmentArmTest extends AbstractDomainTest<TreatmentArm> {
 			if (key.equals("name")) {
 				assertTrue(map.get(key));
 			} else if (key.equals("description")) {
-				assertFalse(map.get(key));
+				assertTrue(map.get(key));
 			} else if (key.equals("plannedSubjects")) {
 				assertFalse(map.get(key));
 			} else if (key.equals("trial")) {
