@@ -40,8 +40,10 @@ import de.randi2.randomization.RandomizationAlgorithm;
 public abstract class AbstractRandomizationConfig extends AbstractDomainObject {
 
 	private static final long serialVersionUID = -942332706403245140L;
-	@Transient
+	
 	@Getter
+	@Setter
+	@OneToOne(mappedBy="randomConf")
 	private Trial trial;
 	@Transient
 	private RandomizationAlgorithm<? extends AbstractRandomizationConfig> algorithm;

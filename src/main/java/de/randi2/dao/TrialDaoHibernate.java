@@ -71,10 +71,6 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 
 			}
 		} else if (object.getRandomizationConfiguration() instanceof UrnDesignConfig) {
-			// persist the urn design config before merge the trial, because of
-			// changed save behavior and a problem with the urn design
-			// validation
-			entityManager.persist(object.getRandomizationConfiguration());
 			for (String s : ((UrnDesignTempData) ((UrnDesignConfig) object
 					.getRandomizationConfiguration()).getTempData()).getUrns()
 					.keySet()) {
