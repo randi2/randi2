@@ -72,12 +72,10 @@ public class ChartsServiceTest extends AbstractServiceTest {
 		arm1.setPlannedSubjects(randomizations / 2);
 		arm1.setName("arm1");
 		arm1.setDescription("description");
-		arm1.setDescription("description");
 		arm1.setTrial(validTrial);
 		TreatmentArm arm2 = new TreatmentArm();
 		arm2.setPlannedSubjects(randomizations / 2);
 		arm2.setName("arm2");
-		arm2.setDescription("description");
 		arm2.setDescription("description");
 		arm2.setTrial(validTrial);
 		Set<TreatmentArm> armsSet = new HashSet<TreatmentArm>();
