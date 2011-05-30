@@ -383,11 +383,13 @@ public class Bootstrap {
 		TreatmentArm arm1 = new TreatmentArm();
 		arm1.setDescription("First Treatment");
 		arm1.setName("arm1");
+		arm1.setDescription("description");
 		arm1.setPlannedSubjects(200);
 
 		TreatmentArm arm2 = new TreatmentArm();
 		arm2.setDescription("Second Treatment");
 		arm2.setName("arm2");
+		arm2.setDescription("description");
 		arm2.setPlannedSubjects(200);
 
 		trial.setTreatmentArms(new HashSet<TreatmentArm>(Arrays.asList(arm1, arm2)));
