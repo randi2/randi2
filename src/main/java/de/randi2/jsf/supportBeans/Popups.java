@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.Setter;
 import de.randi2.jsf.backingBeans.Randi2Page;
+import de.randi2.jsf.backingBeans.ResponseAdd;
 import de.randi2.jsf.backingBeans.TSubjectAdd;
 import de.randi2.model.Trial;
 @ManagedBean(name="popups")
@@ -49,6 +50,8 @@ public class Popups {
 	private boolean changeLeadingSitePVisible = false;
 	@Setter @Getter
 	private boolean changePInvestigatorPVisible = false;
+	@Setter @Getter
+	private boolean responseAddedPVisible = false;
 	
 	
 	// POPUPS
@@ -155,6 +158,26 @@ public class Popups {
 	
 	public String showSubjectAddedPopup(){
 		this.subjectAddedPVisible = true;
+		return Randi2.SUCCESS;
+	}
+	
+	public String hideResponseAddedPopup() {
+		this.responseAddedPVisible = false;
+		ResponseAdd respAdd = ((ResponseAdd) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "responseAdd"));
+		Trial trial = respAdd.getCurrentTrial();
+		Randi2Page rPage = ((Randi2Page) FacesContext.getCurrentInstance()
+				.getApplication().getELResolver().getValue(
+						FacesContext.getCurrentInstance()
+								.getELContext(), null, "randi2Page"));
+		rPage.showTrial(trial);
+		return Randi2.SUCCESS;
+	}
+	
+	public String showResponseAddedPopup(){
+		this.responseAddedPVisible = true;
 		return Randi2.SUCCESS;
 	}
 	

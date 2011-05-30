@@ -43,7 +43,6 @@ import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
-import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.ResponseAdaptiveRConfig;
@@ -223,6 +222,17 @@ public class TrialHandler extends AbstractTrialHandler {
 
 			clean();
 
+			return Randi2.SUCCESS;
+		} catch (Exception e) {
+			Randi2.showMessage(e);
+			return Randi2.ERROR;
+		}
+	}
+	
+	public String addResponse(TrialSubject tSubject) {
+		try {
+			trialService.addResponse(currentObject, tSubject);
+			getPopups().showResponseAddedPopup();
 			return Randi2.SUCCESS;
 		} catch (Exception e) {
 			Randi2.showMessage(e);

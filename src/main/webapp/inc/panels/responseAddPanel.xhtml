@@ -12,8 +12,8 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<div><ui:include src="/inc/popups/subjectAddedPopup.xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets" /> <ice:form
+<div><ui:include src="/inc/popups/responseAddedPopup.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"/> <ice:form
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
@@ -123,7 +123,7 @@
 		</ice:panelTab>
 	</ice:panelTabSet>
 	<ice:panelGrid border="0" columns="3">
-		<ice:commandButton type="submit" value="#{labels['buttons.add']}"
+		<ice:commandButton type="submit" value="#{labels['buttons.add']}" rendered="#{responseAdd.tSubjectIdentified}"
 			action="#{responseAdd.addResponse}" />
 		<ice:messages globalOnly="true" errorClass="errorMsg" layout="table" />
 	</ice:panelGrid>

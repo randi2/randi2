@@ -29,14 +29,13 @@ import javax.faces.model.SelectItem;
 import lombok.Setter;
 
 import de.randi2.jsf.controllerBeans.LoginHandler;
-import de.randi2.jsf.supportBeans.Randi2;
+import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-import de.randi2.services.TrialService;
 import de.randi2.unsorted.ContraintViolatedException;
 
 /**
@@ -66,9 +65,9 @@ public class ResponseAdd {
 	
 	private boolean tSubjectIdentified;
 	
-	@ManagedProperty(value = "#{trialService}")
+	@ManagedProperty(value = "#{trialHandler}")
 	@Setter
-	private TrialService trialService;
+	private TrialHandler trialHandler;
 	
 	private String responsePropertyValue;
 	
@@ -90,11 +89,9 @@ public class ResponseAdd {
 	}
 	
 	
-	public String addResponse(){
-		
-		trialService.addResponse(currentTrial, tSubject);
+	public void addResponse(){	
+		trialHandler.addResponse(tSubject);
 		resetResponse();
-		return Randi2.SUCCESS;
 	}
 	
 	public List<SelectItem> getSelectItems() {
