@@ -87,7 +87,6 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 
 			}
 		}else if (object.getRandomizationConfiguration() instanceof ResponseAdaptiveRConfig) {
-			entityManager.persist(object.getRandomizationConfiguration());
 			for (String s : ((ResponseAdaptiveRandomizationTempData) ((ResponseAdaptiveRConfig) object
 					.getRandomizationConfiguration()).getTempData()).getResponseAdaptiveUrns()
 					.keySet()) {
