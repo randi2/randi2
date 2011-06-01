@@ -55,12 +55,6 @@ public class ResponseAdaptiveRandomization extends RandomizationAlgorithm<Respon
 			tempData.setResponseAdaptiveUrn(stratum, responseAdaptiveUrn);
 		}
 		TreatmentArm drawnArm = responseAdaptiveUrn.drawFromUrn(configuration,random);
-		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
-	    for(TreatmentArm arm: arms){
-			if (drawnArm.getName().equals(arm.getName())) {
-				responseAdaptiveUrn.add(arm);
-			}
-	    }
 		return drawnArm;
 	}
 	

@@ -95,10 +95,6 @@ public class ResponseAdaptiveRandomizationTest {
 		List<TreatmentArm> arms = new ArrayList<TreatmentArm>(trial.getTreatmentArms());
 
 		RandomizationHelper.randomize(trial, s);
-		if(s.getArm().getName().equals(arms.get(0).getName()))
-			countBalls[0]++;
-		else
-			countBalls[1]++;
 		DichotomousCriterion treatmentResponse = new DichotomousCriterion();
 		treatmentResponse.setOption1("success");
 		treatmentResponse.setOption2("failure");

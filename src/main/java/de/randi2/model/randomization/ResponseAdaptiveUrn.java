@@ -75,7 +75,7 @@ public class ResponseAdaptiveUrn extends AbstractDomainObject {
 	
 	public TreatmentArm drawFromUrn(ResponseAdaptiveRConfig config, Random rand) {
 		if (responseAdaptiveUrn.size() != 0) {
-			return responseAdaptiveUrn.remove(rand.nextInt(responseAdaptiveUrn
+			return responseAdaptiveUrn.get(rand.nextInt(responseAdaptiveUrn
 					.size()));
 		} else {
 			TreatmentArm drawnArm = new TreatmentArm();
