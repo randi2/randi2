@@ -28,8 +28,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.model.SelectItem;
 
 import lombok.Getter;
@@ -385,4 +388,12 @@ public class TrialHandler extends AbstractTrialHandler {
 			return currentObject;
 		}
 	}
+	
+	@Getter @Setter
+	private UIInput countBallsResponseSuccessInput;
+	public void postValidateCountSuccess(ComponentSystemEvent ev)
+			throws AbortProcessingException {
+	    this.setCountBallsResponseSuccessInput((UIInput) ev.getComponent()) ;
+	}
+
 }

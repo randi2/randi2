@@ -48,14 +48,20 @@
 				<ice:inputText id="responseSuccessCount" size="31"
 					value="#{trialHandler.currentObject.randomizationConfiguration.countBallsResponseSuccess}"
 					partialSubmit="true">
+					<f:event type="javax.faces.event.PostValidateEvent"
+						listener="#{trialHandler.postValidateCountSuccess}" />
 				</ice:inputText>
 				<ice:outputLabel
 					value="#{labels['pages.responseAdaptiveR.responseFailureCount']}" />
 				<ice:inputText id="responseFailureCount" size="31"
 					value="#{trialHandler.currentObject.randomizationConfiguration.countBallsResponseFailure}"
 					partialSubmit="true">
+					 <f:validator
+						validatorId="de.randi2.jsf.validators.RESPONSE_ADAPTIVE_R_VALIDATOR" />
+					<f:attribute name="trialHandler" value="#{trialHandler}" />	
 				</ice:inputText>
 			</ice:panelGrid>
+			<ice:message for="responseFailureCount" styleClass="errorMsg" />
 			<b class="b4"></b>
 			<b class="b3"></b>
 			<b class="b2"></b>
