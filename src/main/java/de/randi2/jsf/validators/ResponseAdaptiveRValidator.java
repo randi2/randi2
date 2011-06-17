@@ -45,6 +45,9 @@ public class ResponseAdaptiveRValidator implements Serializable,
 				"trialHandler");
 		Integer countSuccess = (Integer) handler
 				.getCountBallsResponseSuccessInput().getValue();
+		Integer countTreatmentArms = handler.getCurrentObject()
+				.getTreatmentArms().size();
+		if(countTreatmentArms>1){
 		if (arg2 instanceof Integer) {
 			if (!((Integer) arg2
 					* (handler.getCurrentObject().getTreatmentArms().size() - 1) >= 0)
@@ -65,6 +68,10 @@ public class ResponseAdaptiveRValidator implements Serializable,
 			throw new ValidatorException(new FacesMessage(
 					FacesMessage.SEVERITY_ERROR,
 					"the required data must be a number", null));
+		}else
+			throw new ValidatorException(new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,
+					"please fill the information about treatment arms (Step 3)", null));
 	}
 
 }
