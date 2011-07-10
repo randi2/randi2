@@ -348,156 +348,156 @@ public class Bootstrap {
 		System.out.println("create user: " + (System.nanoTime() - time1)
 				/ 1000000 + " ms");
 		time1 = System.nanoTime();
-		// create test trial
-		authToken = new AnonymousAuthenticationToken("anonymousUser",
-				userLPInv, new ArrayList<GrantedAuthority>(
-						userLPInv.getAuthorities()));
-		// Perform authentication
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		SecurityContextHolder.getContext().getAuthentication()
-				.setAuthenticated(true);
-
-		
-		trialSite1 = entityManager.find(TrialSite.class, trialSite1.getId());
-		Trial trial = new Trial();
-		trial.setAbbreviation("bs");
-		trial.setName("Block study");
-		trial.setDescription("Block study with two treatment arms and blocksize 8, stratified by trial site");
-		trial.setGenerateIds(true);
-		trial.setStratifyTrialSite(true);
-		trial.setSponsorInvestigator(userPPInv);
-		trial.setLeadingSite(trialSite);
-		trial.addParticipatingSite(trialSite);
-		trial.addParticipatingSite(trialSite1);
-		trial.setStartDate(new GregorianCalendar(2009, 0, 1));
-		trial.setEndDate(new GregorianCalendar(2010, 11, 1));
-		trial.setStatus(TrialStatus.ACTIVE);
-
-		BlockRandomizationConfig randConf = new BlockRandomizationConfig();
-		randConf.setMaximum(8);
-		randConf.setMinimum(8);
-		randConf.setType(TYPE.ABSOLUTE);
-
-		trial.setRandomizationConfiguration(randConf);
-
-		TreatmentArm arm1 = new TreatmentArm();
-		arm1.setDescription("First Treatment");
-		arm1.setName("arm1");
-		arm1.setDescription("description");
-		arm1.setPlannedSubjects(200);
-
-		TreatmentArm arm2 = new TreatmentArm();
-		arm2.setDescription("Second Treatment");
-		arm2.setName("arm2");
-		arm2.setDescription("description");
-		arm2.setPlannedSubjects(200);
-
-		trial.setTreatmentArms(new HashSet<TreatmentArm>(Arrays.asList(arm1, arm2)));
-
-		DichotomousCriterion cr = new DichotomousCriterion();
-		cr.setName("SEX");
-		cr.setOption1("M");
-		cr.setOption2("F");
-		DichotomousCriterion cr1 = new DichotomousCriterion();
-		cr1.setOption1("1");
-		cr1.setOption2("2");
-		cr1.setName("Tum.Status");
-		DichotomousCriterion cr2 = new DichotomousCriterion();
-		cr2.setOption1("1");
-		cr2.setOption2("2");
-		cr2.setName("Fit.Level");
-		try {
-
-			cr.addStrata(new DichotomousConstraint(Arrays
-					.asList(new String[] { "M" })));
-
-			cr.addStrata(new DichotomousConstraint(Arrays
-					.asList(new String[] { "F" })));
-
-			cr1.addStrata(new DichotomousConstraint(Arrays
-					.asList(new String[] { "1" })));
-			cr1.addStrata(new DichotomousConstraint(Arrays
-					.asList(new String[] { "2" })));
-			cr2.addStrata(new DichotomousConstraint(Arrays
-					.asList(new String[] { "1" })));
-			cr2.addStrata(new DichotomousConstraint(Arrays
-					.asList(new String[] { "2" })));
-
-			trial.addCriterion(cr);
-			trial.addCriterion(cr1);
-			trial.addCriterion(cr2);
-
-		} catch (ContraintViolatedException e) {
-			BoxedException.throwBoxed(e);
-		}
-
-		try {
-			trialService.create(trial);
-		} catch (ConstraintViolationException e) {
-			// TODO: handle exception
-			System.out.println(e.getMessage());
-			for (ConstraintViolation<?> v : e.getConstraintViolations()) {
-				System.out.println(v.getPropertyPath() + " " + v.getMessage());
-			}
-
-		}
-
-		System.out.println("create trial: " + (System.nanoTime() - time1)
-				/ 1000000 + " ms");
-		time1 = System.nanoTime();
-
-		int countTS1 = 120;
-		int countTS2 = 60;
-		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH)+1;
-		int countAll = 0;
-		// Objects for the while-loop
-		Random rand = new Random();
-		GregorianCalendar date;
-		int runs;
-		boolean tr1;
-		int count;
-		// ---
-		while (countTS1 != 0 || countTS2 != 0) {
-			countAll++;
-			date = new GregorianCalendar(2009, countAll % countMo, 1);
-			runs = 0;
-			tr1 = false;
-			count = 0;
-			if (rand.nextInt(2) == 0 && countTS1 != 0) {
-				count = countTS1;
-				tr1 = true;
-			} else if (countTS2 != 0) {
-				count = countTS2;
-			}
-			if (count >= 10) {
-				runs = rand.nextInt(10) + 1;
-			} else if (count != 0) {
-				runs = rand.nextInt(count) + 1;
-			}
-			// Authorizing the investigator for upcoming randomization
-			 AnonymousAuthenticationToken at = tr1 ? new
-			 AnonymousAuthenticationToken(
-			 "anonymousUser", userLInv, new ArrayList<GrantedAuthority>(
-			 userLInv.getAuthorities()))
-			 : new AnonymousAuthenticationToken("anonymousUser",
-			 userLInv2, new ArrayList<GrantedAuthority>(
-			 userLInv2.getAuthorities()));
-			SecurityContextHolder.getContext().setAuthentication(at);
-			SecurityContextHolder.getContext().getAuthentication()
-					.setAuthenticated(true);
-			// ---
-			for (int i = 0; i < runs; i++) {
-				initRandBS(trial, date, rand);
-				if (tr1) {
-					countTS1--;
-				} else {
-					countTS2--;
-				}
-			}
-
-		}
-		System.out.println("added trial subjects: "
-				+ (System.nanoTime() - time1) / 1000000 + " ms");
+//		// create test trial
+//		authToken = new AnonymousAuthenticationToken("anonymousUser",
+//				userLPInv, new ArrayList<GrantedAuthority>(
+//						userLPInv.getAuthorities()));
+//		// Perform authentication
+//		SecurityContextHolder.getContext().setAuthentication(authToken);
+//		SecurityContextHolder.getContext().getAuthentication()
+//				.setAuthenticated(true);
+//
+//		
+//		trialSite1 = entityManager.find(TrialSite.class, trialSite1.getId());
+//		Trial trial = new Trial();
+//		trial.setAbbreviation("bs");
+//		trial.setName("Block study");
+//		trial.setDescription("Block study with two treatment arms and blocksize 8, stratified by trial site");
+//		trial.setGenerateIds(true);
+//		trial.setStratifyTrialSite(true);
+//		trial.setSponsorInvestigator(userPPInv);
+//		trial.setLeadingSite(trialSite);
+//		trial.addParticipatingSite(trialSite);
+//		trial.addParticipatingSite(trialSite1);
+//		trial.setStartDate(new GregorianCalendar(2009, 0, 1));
+//		trial.setEndDate(new GregorianCalendar(2010, 11, 1));
+//		trial.setStatus(TrialStatus.ACTIVE);
+//
+//		BlockRandomizationConfig randConf = new BlockRandomizationConfig();
+//		randConf.setMaximum(8);
+//		randConf.setMinimum(8);
+//		randConf.setType(TYPE.ABSOLUTE);
+//
+//		trial.setRandomizationConfiguration(randConf);
+//
+//		TreatmentArm arm1 = new TreatmentArm();
+//		arm1.setDescription("First Treatment");
+//		arm1.setName("arm1");
+//		arm1.setDescription("description");
+//		arm1.setPlannedSubjects(200);
+//
+//		TreatmentArm arm2 = new TreatmentArm();
+//		arm2.setDescription("Second Treatment");
+//		arm2.setName("arm2");
+//		arm2.setDescription("description");
+//		arm2.setPlannedSubjects(200);
+//
+//		trial.setTreatmentArms(new HashSet<TreatmentArm>(Arrays.asList(arm1, arm2)));
+//
+//		DichotomousCriterion cr = new DichotomousCriterion();
+//		cr.setName("SEX");
+//		cr.setOption1("M");
+//		cr.setOption2("F");
+//		DichotomousCriterion cr1 = new DichotomousCriterion();
+//		cr1.setOption1("1");
+//		cr1.setOption2("2");
+//		cr1.setName("Tum.Status");
+//		DichotomousCriterion cr2 = new DichotomousCriterion();
+//		cr2.setOption1("1");
+//		cr2.setOption2("2");
+//		cr2.setName("Fit.Level");
+//		try {
+//
+//			cr.addStrata(new DichotomousConstraint(Arrays
+//					.asList(new String[] { "M" })));
+//
+//			cr.addStrata(new DichotomousConstraint(Arrays
+//					.asList(new String[] { "F" })));
+//
+//			cr1.addStrata(new DichotomousConstraint(Arrays
+//					.asList(new String[] { "1" })));
+//			cr1.addStrata(new DichotomousConstraint(Arrays
+//					.asList(new String[] { "2" })));
+//			cr2.addStrata(new DichotomousConstraint(Arrays
+//					.asList(new String[] { "1" })));
+//			cr2.addStrata(new DichotomousConstraint(Arrays
+//					.asList(new String[] { "2" })));
+//
+//			trial.addCriterion(cr);
+//			trial.addCriterion(cr1);
+//			trial.addCriterion(cr2);
+//
+//		} catch (ContraintViolatedException e) {
+//			BoxedException.throwBoxed(e);
+//		}
+//
+//		try {
+//			trialService.create(trial);
+//		} catch (ConstraintViolationException e) {
+//			// TODO: handle exception
+//			System.out.println(e.getMessage());
+//			for (ConstraintViolation<?> v : e.getConstraintViolations()) {
+//				System.out.println(v.getPropertyPath() + " " + v.getMessage());
+//			}
+//
+//		}
+//
+//		System.out.println("create trial: " + (System.nanoTime() - time1)
+//				/ 1000000 + " ms");
+//		time1 = System.nanoTime();
+//
+//		int countTS1 = 120;
+//		int countTS2 = 60;
+//		int countMo = (new GregorianCalendar()).get(GregorianCalendar.MONTH)+1;
+//		int countAll = 0;
+//		// Objects for the while-loop
+//		Random rand = new Random();
+//		GregorianCalendar date;
+//		int runs;
+//		boolean tr1;
+//		int count;
+//		// ---
+//		while (countTS1 != 0 || countTS2 != 0) {
+//			countAll++;
+//			date = new GregorianCalendar(2009, countAll % countMo, 1);
+//			runs = 0;
+//			tr1 = false;
+//			count = 0;
+//			if (rand.nextInt(2) == 0 && countTS1 != 0) {
+//				count = countTS1;
+//				tr1 = true;
+//			} else if (countTS2 != 0) {
+//				count = countTS2;
+//			}
+//			if (count >= 10) {
+//				runs = rand.nextInt(10) + 1;
+//			} else if (count != 0) {
+//				runs = rand.nextInt(count) + 1;
+//			}
+//			// Authorizing the investigator for upcoming randomization
+//			 AnonymousAuthenticationToken at = tr1 ? new
+//			 AnonymousAuthenticationToken(
+//			 "anonymousUser", userLInv, new ArrayList<GrantedAuthority>(
+//			 userLInv.getAuthorities()))
+//			 : new AnonymousAuthenticationToken("anonymousUser",
+//			 userLInv2, new ArrayList<GrantedAuthority>(
+//			 userLInv2.getAuthorities()));
+//			SecurityContextHolder.getContext().setAuthentication(at);
+//			SecurityContextHolder.getContext().getAuthentication()
+//					.setAuthenticated(true);
+//			// ---
+//			for (int i = 0; i < runs; i++) {
+//				initRandBS(trial, date, rand);
+//				if (tr1) {
+//					countTS1--;
+//				} else {
+//					countTS2--;
+//				}
+//			}
+//
+//		}
+//		System.out.println("added trial subjects: "
+//				+ (System.nanoTime() - time1) / 1000000 + " ms");
 	}
 
 	private void initRandBS(Trial trial, GregorianCalendar date, Random rand) {

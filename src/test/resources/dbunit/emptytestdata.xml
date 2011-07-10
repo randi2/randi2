@@ -11,10 +11,10 @@
   <RandomizationConfig/>
   <Person/>
   <TrialSite/>
+  <Criterion/>
   <Trial/>
   <TreatmentArm/>
   <Block_Treatmentarm/>
-  <Criterion/>
   <Criterion_AbstractConstraint/>
   <Criterion_elements/>
   <LogEntry/>
@@ -27,8 +27,11 @@
   <MinimizationTempData_Probabilities/>
   <MinimizationTempData_countTrialSites/>
   <RandomisationTempData_Block/>
+  <ResponseAdaptiveUrn/>
+  <RandomisationTempData_ResponseAdaptiveUrn/>
   <Urn/>
   <RandomisationTempData_Urn/>
+  <ResponseAdaptiveUrn_Treatmentarm/>
   <Role_Role/>
   <SubjectProperty/>
   <TrialSite_Person/>
