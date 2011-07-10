@@ -446,10 +446,10 @@ public class TrialServiceTest extends AbstractServiceTest{
 		arm2.setDescription("description");
 		arm2.setTrial(validTrial);
 		TreatmentArm arm3 = new TreatmentArm();
-		arm2.setPlannedSubjects(50);
-		arm2.setName("arm3");
-		arm2.setDescription("description");
-		arm2.setTrial(validTrial);
+		arm3.setPlannedSubjects(50);
+		arm3.setName("arm3");
+		arm3.setDescription("description");
+		arm3.setTrial(validTrial);
 		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
 		arms.add(arm1);
 		arms.add(arm2);
