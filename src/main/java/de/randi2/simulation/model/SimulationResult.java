@@ -17,7 +17,10 @@
  */
 package de.randi2.simulation.model;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,6 @@ import lombok.Getter;
 import lombok.Setter;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
-import java.util.Collections;
 
 /**
  * This class represented the results of a simulation. It contains the
@@ -78,6 +80,8 @@ public class SimulationResult {
 	
 	@Getter @Setter
 	private List<SimulationRawDataEntry> rawData = new ArrayList<SimulationRawDataEntry>();
+	
+	private final DecimalFormat decimalFormat_8digits = new DecimalFormat("0.00000000");
 	
 	/**
 	 * 
@@ -183,6 +187,11 @@ public class SimulationResult {
 		}
 		return marginalBalanceMin;
 	}
+	
+	
+	public String getMarginalBalanceMinRounded(){
+		return decimalFormat_8digits.format(getMarginalBalanceMin());
+	}
 
 	/**
 	 * This method returns the maximal marginal balance over all simulation
@@ -196,6 +205,10 @@ public class SimulationResult {
 		}
 		return marginalBalanceMax;
 	}
+	
+	public String getMarginalBalanceMaxRounded(){
+		return decimalFormat_8digits.format(getMarginalBalanceMax());
+	}	
 
 	/**
 	 * This method returns the mean of the marginal balances over all simulation
@@ -208,6 +221,10 @@ public class SimulationResult {
 			analyze();
 		}
 		return marginalBalanceMean;
+	}
+	
+	public String getMarginalBalanceMeanRounded(){
+		return decimalFormat_8digits.format(getMarginalBalanceMean());
 	}
 
 	/**

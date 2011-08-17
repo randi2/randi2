@@ -23,40 +23,40 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:column id="column0">
-		<ice:outputText value="#{result.algorithmDescription}"></ice:outputText>
+		<ice:outputText value="#{result.algorithmDescription}" />
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.algo']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.algo']}" />
 		</f:facet>
 	</ice:column>
 	<ice:column id="column1">
-		<ice:outputText value="#{result.amountRuns}"></ice:outputText>
+		<ice:outputText value="#{result.amountRuns}" />
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.runs']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.runs']}" />
 		</f:facet>
 	</ice:column>
 	<ice:column id="column2">
-		<ice:outputText value="#{result.duration}"></ice:outputText>
+		<ice:outputText value="#{result.duration}" />
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.time']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.time']}"/>
 		</f:facet>
 	</ice:column>
 	<ice:column id="column3">
-		<ice:outputLabel value="#{result.marginalBalanceMin}" />
+		<ice:outputLabel value="#{result.marginalBalanceMinRounded}" />
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.minMarginalBal']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.minMarginalBal']}"/>
 		</f:facet>
 	</ice:column>
 	<ice:column id="column4">
-		<ice:outputLabel value="#{result.marginalBalanceMean}" />
+		<ice:outputLabel value="#{result.marginalBalanceMeanRounded}" />
 		<f:facet name="header">
 			<ice:outputLabel
-				value="#{labels['pages.simulation.meanMarginalBal']}"></ice:outputLabel>
+				value="#{labels['pages.simulation.meanMarginalBal']}"/>
 		</f:facet>
 	</ice:column>
 	<ice:column id="column5">
-		<ice:outputLabel value="#{result.marginalBalanceMax}" />
+		<ice:outputLabel value="#{result.marginalBalanceMaxRounded}" />
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.maxMarginalBal']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.maxMarginalBal']}"/>
 		</f:facet>
 	</ice:column>
 </ice:dataTable>
@@ -127,58 +127,59 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:outputLabel value="Order: " />
+	<ice:outputLabel value="#{labels['pages.simulation.order']}" />
 	<ice:selectOneRadio id="SlctCompTyp"
 		value="#{simulationHandler.selectedOrder}" partialSubmit="true">
 		<f:selectItems id="SlctcompTypeItms"
 			value="#{simulationHandler.orderItems}" />
 	</ice:selectOneRadio>
 </ice:panelGrid>
-<ice:outputText value="A - Algorithm, S - subgroup, T - Treatment Arm " xmlns="http://www.w3.org/1999/xhtml"
+<ice:outputText value="A - #{labels['pages.simulation.subgroupAlgorithm']}, S -  #{labels['pages.simulation.subgroupSubgroup']} T - T #{labels['pages.simulation.subgroupTreatmentArm']} " xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"/>
+	
 <ice:dataTable id="simResultStrataDetailsTableSAT" border="1"
 	value="#{simulationHandler.allStrataResults}" var="strataResult"
-	width="550px" rendered="#{simulationHandler.sat}" xmlns="http://www.w3.org/1999/xhtml"
+	width="700px" rendered="#{simulationHandler.sat}" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:column id="column0" groupOn="#{strataResult.strataId}">
 		<f:facet name="header">
-			<ice:outputLabel value="Subgroup"></ice:outputLabel>
+			<ice:outputLabel value= "#{labels['pages.simulation.subgroup']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.strataName}" />
 	</ice:column>
 	<ice:column id="column1" groupOn="#{strataResult.algorithmName}">
 		<f:facet name="header">
-			<ice:outputLabel value="Algorithm"></ice:outputLabel>
+			<ice:outputLabel value = "#{labels['pages.simulation.algo']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.algorithmName}" />
 	</ice:column>
 	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
 		<f:facet name="header">
-			<ice:outputLabel value="Treatment arm"></ice:outputLabel>
+			<ice:outputLabel value ="#{labels['pages.simulation.arm']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.treatmentName}" />
 	</ice:column>
 	<ice:column id="column3">
 		<f:facet name="header">
-			<ice:outputLabel value="min"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.minPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.minCount}" />
 	</ice:column>
 	<ice:column id="column4">
 		<f:facet name="header">
-			<ice:outputLabel value="mean"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.meanPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.mean}" />
 	</ice:column>
 	<ice:column id="column5">
 		<f:facet name="header">
-			<ice:outputLabel value="max"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.maxPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.maxCount}" />
 	</ice:column>
@@ -186,44 +187,44 @@
 
 <ice:dataTable id="simResultStrataDetailsTableSTA" border="1"
 	value="#{simulationHandler.allStrataResults}" var="strataResult"
-	width="550px" rendered="#{simulationHandler.sta}" xmlns="http://www.w3.org/1999/xhtml"
+	width="700px" rendered="#{simulationHandler.sta}" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:column id="column0" groupOn="#{strataResult.strataId}">
 		<f:facet name="header">
-			<ice:outputLabel value="Subgroup"></ice:outputLabel>
+			<ice:outputLabel value= "#{labels['pages.simulation.subgroup']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.strataName}" />
 	</ice:column>
 	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
 		<f:facet name="header">
-			<ice:outputLabel value="Treatment arm"></ice:outputLabel>
+			<ice:outputLabel value ="#{labels['pages.simulation.arm']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.treatmentName}" />
 	</ice:column>
 	<ice:column id="column1" groupOn="#{strataResult.algorithmName}">
 		<f:facet name="header">
-			<ice:outputLabel value="Algorithm"></ice:outputLabel>
+			<ice:outputLabel  value="#{labels['pages.simulation.algo']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.algorithmName}" />
 	</ice:column>
 	<ice:column id="column3">
 		<f:facet name="header">
-			<ice:outputLabel value="min"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.minPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.minCount}" />
 	</ice:column>
 	<ice:column id="column4">
 		<f:facet name="header">
-			<ice:outputLabel value="mean"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.meanPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.mean}" />
 	</ice:column>
 	<ice:column id="column5">
 		<f:facet name="header">
-			<ice:outputLabel value="max"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.maxPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.maxCount}" />
 	</ice:column>
@@ -231,44 +232,44 @@
 
 <ice:dataTable id="simResultStrataDetailsTableATS" border="1"
 	value="#{simulationHandler.allStrataResults}" var="strataResult"
-	width="550px" rendered="#{simulationHandler.ats}" xmlns="http://www.w3.org/1999/xhtml"
+	width="700px" rendered="#{simulationHandler.ats}" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:column id="column1" groupOn="#{strataResult.algorithmName}">
 		<f:facet name="header">
-			<ice:outputLabel value="Algorithm"></ice:outputLabel>
+			<ice:outputLabel  value="#{labels['pages.simulation.algo']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.algorithmName}" />
 	</ice:column>
 	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
 		<f:facet name="header">
-			<ice:outputLabel value="Treatment arm"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.arm']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.treatmentName}" />
 	</ice:column>
 	<ice:column id="column0" groupOn="#{strataResult.strataId}">
 		<f:facet name="header">
-			<ice:outputLabel value="Subgroup"></ice:outputLabel>
+			<ice:outputLabel value= "#{labels['pages.simulation.subgroup']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.strataName}" />
 	</ice:column>
 	<ice:column id="column3">
 		<f:facet name="header">
-			<ice:outputLabel value="min"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.minPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.minCount}" />
 	</ice:column>
 	<ice:column id="column4">
 		<f:facet name="header">
-			<ice:outputLabel value="mean"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.meanPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.mean}" />
 	</ice:column>
 	<ice:column id="column5">
 		<f:facet name="header">
-			<ice:outputLabel value="max"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.maxPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.maxCount}" />
 	</ice:column>
@@ -276,44 +277,44 @@
 
 <ice:dataTable id="simResultStrataDetailsTableAST" border="1"
 	value="#{simulationHandler.allStrataResults}" var="strataResult"
-	width="550px" rendered="#{simulationHandler.ast}" xmlns="http://www.w3.org/1999/xhtml"
+	width="700px" rendered="#{simulationHandler.ast}" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:column id="column1" groupOn="#{strataResult.algorithmName}">
 		<f:facet name="header">
-			<ice:outputLabel value="Algorithm"></ice:outputLabel>
+			<ice:outputLabel  value="#{labels['pages.simulation.algo']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.algorithmName}" />
 	</ice:column>
 	<ice:column id="column0" groupOn="#{strataResult.strataId}">
 		<f:facet name="header">
-			<ice:outputLabel value="Subgroup"></ice:outputLabel>
+			<ice:outputLabel value= "#{labels['pages.simulation.subgroup']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.strataName}" />
 	</ice:column>
 	<ice:column id="column2" groupOn="#{strataResult.treatmentName}">
 		<f:facet name="header">
-			<ice:outputLabel value="Treatment arm"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.arm']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.treatmentName}" />
 	</ice:column>
 	<ice:column id="column3">
 		<f:facet name="header">
-			<ice:outputLabel value="min"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.minPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.minCount}" />
 	</ice:column>
 	<ice:column id="column4">
 		<f:facet name="header">
-			<ice:outputLabel value="mean"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.meanPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.mean}" />
 	</ice:column>
 	<ice:column id="column5">
 		<f:facet name="header">
-			<ice:outputLabel value="max"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.maxPatCount']}"/>
 		</f:facet>
 		<ice:outputLabel value="#{strataResult.maxCount}" />
 	</ice:column>

@@ -44,11 +44,11 @@ This panel configured the simulation parameters.
 	</ice:panelCollapsible>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false">
 		<f:facet name="header">
-			<ice:outputLabel value="collect raw data"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.collectRawData']}"></ice:outputLabel>
 		</f:facet>
 		<ice:selectBooleanCheckbox id="SlctRawData"
 			value="#{simulationHandler.collectRawData}" partialSubmit="true" />
-		<ice:outputLabel value="yes"></ice:outputLabel>
+		<ice:outputLabel value="#{labels['pages.simulation.yes']}"></ice:outputLabel>
 	</ice:panelCollapsible>
 	</ice:panelGrid>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false"
