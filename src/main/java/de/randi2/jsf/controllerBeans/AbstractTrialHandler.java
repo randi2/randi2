@@ -97,9 +97,11 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial> {
 	@Override
 	protected Trial createPlainObject() {
 		Trial t = new Trial();
-		// Start & End Date will be initalised with the today's date
+		// Start Date will be initialized with the today's date and the end date with the tomarrow's date 
 		t.setStartDate(new GregorianCalendar());
-		t.setEndDate(new GregorianCalendar());
+		GregorianCalendar endDate = new GregorianCalendar();
+		endDate.setTimeInMillis(t.getStartDate().getTimeInMillis()+86400000);
+		t.setEndDate(endDate);
 		return t;
 	}
 
