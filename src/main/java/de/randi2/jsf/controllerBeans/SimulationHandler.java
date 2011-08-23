@@ -83,7 +83,6 @@ public class SimulationHandler extends AbstractTrialHandler {
 	@Setter
 	private SimulationAlgorithm simulationAlgorithm;
 
-	
 	@Getter
 	@Setter
 	private int runs = 1000;
@@ -128,6 +127,14 @@ public class SimulationHandler extends AbstractTrialHandler {
 	@Getter
 	@Setter
 	private long seedRandomisationAlgorithm;
+	
+	@Getter
+	private boolean changeStrataDistribution = false;
+	
+	public void setChangeStrataDistribution(boolean changeStrataDistribution) {
+		createDistributedCriterions();
+		this.changeStrataDistribution = changeStrataDistribution;
+	}
 
 	@Getter
 	@Setter
@@ -178,33 +185,42 @@ public class SimulationHandler extends AbstractTrialHandler {
 		this.distributedCriterions = distributedCriterions;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>> getDistributedCriterions() {
 		if (distributedCriterions == null
 				|| distributedCriterions.size() != currentObject.getCriteria()
 						.size()) {
 			distributedCriterions = new ArrayList<DistributedCriterionWrapper<Serializable, AbstractConstraint<Serializable>>>();
-			for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : currentObject
-					.getCriteria()) {
-				if (c.getStrata() != null) {
-					List<DistributedConstraintWrapper> strataDistributions = new ArrayList<DistributedConstraintWrapper>();
-
-					for (AbstractConstraint<? extends Serializable> con : c
-							.getStrata()) {
-						strataDistributions
-								.add(new DistributedConstraintWrapper(con));
-					}
-					distributedCriterions.add(new DistributedCriterionWrapper(
-							strataDistributions,
-							new CriterionWrapper<Serializable>(
-									(AbstractCriterion<Serializable, ?>) c,
-									loginHandler.getChosenLocale())));
-				}
-			}
+//			createDistributedCriterions();
 		}
 		return distributedCriterions;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void createDistributedCriterions(){
+		distributedCriterions.clear();
+		for (AbstractCriterion<? extends Serializable, ? extends AbstractConstraint<? extends Serializable>> c : currentObject
+				.getCriteria()) {
+			if (c.getStrata() != null) {
+				List<DistributedConstraintWrapper> strataDistributions = new ArrayList<DistributedConstraintWrapper>();
+
+				for (AbstractConstraint<? extends Serializable> con : c
+						.getStrata()) {
+					strataDistributions
+							.add(new DistributedConstraintWrapper(con));
+				}
+				distributedCriterions.add(new DistributedCriterionWrapper(
+						strataDistributions,
+						new CriterionWrapper<Serializable>(
+								(AbstractCriterion<Serializable, ?>) c,
+								loginHandler.getChosenLocale())));
+			}
+		}
+	}
+	
+	public void test(){
+		System.out.println("test");
+	}
+	
 	public Trial getSimTrial() {
 		if (simFromTrialCreationFirst && !simOnly) {
 			currentObject = trialHandler.getCurrentObject();

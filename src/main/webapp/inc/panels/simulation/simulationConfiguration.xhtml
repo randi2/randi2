@@ -20,7 +20,7 @@ This panel configured the simulation parameters.
 	columns="2">
 	<h:graphicImage name="/img/icons/info48.png"/>
 	<ice:outputLabel
-		value="#{labels['pages.simulation.configurationDesc']}"></ice:outputLabel>
+		value="#{labels['pages.simulation.configurationDesc']}"/>
 </ice:panelGrid>
 <ice:panelGrid columns="1" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
@@ -28,7 +28,7 @@ This panel configured the simulation parameters.
 	<ice:panelGrid columns="2">
 	<ice:panelCollapsible expanded="true" toggleOnClick="false">
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.countRuns']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.countRuns']}"/>
 		</f:facet>
 		<ice:inputText size="35" value="#{simulationHandler.runs}"
 			partialSubmit="true">
@@ -36,7 +36,7 @@ This panel configured the simulation parameters.
 	</ice:panelCollapsible>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false">
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.maxTime']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.maxTime']}"/>
 		</f:facet>
 		<ice:inputText size="35" value="#{simulationHandler.maxTime}"
 			partialSubmit="true">
@@ -44,18 +44,18 @@ This panel configured the simulation parameters.
 	</ice:panelCollapsible>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false">
 		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.collectRawData']}"></ice:outputLabel>
+			<ice:outputLabel value="#{labels['pages.simulation.collectRawData']}"/>
 		</f:facet>
 		<ice:selectBooleanCheckbox id="SlctRawData"
 			value="#{simulationHandler.collectRawData}" partialSubmit="true" />
-		<ice:outputLabel value="#{labels['pages.simulation.yes']}"></ice:outputLabel>
+		<ice:outputLabel value="#{labels['pages.simulation.yes']}"/>
 	</ice:panelCollapsible>
 	</ice:panelGrid>
 	<ice:panelCollapsible expanded="true" toggleOnClick="false"
 		style="margin-left: 3px;">
 		<f:facet name="header">
 			<ice:outputLabel
-				value="#{labels['pages.simulation.trialSiteDistribution']}"></ice:outputLabel>
+				value="#{labels['pages.simulation.trialSiteDistribution']}"/>
 		</f:facet>
 		<ice:panelGrid columns="5">
 			<ice:outputLabel value="#{labels['pages.simulation.distribution']}:" />
@@ -106,10 +106,13 @@ This panel configured the simulation parameters.
 		xmlns:ui="http://java.sun.com/jsf/facelets">
 		<f:facet name="header">
 			<ice:outputLabel
-				value="#{labels['pages.simulation.strataDistribution']}"></ice:outputLabel>
+				value="#{labels['pages.simulation.strataDistribution']}"/>
 		</f:facet>
+		<ice:selectBooleanCheckbox id="SlctStrataDistribution"
+			value="#{simulationHandler.changeStrataDistribution}" partialSubmit="true" rendered="#{!simulationHandler.changeStrataDistribution}"/>
+		<ice:outputLabel value="#{labels['pages.simulation.changeStrataDistribution']}" rendered="#{!simulationHandler.changeStrataDistribution}"/>
 		<ice:panelSeries value="#{simulationHandler.distributedCriterions}"
-			var="dCriterion">
+			var="dCriterion" rendered="#{simulationHandler.changeStrataDistribution}">
 			<ice:panelGroup
 				style="float:left; padding-left: 2px; padding-top: 5px;"
 				rendered="#{dCriterion.criterion.possibleStrata}">

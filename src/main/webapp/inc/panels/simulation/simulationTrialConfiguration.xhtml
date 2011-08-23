@@ -14,66 +14,75 @@
  You should have received a copy of the GNU General Public License along with
  RANDI2. If not, see http://www.gnu.org/licenses/.
  -->
-<div><ice:panelGrid columns="2"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelCollapsible expanded="true" toggleOnClick="false">
-		<f:facet name="header">
-			<ice:outputLabel value="#{labels['trial.name']}" />
-		</f:facet>
-		<ice:inputText size="35" partialSubmit="true"
-			value="#{simulationHandler.simTrial.name}" />
-	</ice:panelCollapsible>
-	<ice:panelCollapsible expanded="true" toggleOnClick="false">
-		<f:facet name="header">
-			<ice:outputLabel value="#{labels['pages.simulation.countTrialSite']}" />
-		</f:facet>
-		<ice:inputText size="35" partialSubmit="true"
-			value="#{simulationHandler.countTrialSites}" />
-	</ice:panelCollapsible>
-</ice:panelGrid> <!-- Configuration for treatment arms --> <ice:panelGrid columns="3"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
-	<ice:commandButton image="/resources/img/icons/add16.png"
-		actionListener="#{simulationHandler.addArm}" style="margin-right:5px;"
-		immediate="true" />
-</ice:panelGrid> 
-<ice:panelGrid columns="1"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
-<ice:panelGroup styleClass="exampleBox"
-	xmlns:ice="http://www.icesoft.com/icefaces/component"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-	<ice:panelSeries value="#{simulationHandler.listArmsWrapper}"
-		var="armWrapper" style="padding:10px;">
-		<ui:include src="/inc/panels/trial/treatmentArm.xhtml" />
-	</ice:panelSeries>
-</ice:panelGroup> 
+<div>
+	<ice:panelGrid columns="2" xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ice="http://www.icesoft.com/icefaces/component">
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel value="#{labels['trial.name']}" />
+			</f:facet>
+			<ice:inputText size="35" partialSubmit="true"
+				value="#{simulationHandler.simTrial.name}" />
+		</ice:panelCollapsible>
+		<ice:panelCollapsible expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:outputLabel
+					value="#{labels['pages.simulation.countTrialSite']}" />
+			</f:facet>
+			<ice:inputText size="35" partialSubmit="true"
+				value="#{simulationHandler.countTrialSites}" />
+		</ice:panelCollapsible>
+	</ice:panelGrid>
+	<!-- Configuration for treatment arms -->
+	<ice:panelGrid columns="3"
+		xmlns:ice="http://www.icesoft.com/icefaces/component">
+		<ice:outputLabel value="#{labels['pages.trialCreatePanel.tArmLabel']}" />
+		<ice:commandButton image="/resources/img/icons/add16.png"
+			actionListener="#{simulationHandler.addArm}"
+			style="margin-right:5px;" immediate="true" />
+	</ice:panelGrid>
+	<ice:panelGrid columns="1"
+		xmlns:ice="http://www.icesoft.com/icefaces/component">
+		<ice:panelGroup styleClass="exampleBox"
+			xmlns:ice="http://www.icesoft.com/icefaces/component"
+			xmlns:ui="http://java.sun.com/jsf/facelets">
+			<ice:panelSeries value="#{simulationHandler.listArmsWrapper}"
+				var="armWrapper" style="padding:10px;">
+				<ui:include src="/inc/panels/trial/treatmentArm.xhtml" />
+			</ice:panelSeries>
+		</ice:panelGroup>
 
-<!-- Configuration for subject properties --> <ice:panelGrid
-	columns="4" xmlns:ice="http://www.icesoft.com/icefaces/component"
-	xmlns:f="http://java.sun.com/jsf/core">
-	<ice:outputLabel value="#{labels['pages.trialCreatePanel.propLabel']}" />
-	<ice:selectOneMenu id="criteria" partialSubmit="true"
-		value="#{simulationSubjectProperty.selectedCriterionString}">
-		<f:selectItems value="#{simulationSubjectProperty.criteriaItems}" />
-		<f:converter binding="#{simulationSubjectProperty.criterionConverter}" />
-	</ice:selectOneMenu>
-	<ice:commandButton image="/resources/img/icons/add16.png"
-		actionListener="#{simulationSubjectProperty.addCriterion}"
-		style="margin-right:5px;" />
-	<ice:commandButton image="/resources/img/icons/remove16.png"
-		disabled="#{simulationSubjectProperty.criteriaEmpty}"
-		actionListener="#{simulationSubjectProperty.removeCriterion}" />
-</ice:panelGrid> <ice:panelGroup styleClass="clearer"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" /> <ice:panelGroup
-	styleClass="exampleBox"
-	visible="#{!simulationSubjectProperty.criteriaEmpty}"
-	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelSeries value="#{simulationSubjectProperty.criteria}"
-		var="criterion" style="padding:10px;"
-		xmlns:ui="http://java.sun.com/jsf/facelets">
-		<ui:include src="/inc/panels/trial/criterionPanel.xhtml" />
-	</ice:panelSeries>
-</ice:panelGroup>
-</ice:panelGrid></div>
+		<!-- Configuration for subject properties -->
+
+		<ice:panelGrid columns="4"
+			xmlns:ice="http://www.icesoft.com/icefaces/component"
+			xmlns:f="http://java.sun.com/jsf/core">
+			<ice:outputLabel
+				value="#{labels['pages.trialCreatePanel.propLabel']}" />
+			<ice:selectOneMenu id="criteria" partialSubmit="true"
+				value="#{simulationSubjectProperty.selectedCriterionString}">
+				<f:selectItems value="#{simulationSubjectProperty.criteriaItems}" />
+				<f:converter
+					binding="#{simulationSubjectProperty.criterionConverter}" />
+			</ice:selectOneMenu>
+			<ice:commandButton image="/resources/img/icons/add16.png"
+				actionListener="#{simulationSubjectProperty.addCriterion}"
+				style="margin-right:5px;" />
+			<ice:commandButton image="/resources/img/icons/remove16.png"
+				disabled="#{simulationSubjectProperty.criteriaEmpty}"
+				actionListener="#{simulationSubjectProperty.removeCriterion}" />
+		</ice:panelGrid>
+		<ice:panelGroup styleClass="clearer"
+			xmlns:ice="http://www.icesoft.com/icefaces/component" />
+		<ice:panelGroup styleClass="exampleBox"
+			visible="#{!simulationSubjectProperty.criteriaEmpty}"
+			xmlns:ice="http://www.icesoft.com/icefaces/component">
+			<ice:panelSeries value="#{simulationSubjectProperty.criteria}"
+				var="criterion" style="padding:10px;"
+				xmlns:ui="http://java.sun.com/jsf/facelets">
+				<ui:include src="/inc/panels/trial/criterionPanel.xhtml" />
+			</ice:panelSeries>
+		</ice:panelGroup>
+	</ice:panelGrid>
+</div>
