@@ -279,7 +279,11 @@ public class LoginHandler extends AbstractHandler<Login> {
 			newUser.setPrefLocale(getChosenLocale());
 			newUser.setUsername(newUser.getPerson().getEmail());
 			/* The new object will be saved */
-			userService.register(newUser, selectedTrialSite);
+			if (creatingMode) {
+				userService.create(newUser, selectedTrialSite);
+			} else {
+				userService.register(newUser, selectedTrialSite);
+			}
 			// Making the successPopup visible (NORMAL REGISTRATION)
 			if (!creatingMode) {
 				((RegisterPage) FacesContext
@@ -439,14 +443,19 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	/**
-	 * This method provides a Login object for the registration process.
+	 * This method provides a Login object for the registration and user creation process.
 	 * 
 	 * @return A Login object, which represents the new user.
 	 */
 	public Login getNewUser() {
 		if (newUser == null) { // Starting the registration process
 			assert (userService != null);
-			newUser = userService.prepareInvestigator();
+			if (creatingMode) { //new user created from another user 
+				newUser = new Login();
+			} else { //self-registration process
+				newUser = userService.prepareInvestigator();
+			}
+
 		}
 		return newUser;
 	}
