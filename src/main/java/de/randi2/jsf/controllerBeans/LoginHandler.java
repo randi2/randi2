@@ -30,6 +30,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
@@ -40,6 +41,8 @@ import lombok.Setter;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.icesoft.faces.component.ext.HtmlInputText;
 
 import de.randi2.jsf.backingBeans.RegisterPage;
 import de.randi2.jsf.converters.LoginConverter;
@@ -443,16 +446,17 @@ public class LoginHandler extends AbstractHandler<Login> {
 	}
 
 	/**
-	 * This method provides a Login object for the registration and user creation process.
+	 * This method provides a Login object for the registration and user
+	 * creation process.
 	 * 
 	 * @return A Login object, which represents the new user.
 	 */
 	public Login getNewUser() {
 		if (newUser == null) { // Starting the registration process
 			assert (userService != null);
-			if (creatingMode) { //new user created from another user 
+			if (creatingMode) { // new user created from another user
 				newUser = new Login();
-			} else { //self-registration process
+			} else { // self-registration process
 				newUser = userService.prepareInvestigator();
 			}
 
@@ -515,5 +519,15 @@ public class LoginHandler extends AbstractHandler<Login> {
 
 	public TrialSite getCurrentUsersTrialSite() {
 		return siteService.getTrialSiteFromPerson(currentObject.getPerson());
+	}
+
+	public void passwordChangeListener(ValueChangeEvent event) {
+		if (!event.getNewValue().equals(event.getOldValue())) {
+			HtmlInputText confirmationPasswordInput = (HtmlInputText) event
+					.getComponent().getParent().getParent()
+					.findComponent("pConfirmation");
+			confirmationPasswordInput.setValue("");
+		}
+
 	}
 }
