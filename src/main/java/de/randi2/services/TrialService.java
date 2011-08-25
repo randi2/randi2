@@ -21,6 +21,7 @@ import java.util.List;
 
 import de.randi2.model.Login;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.exceptions.TrialStateException;
 
@@ -67,5 +68,12 @@ public interface TrialService extends AbstractService<Trial> {
 	 * @return A list of all found subjects
 	 */
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator);
+	
+	/**
+	 * Returns all trials of the specific trial site
+	 * @param site specific trial site
+	 * @return A list of all relevant trials
+	 */
+	public List<Trial> getAll(TrialSite site);
 
 }

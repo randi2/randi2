@@ -41,6 +41,7 @@ import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
@@ -57,8 +58,8 @@ public class TrialServiceImpl implements TrialService {
 	private Logger logger = Logger.getLogger(TrialServiceImpl.class);
 	@Autowired
 	private TrialDao trialDao;
-	
-	@Autowired 
+
+	@Autowired
 	private LogService logService;
 
 	@Autowired
@@ -224,8 +225,8 @@ public class TrialServiceImpl implements TrialService {
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " update trial site with name "
 				+ trial.getName() + "(id: " + trial.getId() + ")");
-		logService.logTrialChange(ActionType.UPDATE, SecurityContextHolder.getContext().getAuthentication()
-				.getName(), oldObject, trial);
+		logService.logTrialChange(ActionType.UPDATE, SecurityContextHolder
+				.getContext().getAuthentication().getName(), oldObject, trial);
 		return trialDao.update(trial);
 	}
 
@@ -342,5 +343,13 @@ public class TrialServiceImpl implements TrialService {
 			}
 		}
 		return clone;
+	}
+
+	@Override
+	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ" })
+	public List<Trial> getAll(TrialSite site) {
+		if (site == null)
+			return null;
+		return trialDao.getAll(site);
 	}
 }

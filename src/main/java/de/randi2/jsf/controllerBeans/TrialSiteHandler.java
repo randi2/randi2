@@ -25,7 +25,6 @@ import javax.faces.bean.SessionScoped;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
-import lombok.Getter;
 import lombok.Setter;
 import de.randi2.jsf.converters.TrialSiteConverter;
 import de.randi2.jsf.supportBeans.PermissionVerifier;
@@ -34,7 +33,9 @@ import de.randi2.jsf.supportBeans.Randi2;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
+import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
+import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 
 /**
@@ -54,6 +55,10 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	@ManagedProperty(value="#{trialSiteService}")
 	@Setter
 	private TrialSiteService siteService = null;
+	
+	@ManagedProperty(value="#{trialService}")
+	@Setter
+	private TrialService trialService = null;
 
 	@ManagedProperty(value="#{permissionVerifier}")
 	@Setter
@@ -177,6 +182,10 @@ public class TrialSiteHandler extends AbstractHandler<TrialSite> {
 	
 	public List<Person> getMembers(){
 		return siteService.getMembers(currentObject);
+	}
+	
+	public List<Trial> getTrials(){
+		return trialService.getAll(currentObject);
 	}
 
 }

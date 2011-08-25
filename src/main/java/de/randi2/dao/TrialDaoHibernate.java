@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.Login;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.randomization.Block;
 import de.randi2.model.randomization.BlockRandomizationConfig;
@@ -100,6 +101,12 @@ public class TrialDaoHibernate extends AbstractDaoHibernate<Trial> implements
 				.createNamedQuery("trialSubject.specificInvestigator")
 				.setParameter(1, trial).setParameter(2, investigator)
 				.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Trial> getAll(TrialSite trialSite) {
+		return entityManager.createNamedQuery("trial.AllTrialsWithSpecificParticipatingTrialSite").setParameter(1, trialSite.getId()).getResultList();
 	}
 
 }

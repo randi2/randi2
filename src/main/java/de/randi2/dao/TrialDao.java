@@ -21,7 +21,9 @@ import java.util.List;
 
 import de.randi2.model.Login;
 import de.randi2.model.Trial;
+import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
+import de.randi2.services.TrialService;
 
 /**
  * The Interface TrialDao.
@@ -35,5 +37,14 @@ public interface TrialDao extends AbstractDao<Trial>{
 	 * @return
 	 */
 	public List<TrialSubject> getSubjects(Trial trial, Login investigator);
+	
+	
+
+	/**
+	 * @see TrialService
+	 * @param trial site
+	 * @return
+	 */
+	public List<Trial> getAll(TrialSite trialsite);
 	
 }
