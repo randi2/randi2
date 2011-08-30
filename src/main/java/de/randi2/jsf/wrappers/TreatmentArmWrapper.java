@@ -23,6 +23,11 @@ public class TreatmentArmWrapper {
 		this.handler = handler;
 	}
 	
+	public TreatmentArmWrapper(AbstractTrialHandler handler, TreatmentArm arm) {
+		this(handler);
+		this.arm = arm;		
+	}
+	
 	/**
 	 * Action listener for removing an existing treatment arm.
 	 * 

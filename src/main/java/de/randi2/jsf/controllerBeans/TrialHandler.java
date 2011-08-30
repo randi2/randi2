@@ -38,8 +38,10 @@ import de.randi2.jsf.backingBeans.AlgorithmConfig;
 import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
 import de.randi2.jsf.converters.LoginConverter;
 import de.randi2.jsf.supportBeans.Randi2;
+import de.randi2.jsf.wrappers.TreatmentArmWrapper;
 import de.randi2.model.Login;
 import de.randi2.model.Role;
+import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
@@ -324,8 +326,13 @@ public class TrialHandler extends AbstractTrialHandler {
 
 	@Override
 	public void setCurrentObject(Trial _currentObject) {
-		if (_currentObject != null && _currentObject.getId() > 0)
+		if (_currentObject != null && _currentObject.getId() > 0){
 			_currentObject = trialService.getObject(_currentObject.getId());
+			listArmsWrapper.clear();
+			for(TreatmentArm arm : _currentObject.getTreatmentArms()){
+				listArmsWrapper.add(new TreatmentArmWrapper(this, arm));
+			}
+		}
 		super.setCurrentObject(_currentObject);
 	}
 

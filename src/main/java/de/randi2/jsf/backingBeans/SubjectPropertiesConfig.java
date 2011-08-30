@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 
 import de.randi2.jsf.wrappers.CriterionWrapper;
@@ -54,4 +53,10 @@ public class SubjectPropertiesConfig extends AbstractSubjectProperty {
 		}
 		return criteria;
 	}
+	
+
+	public void clearCriterias(){
+		criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
+	}
+
 }

@@ -52,46 +52,53 @@ import de.randi2.model.TrialSite;
  * @author Lukasz Plotnicki <lplotni@users.sourceforge.net>
  * 
  */
-@ManagedBean(name="randi2Page")
+@ManagedBean(name = "randi2Page")
 @SessionScoped
 public class Randi2Page {
-	@ManagedProperty(value="#{trialSiteHandler}")
+	@ManagedProperty(value = "#{trialSiteHandler}")
 	@Setter
 	private TrialSiteHandler trialSiteHandler;
-	@ManagedProperty(value="#{trialHandler}")
+	@ManagedProperty(value = "#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
-	@ManagedProperty(value="#{loginHandler}")
+	@ManagedProperty(value = "#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
-	@ManagedProperty(value="#{simulationHandler}")
+	@ManagedProperty(value = "#{simulationHandler}")
 	@Setter
 	private SimulationHandler simulationHandler;
-	
+
+	@ManagedProperty(value = "#{subjectPropertiesConfig}")
+	@Setter
+	private SubjectPropertiesConfig subjectPropertiesConfig;
+
 	/**
 	 * The active content Panel.
 	 */
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String activePanel = "welcomePanel";
 
-	@ManagedProperty(value="#{popups}")
-	@Getter @Setter
+	@ManagedProperty(value = "#{popups}")
+	@Getter
+	@Setter
 	private Popups popups;
-	
+
 	@Setter
 	private Effect trialChangeEffect;
-	
-	@Getter @Setter
+
+	@Getter
+	@Setter
 	private boolean trialSelected = false;
-	
+
 	public Effect getTrialChangeEffect() {
-		if(trialChangeEffect==null){
+		if (trialChangeEffect == null) {
 			trialChangeEffect = new Highlight("#fda505");
 			trialChangeEffect.setFired(true);
 		}
 		return trialChangeEffect;
 	}
-	
+
 	/**
 	 * Time Zone for all calendar widgets.
 	 */
@@ -123,8 +130,8 @@ public class Randi2Page {
 
 	public void myTrialSite(ActionEvent event) {
 		loginHandler.setCurrentObject(loginHandler.getLoggedInUser());
-		trialSiteHandler
-				.setCurrentObject(loginHandler.getCurrentUsersTrialSite());
+		trialSiteHandler.setCurrentObject(loginHandler
+				.getCurrentUsersTrialSite());
 		activePanel = "trialSiteEditPanel";
 		trialHandler.cancelEditing();
 	}
@@ -154,28 +161,30 @@ public class Randi2Page {
 				.getValue(FacesContext.getCurrentInstance().getELContext()));
 		trialChangeEffect.setFired(false);
 		trialHandler.setCurrentObject(tTrial);
+		subjectPropertiesConfig.clearCriterias();
 		activePanel = "trialShowPanel";
 		trialSelected = true;
 	}
-	
+
 	/**
 	 * This method enables the trial editing.
 	 * 
 	 * @param event
 	 */
 	public void editCurrentTrial(ActionEvent event) {
-		if(trialSelected){
+		if (trialSelected) {
 			trialHandler.setEditing(true);
 			activePanel = "trialShowPanel";
 		}
 	}
-	
+
 	/**
 	 * This method shows the given trial.
-	 *
+	 * 
 	 * @param _trial
 	 */
-	public void showTrial(Trial _trial){
+	public void showTrial(Trial _trial) {
+		subjectPropertiesConfig.clearCriterias();
 		trialHandler.setCurrentObject(_trial);
 		activePanel = "trialShowPanel";
 		trialHandler.cancelEditing();
@@ -222,14 +231,14 @@ public class Randi2Page {
 
 	public void createTrial(ActionEvent event) {
 		trialHandler.cancelEditing();
-		trialHandler.startEditing(); //TODO
+		trialHandler.startEditing(); // TODO
 		trialHandler.setCreatingMode(true);
 		trialHandler.setCurrentObject(null);
 		trialHandler.cleanTreatmentArms();
 		activePanel = "trialCreatePanel";
 		trialSelected = false;
 	}
-	
+
 	public void simulateTrial(ActionEvent event) {
 		simulationHandler.setSimFromTrialCreationFirst(true);
 		simulationHandler.setDistributedCriterions(null);
@@ -237,11 +246,11 @@ public class Randi2Page {
 		popups.hideSimulationCompletePopup();
 		activePanel = "simulationTrialPanel";
 	}
-	
-	public void simulationResult(ActionEvent event){
+
+	public void simulationResult(ActionEvent event) {
 		activePanel = "simulationResultPanel";
 	}
-	
+
 	public void simulateTrialOnly(ActionEvent event) {
 		simulationHandler.setCurrentObject(null);
 		simulationHandler.setDistributedCriterions(null);
@@ -253,27 +262,29 @@ public class Randi2Page {
 		activePanel = "simulationOnlyPanel";
 		trialHandler.cancelEditing();
 	}
-	
+
 	public void simulateTrialOnlyChange(ActionEvent event) {
 		popups.hideSimulationCompletePopup();
 		simulationHandler.setSimulationResults(null);
 		activePanel = "simulationOnlyPanel";
 	}
-	
+
 	public void simulateTrialBack(ActionEvent event) {
 		activePanel = "trialCreatePanel";
 	}
-	
-	public void simulate(ActionEvent event){
-		SimulationHandler simulationHandler = ((SimulationHandler) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver().getValue(
-						FacesContext.getCurrentInstance()
-								.getELContext(), null, "simulationHandler"));
+
+	public void simulate(ActionEvent event) {
+		SimulationHandler simulationHandler = ((SimulationHandler) FacesContext
+				.getCurrentInstance()
+				.getApplication()
+				.getELResolver()
+				.getValue(FacesContext.getCurrentInstance().getELContext(),
+						null, "simulationHandler"));
 		simulationHandler.simTrial();
 	}
-	
-	public void showCurrentTrial(ActionEvent event){
-		if(trialSelected){
+
+	public void showCurrentTrial(ActionEvent event) {
+		if (trialSelected) {
 			trialHandler.cancelEditing();
 			trialHandler.setCreatingMode(false);
 			activePanel = "trialShowPanel";
@@ -282,9 +293,11 @@ public class Randi2Page {
 
 	public void addTrialSubject(ActionEvent event) {
 		if (trialSelected) {
-			((TSubjectAdd) FacesContext.getCurrentInstance().getApplication()
-					.getELResolver().getValue(
-							FacesContext.getCurrentInstance().getELContext(),
+			((TSubjectAdd) FacesContext
+					.getCurrentInstance()
+					.getApplication()
+					.getELResolver()
+					.getValue(FacesContext.getCurrentInstance().getELContext(),
 							null, "tSubjectAdd")).setCurrentTrial(trialHandler
 					.getCurrentObject());
 			activePanel = "tSubjectAddPanel";
@@ -310,6 +323,5 @@ public class Randi2Page {
 		this.helpVisible = false;
 		return Randi2.SUCCESS;
 	}
-	
 
 }
