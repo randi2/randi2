@@ -114,14 +114,14 @@ public class TrialServiceImpl implements TrialService {
 			subject.setIdentification(subject.getRandNumber());
 		entityManager.persist(subject);
 		assignedArm.addSubject(subject);
+		Trial t = trialDao.update(trial);
+		entityManager.flush();
 		try {
 			sendRandomisationMail(trial, ((Login) SecurityContextHolder
 					.getContext().getAuthentication().getPrincipal()), subject);
 		} catch (MailErrorException e) {
 			logger.error("mail error", e);
 		}
-		Trial t = trialDao.update(trial);
-		entityManager.flush();
 		return t;
 	}
 
