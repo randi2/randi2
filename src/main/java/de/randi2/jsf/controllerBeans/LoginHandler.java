@@ -348,10 +348,13 @@ public class LoginHandler extends AbstractHandler<Login> {
 	 */
 	@Override
 	public String refreshShowedObject() {
-		if (currentObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID)
+		if (currentObject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
 			currentObject = null;
-		else
+			newUser = null;
+			currentObject = getNewUser();
+		} else {
 			currentObject = userService.getObject(currentObject.getId());
+		}
 		selectedTrialSite = null;
 		refresh();
 		return Randi2.SUCCESS;
@@ -456,6 +459,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 			assert (userService != null);
 			if (creatingMode) { // new user created from another user
 				newUser = new Login();
+				newUser.setPerson(new Person());
 			} else { // self-registration process
 				newUser = userService.prepareInvestigator();
 			}
