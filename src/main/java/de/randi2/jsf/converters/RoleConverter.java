@@ -24,11 +24,13 @@ public class RoleConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
+		if(value.equals("please select")) return null;
 		return findGenderForl16edValue(value);
 	}
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object value) {
+		if(value == null) return "please select";
 		String result = null;
 		if (value != null && value instanceof Role) {
 			result = ResourceBundle.getBundle("de.randi2.jsf.i18n.roles",

@@ -149,6 +149,7 @@ public class LoginHandler extends AbstractHandler<Login> {
 	public List<SelectItem> getRoles() {
 		if (roles == null) {
 			roles = new ArrayList<SelectItem>();
+			roles.add(new SelectItem(null, "please select"));
 			for (Role r : userService.getRolesToAssign(loggedInUser)) {
 				roles.add(new SelectItem(r, getRoleConverter().getAsString(
 						null, null, r)));
