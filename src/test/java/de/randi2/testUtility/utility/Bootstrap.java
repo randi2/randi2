@@ -179,6 +179,9 @@ public class Bootstrap {
 		entityManager.persist(Role.ROLE_ANONYMOUS);
 		entityManager.persist(Role.ROLE_ADMIN);
 		
+		Role.ROLE_ADMIN.getRolesToAssign().add(Role.ROLE_ADMIN);
+		entityManager.merge(Role.ROLE_ADMIN);
+		
 		transaction.commit();
 		transaction.begin();
 		Role roleAdmin = (Role) entityManager.find(

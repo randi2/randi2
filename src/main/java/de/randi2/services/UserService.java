@@ -18,6 +18,7 @@
 package de.randi2.services;
 
 import java.util.List;
+import java.util.Set;
 
 import de.randi2.model.Login;
 import de.randi2.model.Role;
@@ -100,6 +101,14 @@ public interface UserService extends AbstractService<Login> {
 	 * @return The role object.
 	 */
 	public Role getRole(String name);
+	
+	
+	/**
+	 *  Returns the list of all defined roles which a specific user can assign to other users.
+	 * @param login The specific user.
+	 * @return The roles which the user can assign.
+	 */
+	public Set<Role> getRolesToAssign(Login login);
 	
 	/* Methods for the future:
 	 * addRight(long userID, ?)

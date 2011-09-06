@@ -19,9 +19,11 @@ package de.randi2.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -302,5 +304,18 @@ public class UserServiceImpl implements UserService {
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public Role getRole(String name) {
 		return roleDao.get(name);
+	}
+
+
+	@Override
+	@Secured({ "ROLE_USER" })
+	@Transactional(propagation = Propagation.SUPPORTS)
+	public Set<Role> getRolesToAssign(Login login) {
+		login = loginDao.refresh(login);
+		Set<Role> rolesToAssign = new HashSet<Role>();
+		for(Role role : login.getRoles()){
+			rolesToAssign.addAll(role.getRolesToAssign());
+		}
+		return rolesToAssign;
 	}
 }
