@@ -230,12 +230,12 @@
 				value="#{labels['pages.registration.passwordConfirmation']}"
 				rendered="#{loginHandler.creatingMode}" />
 			<ice:panelGroup rendered="#{loginHandler.creatingMode}">
-				<ice:inputText id="pConfirmation"
+				<ice:inputSecret id="pConfirmation"
 					required="#{loginHandler.currentObject.requiredFields['password']}"
 					partialSubmit="true">
 					<f:validator
 						validatorId="de.randi2.jsf.validators.PASSWORD_CONFIRMATION" />
-				</ice:inputText>
+				</ice:inputSecret>
 				<ice:message for="pConfirmation" id="confirmationError"
 					styleClass="errorMsg" />
 			</ice:panelGroup>
