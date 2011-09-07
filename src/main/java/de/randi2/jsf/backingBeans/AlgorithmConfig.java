@@ -109,6 +109,8 @@ public class AlgorithmConfig {
 					.toString(), bundle.getString(MinimizationConfig.class
 					.getCanonicalName() + ".short")));
 
+			selectedAlgorithmPanelId = AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString();
+			trialHandler.getCurrentObject().setRandomizationConfiguration(new CompleteRandomizationConfig());
 		}
 		return algorithms;
 	}
