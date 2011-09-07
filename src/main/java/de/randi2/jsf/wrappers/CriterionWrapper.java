@@ -30,7 +30,9 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import lombok.Getter;
-
+import de.randi2.jsf.backingBeans.AbstractSubjectProperty;
+import de.randi2.jsf.backingBeans.SubjectPropertiesConfig;
+import de.randi2.jsf.utility.JSFViewUtitlity;
 import de.randi2.model.SubjectProperty;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DateCriterion;
@@ -57,6 +59,11 @@ public class CriterionWrapper<V extends Serializable> {
 	 * The criterion object which is wrapped by this instance.
 	 */
 	private AbstractCriterion<V, ? extends AbstractConstraint<V>> wrappedCriterion = null;
+	
+	@Getter
+	private int id;
+	
+	private final AbstractSubjectProperty handler;
 
 	/**
 	 * If the wrapper is used during the subject's submission process - this
@@ -134,6 +141,22 @@ public class CriterionWrapper<V extends Serializable> {
 	private final Locale l;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public CriterionWrapper(AbstractCriterion<V, ?> _criterion, Locale l, AbstractSubjectProperty handler, int id) {
+		wrappedCriterion = _criterion;
+		setPanelType();
+		if (wrappedCriterion.getStrata() != null) {
+			int stratumNr = 1;
+			for (AbstractConstraint<V> c : wrappedCriterion.getStrata()) {
+				strata.add(new ConstraintWrapper(stratumNr, c));
+				stratumNr++;
+			}
+		}
+		this.l = l;
+		this.handler = handler;
+		this.id = id;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CriterionWrapper(AbstractCriterion<V, ?> _criterion, Locale l) {
 		wrappedCriterion = _criterion;
 		setPanelType();
@@ -145,6 +168,8 @@ public class CriterionWrapper<V extends Serializable> {
 			}
 		}
 		this.l = l;
+		this.handler = null;
+		this.id = 0;
 	}
 
 	public AbstractCriterion<?, ? extends Serializable> getWrappedCriterion() {
@@ -299,6 +324,14 @@ public class CriterionWrapper<V extends Serializable> {
 			}
 		}
 		return possibleValues;
+	}
+	
+	public void removeCriterion(ActionEvent event) {
+		handler.getCriteria().remove(this);
+		JSFViewUtitlity.refreshJSFPage();
+		if(handler instanceof SubjectPropertiesConfig){
+			((SubjectPropertiesConfig)handler).getTrialHandler().setTrialCreationTabIndex(3);
+		}
 	}
 
 }

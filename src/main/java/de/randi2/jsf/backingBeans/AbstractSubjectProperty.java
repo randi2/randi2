@@ -23,6 +23,8 @@ import de.randi2.model.criteria.AbstractCriterion;
  * 
  */
 public abstract class AbstractSubjectProperty {
+	
+	protected int criterionWrapperId = 0;
 
 	@ManagedProperty(value = "#{loginHandler}")
 	@Getter
@@ -92,7 +94,7 @@ public abstract class AbstractSubjectProperty {
 				criteria.add(new CriterionWrapper<Serializable>(
 						(AbstractCriterion<Serializable, ?>) selectedCriterion
 								.getClass().newInstance(), loginHandler
-								.getChosenLocale()));
+								.getChosenLocale(), this, criterionWrapperId++));
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

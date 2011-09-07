@@ -223,9 +223,6 @@ public class SimulationHandler extends AbstractTrialHandler {
 		}
 	}
 	
-	public void test(){
-		System.out.println("test");
-	}
 	
 	public Trial getSimTrial() {
 		if (simFromTrialCreationFirst && !simOnly) {

@@ -21,7 +21,7 @@
 	src="/inc/popups/trialCreatedPopup.xhtml" />
 <ice:form xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
-	<ice:panelTabSet style="font-size: 9;display: block;">
+	<ice:panelTabSet style="font-size: 9;display: block;" selectedIndex="#{trialHandler.trialCreationTabIndex}">
 		<ice:panelTab label="#{labels['pages.trialCreatePanel.step1']}">
 			<ui:include src="/inc/panels/trial/creationGeneralConfig.xhtml" />
 		</ice:panelTab>

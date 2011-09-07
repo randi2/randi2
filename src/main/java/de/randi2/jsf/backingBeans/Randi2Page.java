@@ -71,6 +71,10 @@ public class Randi2Page {
 	@ManagedProperty(value = "#{subjectPropertiesConfig}")
 	@Setter
 	private SubjectPropertiesConfig subjectPropertiesConfig;
+	
+	@ManagedProperty(value = "#{algorithmConfig}")
+	@Setter
+	private AlgorithmConfig algorithmConfig;
 
 	/**
 	 * The active content Panel.
@@ -234,6 +238,8 @@ public class Randi2Page {
 		trialHandler.startEditing(); // TODO
 		trialHandler.setCreatingMode(true);
 		trialHandler.setCurrentObject(null);
+		trialHandler.setTrialCreationTabIndex(0);
+		algorithmConfig.clean();
 		trialHandler.cleanTreatmentArms();
 		activePanel = "trialCreatePanel";
 		trialSelected = false;

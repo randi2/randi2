@@ -39,7 +39,7 @@ public class SimulationSubjectProperty extends AbstractSubjectProperty{
 					.getCurrentObject().getCriteria()) {
 				criteria.add(new CriterionWrapper<Serializable>(
 						(AbstractCriterion<Serializable, ?>) c, loginHandler
-								.getChosenLocale()));
+								.getChosenLocale(), this, criterionWrapperId++));
 			}
 		}
 		return super.getCriteria();

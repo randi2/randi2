@@ -64,6 +64,10 @@ import de.randi2.utility.logging.LogService;
 @SessionScoped
 public class TrialHandler extends AbstractTrialHandler {
 
+	
+	@Getter
+	@Setter
+	private int trialCreationTabIndex = 0;
 	/*
 	 * Services which this class needs to work with. (provided via spring)
 	 */

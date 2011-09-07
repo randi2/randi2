@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.wrappers.CriterionWrapper;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
@@ -38,6 +39,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 @ManagedBean(name = "subjectPropertiesConfig")
 @SessionScoped
 public class SubjectPropertiesConfig extends AbstractSubjectProperty {
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<CriterionWrapper<? extends Serializable>> getCriteria() {
@@ -48,7 +50,7 @@ public class SubjectPropertiesConfig extends AbstractSubjectProperty {
 					.getCurrentObject().getCriteria()) {
 				criteria.add(new CriterionWrapper<Serializable>(
 						(AbstractCriterion<Serializable, ?>) c, loginHandler
-								.getChosenLocale()));
+								.getChosenLocale(), this, criterionWrapperId++));
 			}
 		}
 		return criteria;
@@ -57,6 +59,10 @@ public class SubjectPropertiesConfig extends AbstractSubjectProperty {
 
 	public void clearCriterias(){
 		criteria = new ArrayList<CriterionWrapper<? extends Serializable>>();
+	}
+	
+	public TrialHandler getTrialHandler(){
+		return trialHandler;
 	}
 
 }
