@@ -313,6 +313,10 @@ public class CriterionWrapper<V extends Serializable> {
 	public void addStrata(ActionEvent event) {
 		strata.add(new ConstraintWrapper<V>(strata.size() + 1));
 	}
+	
+	public void removeStrata(ActionEvent event) {
+		strata.remove(strata.size()-1);
+	}
 
 	private List<SelectItem> possibleValues = null;
 
