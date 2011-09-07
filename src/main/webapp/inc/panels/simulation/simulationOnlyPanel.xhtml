@@ -20,7 +20,8 @@ This panel shows the configuration for the simulation only modus.
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-	<ice:panelTabSet style="font-size: 9;display: block;">
+	<ice:panelTabSet style="font-size: 9;display: block;" id="simulationPanelTabSet"
+	selectedIndex="#{simulationHandler.simulationConfigurationTabIndex}">
 		<ice:panelTab label="#{labels['pages.simulation.trialConfig']}">
 			<ui:include
 				src="/inc/panels/simulation/simulationTrialConfiguration.xhtml" />

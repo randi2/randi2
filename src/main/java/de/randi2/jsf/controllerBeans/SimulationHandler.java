@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.el.ValueExpression;
 import javax.faces.bean.ManagedBean;
@@ -69,6 +68,13 @@ import de.randi2.simulation.service.SimulationService;
 @SessionScoped
 public class SimulationHandler extends AbstractTrialHandler {
 
+	
+	private int algorithmWrapperIdSequence = 0;
+	
+	@Getter
+	@Setter
+	private int simulationConfigurationTabIndex = 0;
+	
 	@ManagedProperty(value = "#{trialHandler}")
 	@Getter
 	@Setter
@@ -424,6 +430,7 @@ public class SimulationHandler extends AbstractTrialHandler {
 							null, "randi2Page"));
 			rPage.simulationResult(null);
 		}
+		simulationConfigurationTabIndex = 0;
 	}
 
 	public boolean isResultComplete() {
@@ -443,48 +450,46 @@ public class SimulationHandler extends AbstractTrialHandler {
 				AlgorithmConfig.AlgorithmPanelId.COMPLETE_RANDOMIZATION
 						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
-					new CompleteRandomizationConfig()));
+					new CompleteRandomizationConfig(), this, algorithmWrapperIdSequence++));
 		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.BIASEDCOIN_RANDOMIZATION
 						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
-					new BiasedCoinRandomizationConfig()));
+					new BiasedCoinRandomizationConfig(), this, algorithmWrapperIdSequence++));
 		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId()
 				.equals(AlgorithmConfig.AlgorithmPanelId.BLOCK_RANDOMIZATION
 						.toString())) {
 			AlgorithmWrapper algWrapper = new AlgorithmWrapper(
-					new BlockRandomizationConfig());
+					new BlockRandomizationConfig(), this, algorithmWrapperIdSequence++);
 			algWrapper.getBlockR().setLoginHandler(getLoginHandler());
 			randomisationConfigs.add(algWrapper);
 		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.TRUNCATED_RANDOMIZATION
 						.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
-					new TruncatedBinomialDesignConfig()));
+					new TruncatedBinomialDesignConfig(), this, algorithmWrapperIdSequence++));
 		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.URN_MODEL.toString())) {
 			randomisationConfigs
-					.add(new AlgorithmWrapper(new UrnDesignConfig()));
+					.add(new AlgorithmWrapper(new UrnDesignConfig(), this, algorithmWrapperIdSequence++));
 		} else if (simulationAlgorithm.getSelectedAlgorithmPanelId().equals(
 				AlgorithmConfig.AlgorithmPanelId.MINIMIZATION.toString())) {
 			randomisationConfigs.add(new AlgorithmWrapper(
-					new MinimizationConfig()));
+					new MinimizationConfig(), this, algorithmWrapperIdSequence++));
 		}
-		randomisationConfigs.get(randomisationConfigs.size() - 1).setPossition(
-				randomisationConfigs.size() - 1);
+		renameAlgorithmPossitions();
 		randomisationConfigs.get(randomisationConfigs.size() - 1).getBlockR()
 				.setPossitionForSimulation(randomisationConfigs.size() - 1);
 	}
 
-	/**
-	 * Action listener for removing an existing treatment arm.
-	 * 
-	 * @param event
-	 */
-	public void removeAlgorithm(ActionEvent event) {
-		assert (currentObject != null);
-		randomisationConfigs.remove(randomisationConfigs.size() - 1);
+	
+	public void renameAlgorithmPossitions(){
+		int possition =1;
+		for(AlgorithmWrapper algorithm : randomisationConfigs){
+			algorithm.setPossition(possition++);
+		}
 	}
+
 
 	public void setCountTrialSites(int countTrialSites) {
 		this.countTrialSites = countTrialSites;
@@ -692,4 +697,5 @@ public class SimulationHandler extends AbstractTrialHandler {
 		}
 
 	}
+	
 }

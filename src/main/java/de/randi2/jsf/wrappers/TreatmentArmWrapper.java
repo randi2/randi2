@@ -8,7 +8,7 @@ import de.randi2.jsf.controllerBeans.AbstractTrialHandler;
 import de.randi2.model.TreatmentArm;
 
 @Data
-@EqualsAndHashCode(exclude={"arm"})
+@EqualsAndHashCode(exclude={"arm", "handler"})
 public class TreatmentArmWrapper {
 
 	

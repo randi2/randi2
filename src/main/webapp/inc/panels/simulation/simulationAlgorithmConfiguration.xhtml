@@ -50,10 +50,6 @@ This panel configured the algorithms for the simulation.
 				<ice:commandButton image="/resources/img/icons/add16.png"
 					actionListener="#{simulationHandler.addAlgorithm}"
 					style="margin-right:5px;" immediate="true" />
-				<ice:commandButton image="/resources/img/icons/remove16.png"
-					disabled="#{simulationHandler.treatmentArmsCount==0}"
-					actionListener="#{simulationHandler.removeAlgorithm}"
-					immediate="true" />
 			</ice:panelGroup>
 		</ice:panelGrid>
 	</ice:panelCollapsible>
@@ -85,10 +81,13 @@ This panel configured the algorithms for the simulation.
 				<ice:panelGroup styleClass="contentb">
 					<ice:panelGrid columns="3">
 						<ice:outputLabel value="#{alg.possition}:" />
-						<ice:inputText size="35" partialSubmit="true"
-							value="#{alg.description}" />
+						<ice:inputText size="35" partialSubmit="true" immediate="true"
+							value="#{alg.description}"  />
 						<ice:outputLabel
 							value="(#{labels['pages.simulation.description']})" />
+							<ice:commandButton image="/resources/img/icons/remove16.png"
+					actionListener="#{alg.removeAlgorithm}"
+					immediate="true" />
 					</ice:panelGrid>
 					<ice:panelGrid columns="1">
 						<ice:panelGroup xmlns:ui="http://java.sun.com/jsf/facelets">

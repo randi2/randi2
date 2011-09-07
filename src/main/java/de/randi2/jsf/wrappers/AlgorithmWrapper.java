@@ -1,12 +1,13 @@
 package de.randi2.jsf.wrappers;
 
+import javax.faces.event.ActionEvent;
+
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import de.randi2.jsf.backingBeans.BlockR;
-import de.randi2.model.criteria.DateCriterion;
-import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.model.criteria.FreeTextCriterion;
-import de.randi2.model.criteria.OrdinalCriterion;
+import de.randi2.jsf.controllerBeans.SimulationHandler;
+import de.randi2.jsf.utility.JSFViewUtitlity;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
@@ -15,38 +16,45 @@ import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 
+@EqualsAndHashCode(of={"id"})
 public class AlgorithmWrapper {
 
 	private final static String COMPANEL = "compPanel";
-	private final static String	BIASPANEL = "biasPanel";
+	private final static String BIASPANEL = "biasPanel";
 	private final static String URNPANEL = "urnPanel";
 	private final static String BLOCKPANEL = "blockPanel";
 	private final static String TRUNCPANEL = "truncPanel";
 	private final static String MINIPANEL = "miniPanel";
-	
-	
-	@Getter @Setter
+
+	@Getter
+	@Setter
 	private int possition;
+
+	@Getter
+	private final int id;
 	
-	@Getter @Setter
+	@Getter
+	@Setter
 	private BlockR blockR = new BlockR();
-	
-	@Getter @Setter
+
+	@Getter
+	@Setter
 	private AbstractRandomizationConfig conf;
-	
-	@Getter @Setter
+
+	@Getter
+	@Setter
 	private String description;
 
-	public AlgorithmWrapper() {
-	}
-	
-	public AlgorithmWrapper(AbstractRandomizationConfig config) {
-		this.conf = config;
-	}
-	
-	
+	private SimulationHandler handler;
 
-	
+
+	public AlgorithmWrapper(AbstractRandomizationConfig config,
+			SimulationHandler handler, int id) {
+		this.conf = config;
+		this.handler = handler;
+		this.id = id;
+	}
+
 	/**
 	 * 
 	 * String ID defining the showed algorithm panel.
@@ -73,9 +81,23 @@ public class AlgorithmWrapper {
 			panelType = MINIPANEL;
 		return panelType;
 	}
-	
-	public String getPossitionString(){
+
+	public String getPossitionString() {
 		return Integer.toString(possition);
 	}
 	
+	
+	/**
+	 * Action listener for removing an algorithm.
+	 * 
+	 * @param event
+	 */
+	public void removeAlgorithm(ActionEvent event) {
+		handler.getRandomisationConfigs().remove(this);
+		handler.renameAlgorithmPossitions();
+		JSFViewUtitlity.refreshJSFPage();
+		handler.setSimulationConfigurationTabIndex(2);
+
+	}
+
 }
