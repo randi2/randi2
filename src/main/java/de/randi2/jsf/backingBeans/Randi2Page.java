@@ -39,6 +39,7 @@ import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.controllerBeans.TrialSiteHandler;
 import de.randi2.jsf.supportBeans.Popups;
 import de.randi2.jsf.supportBeans.Randi2;
+import de.randi2.jsf.utility.JSFViewUtitlity;
 import de.randi2.model.Person;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
@@ -255,6 +256,7 @@ public class Randi2Page {
 
 	public void simulationResult(ActionEvent event) {
 		activePanel = "simulationResultPanel";
+		JSFViewUtitlity.refreshJSFPage();
 	}
 
 	public void simulateTrialOnly(ActionEvent event) {
