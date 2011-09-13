@@ -36,6 +36,7 @@ import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 
@@ -57,7 +58,7 @@ public class AlgorithmConfig {
 	 * 
 	 */
 	public static enum AlgorithmPanelId {
-		COMPLETE_RANDOMIZATION, BIASEDCOIN_RANDOMIZATION, BLOCK_RANDOMIZATION, TRUNCATED_RANDOMIZATION, URN_MODEL, MINIMIZATION;
+		COMPLETE_RANDOMIZATION, BIASEDCOIN_RANDOMIZATION, BLOCK_RANDOMIZATION, TRUNCATED_RANDOMIZATION, URN_MODEL, MINIMIZATION, RESPONSE_ADAPTIVE_RANDOMIZATION;
 	}
 
 	/**
@@ -108,6 +109,9 @@ public class AlgorithmConfig {
 			algorithms.add(new SelectItem(AlgorithmPanelId.MINIMIZATION
 					.toString(), bundle.getString(MinimizationConfig.class
 					.getCanonicalName() + ".short")));
+			algorithms.add(new SelectItem(AlgorithmPanelId.RESPONSE_ADAPTIVE_RANDOMIZATION
+					.toString(), bundle.getString(ResponseAdaptiveRConfig.class
+							.getCanonicalName() + ".short")));
 
 			selectedAlgorithmPanelId = AlgorithmPanelId.COMPLETE_RANDOMIZATION.toString();
 			trialHandler.getCurrentObject().setRandomizationConfiguration(new CompleteRandomizationConfig());
@@ -135,6 +139,8 @@ public class AlgorithmConfig {
 				return AlgorithmPanelId.URN_MODEL.toString();
 			else if (rand instanceof MinimizationConfig)
 				return AlgorithmPanelId.MINIMIZATION.toString();
+			else if (rand instanceof ResponseAdaptiveRConfig)
+				return AlgorithmPanelId.RESPONSE_ADAPTIVE_RANDOMIZATION.toString();
 		}
 		return selectedAlgorithmPanelId;
 	}
@@ -177,6 +183,9 @@ public class AlgorithmConfig {
 			break;
 		case URN_MODEL:
 			newConfig = new UrnDesignConfig();
+			break;
+		case RESPONSE_ADAPTIVE_RANDOMIZATION:
+			newConfig = new ResponseAdaptiveRConfig();
 			break;
 		}
 		trialHandler.getCurrentObject()

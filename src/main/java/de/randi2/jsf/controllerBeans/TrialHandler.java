@@ -28,8 +28,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.model.SelectItem;
 
 import lombok.Getter;
@@ -47,6 +50,7 @@ import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.utility.logging.LogEntry;
@@ -217,6 +221,9 @@ public class TrialHandler extends AbstractTrialHandler {
 			currentObject.setStatus(TrialStatus.IN_PREPARATION);
 			// configure subject properties
 			currentObject.setCriteria(configureCriteriaStep4());
+			if(currentObject.getRandomizationConfiguration() instanceof ResponseAdaptiveRConfig){
+				currentObject.setTreatmentResponse(configureResponse());
+			}
 			// create trial
 			trialService.create(currentObject);
 
@@ -224,6 +231,17 @@ public class TrialHandler extends AbstractTrialHandler {
 
 			clean();
 
+			return Randi2.SUCCESS;
+		} catch (Exception e) {
+			Randi2.showMessage(e);
+			return Randi2.ERROR;
+		}
+	}
+	
+	public String addResponse(TrialSubject tSubject) {
+		try {
+			trialService.addResponse(currentObject, tSubject);
+			getPopups().showResponseAddedPopup();
 			return Randi2.SUCCESS;
 		} catch (Exception e) {
 			Randi2.showMessage(e);
@@ -381,4 +399,12 @@ public class TrialHandler extends AbstractTrialHandler {
 			return currentObject;
 		}
 	}
+	
+	@Getter @Setter
+	private UIInput countBallsResponseSuccessInput;
+	public void postValidateCountSuccess(ComponentSystemEvent ev)
+			throws AbortProcessingException {
+	    this.setCountBallsResponseSuccessInput((UIInput) ev.getComponent()) ;
+	}
+
 }

@@ -35,6 +35,7 @@ import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.model.randomization.MinimizationConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 
@@ -47,7 +48,8 @@ public class Step5 {
 				"biasedCoinRandomization"), BLOCK_RANDOMIZATION(
 				"blockRandomization"), TRUNCATED_RANDOMIZATION(
 				"truncatedRandomization"), URN_MODEL("urnModel"), MINIMIZATION(
-				"minimization");
+				"minimization"), RESPONSE_ADAPTIVE_RANDOMIZATION(
+				"responseAdaptiveRandomization");
 		private String id = null;
 
 		private AlgorithmPanelId(String id) {
@@ -99,6 +101,9 @@ public class Step5 {
 			algorithms.add(new SelectItem(AlgorithmPanelId.MINIMIZATION
 					.toString(), bundle.getString(MinimizationConfig.class
 					.getCanonicalName() + ".short")));
+			algorithms.add(new SelectItem(AlgorithmPanelId.RESPONSE_ADAPTIVE_RANDOMIZATION
+					.toString(), bundle.getString(ResponseAdaptiveRConfig.class
+							.getCanonicalName() + ".short")));
 
 		}
 		return algorithms;
@@ -127,6 +132,12 @@ public class Step5 {
 						.getCurrentObject().getRandomizationConfiguration())) {
 			trialHandler.getCurrentObject().setRandomizationConfiguration(
 					new MinimizationConfig());
+		} else if (selectedAlgorithmPanelId
+				.equals(AlgorithmPanelId.RESPONSE_ADAPTIVE_RANDOMIZATION.toString())
+				&& !ResponseAdaptiveRConfig.class.isInstance(trialHandler
+						.getCurrentObject().getRandomizationConfiguration())) {
+			trialHandler.getCurrentObject().setRandomizationConfiguration(
+					new ResponseAdaptiveRConfig());
 		}
 
 	}

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ValidationException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
+import de.randi2.randomization.ResponseAdaptiveRandomization;
 import de.randi2.utility.logging.LogService;
 import de.randi2.utility.mail.MailServiceInterface;
 import de.randi2.utility.mail.exceptions.MailErrorException;
@@ -344,7 +347,34 @@ public class TrialServiceImpl implements TrialService {
 		}
 		return clone;
 	}
-
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void addResponse(Trial trial, TrialSubject subject) {
+		if (subject == null) {
+			throw new IllegalArgumentException("Trial subject can't be NULL");
+		} else if (subject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
+			throw new IllegalArgumentException(
+					"Trial subject must be a persistent object");
+		} else if (entityManager.find(TrialSubject.class, subject.getId())
+				.getResponseProperty() != null) {
+			throw new ValidationException(
+					"Response for trial subject with id: " + subject.getId()
+							+ " has been already saved");
+		}
+		trial = entityManager.find(Trial.class, trial.getId());
+		logger.debug("user: "
+				+ SecurityContextHolder.getContext().getAuthentication()
+						.getName() + " added response in trial " + trial.getName());
+		if (trial.getRandomizationConfiguration() instanceof ResponseAdaptiveRConfig) {
+			ResponseAdaptiveRandomization algorithm = (ResponseAdaptiveRandomization) trial
+					.getRandomizationConfiguration().getAlgorithm();
+			algorithm.addResponse(subject);
+			entityManager.persist(subject.getResponseProperty());
+			entityManager.merge(subject);
+		}
+		
+	}
+	
 	@Override
 	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ" })
 	public List<Trial> getAll(TrialSite site) {
@@ -352,4 +382,5 @@ public class TrialServiceImpl implements TrialService {
 			return null;
 		return trialDao.getAll(site);
 	}
+	
 }

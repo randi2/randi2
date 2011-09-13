@@ -31,6 +31,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -41,6 +42,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.unsorted.ContraintViolatedException;
 
 /**
@@ -113,6 +115,9 @@ public class TrialSubject extends AbstractDomainObject {
 	/** The properties. */
 	@OneToMany(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
 	private Set<SubjectProperty<?>> properties = new HashSet<SubjectProperty<?>>();
+	
+	@OneToOne
+	private SubjectProperty<String> responseProperty;
 
 
 	/**

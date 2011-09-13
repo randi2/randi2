@@ -1,7 +1,7 @@
 package de.randi2.core.unit.model;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -572,6 +572,8 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 				assertFalse(map.get(key));
 			}else if (key.equals("$VRc")) {
 				assertFalse(map.get(key));
+			}else if (key.equals("treatmentResponse")) {
+				assertFalse(map.get(key));
 			}else
 				fail(key + " not checked");
 		}
@@ -913,6 +915,21 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 		assertEquals("site3", pair.last().get(2));
 		assertEquals("site4", pair.last().get(3));
 
+	}
+	
+	@Test
+	public void testTreatmentResponseNull(){
+		validTrial.setTreatmentResponse(null);
+		assertEquals(null, validTrial.getTreatmentResponse());
+		assertValid(validTrial);
+	}
+	
+	@Test
+	public void testTreatmentResponseCorrect(){
+		DichotomousCriterion treatmentResponse = new DichotomousCriterion();
+		validTrial.setTreatmentResponse(treatmentResponse);
+		assertEquals(treatmentResponse, validTrial.getTreatmentResponse());
+		assertValid(validTrial);
 	}
 
 }

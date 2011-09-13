@@ -4,12 +4,14 @@ import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.randi2.core.unit.randomization.RandomizationHelper;
 import de.randi2.model.Login;
 import de.randi2.model.Person;
 import de.randi2.model.Role;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.enumerations.Gender;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 
 public class DomainObjectFactory {
 
@@ -52,6 +54,16 @@ public class DomainObjectFactory {
 		t.setLeadingSite(this.getTrialSite());
 		
 		return t;
+	}
+	
+	public ResponseAdaptiveRConfig getResponseAdaptiveRConfig(int countBallsSuccess, int countBallsFailure,int... armSizes){
+		ResponseAdaptiveRConfig config = new ResponseAdaptiveRConfig();
+		Trial trial = this.getTrial();
+		RandomizationHelper.addArms(trial, armSizes);
+		config.setTrial(trial);
+		config.setCountBallsResponseSuccess(countBallsSuccess);
+		config.setCountBallsResponseFailure(countBallsFailure);
+		return config;
 	}
 	
 	public Login getLogin(){

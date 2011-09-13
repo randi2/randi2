@@ -23,10 +23,12 @@ import de.randi2.model.TreatmentArm;
 import de.randi2.model.Trial;
 import de.randi2.model.TrialSite;
 import de.randi2.model.TrialSubject;
+import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
 import de.randi2.model.randomization.BlockRandomizationConfig;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
 import de.randi2.model.randomization.UrnDesignConfig;
 import de.randi2.services.TrialService;
@@ -429,5 +431,64 @@ public class TrialServiceTest extends AbstractServiceTest{
 		List<TrialSubject> s3 = service.getSubjects(t, l2);
 		assertNotNull(s3);
 		assertEquals(0,s3.size());
+	}
+	
+	@Test
+	public void testCreateRandomAndAddResponseResponseAdaptiveRandomization() throws IllegalArgumentException, TrialStateException{
+		TreatmentArm arm1 = new TreatmentArm();
+		arm1.setPlannedSubjects(50);
+		arm1.setName("arm1");
+		arm1.setDescription("description");
+		arm1.setTrial(validTrial);
+		TreatmentArm arm2 = new TreatmentArm();
+		arm2.setPlannedSubjects(50);
+		arm2.setName("arm2");
+		arm2.setDescription("description");
+		arm2.setTrial(validTrial);
+		TreatmentArm arm3 = new TreatmentArm();
+		arm3.setPlannedSubjects(50);
+		arm3.setName("arm3");
+		arm3.setDescription("description");
+		arm3.setTrial(validTrial);
+		Set<TreatmentArm> arms = new HashSet<TreatmentArm>();
+		arms.add(arm1);
+		arms.add(arm2);
+		arms.add(arm3);
+	
+		validTrial.setTreatmentArms(arms);
+		ResponseAdaptiveRConfig conf = new ResponseAdaptiveRConfig();
+		conf.setInitializeCountBallsResponseAdaptiveR(4);
+		conf.setCountBallsResponseSuccess(8);
+		conf.setCountBallsResponseFailure(4);
+		validTrial.setRandomizationConfiguration(conf);
+		
+		DichotomousCriterion response = new DichotomousCriterion();
+		response.setOption1("success");
+		response.setOption2("failure");
+		validTrial.setTreatmentResponse(response);
+		
+		validTrial.setStatus(TrialStatus.ACTIVE);
+		
+		service.create(validTrial);
+		assertTrue(validTrial.getId()>0);
+		assertEquals(3,validTrial.getTreatmentArms().size());
+		authenticatAsInvestigator();
+		
+		for(int i=0;i<100;i++){
+			 TrialSubject subject = new TrialSubject();
+			 subject.setIdentification("identification" + i);
+			 subject.setTrialSite(validTrial.getLeadingSite());
+			 service.randomize(validTrial,subject );
+		}
+		
+		entityManager.clear();
+		Trial dbTrial = service.getObject(validTrial.getId());
+		assertNotNull(dbTrial);
+		assertEquals(validTrial.getName(), dbTrial.getName());
+		assertEquals(3, dbTrial.getTreatmentArms().size());
+		assertEquals(100, dbTrial.getSubjects().size());
+		assertTrue(dbTrial.getRandomizationConfiguration() instanceof ResponseAdaptiveRConfig);
+		assertTrue(dbTrial.getTreatmentResponse() instanceof DichotomousCriterion);
+		assertTrue(((ResponseAdaptiveRConfig)dbTrial.getRandomizationConfiguration()).getTempData() != null);
 	}
 }

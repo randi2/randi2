@@ -35,7 +35,7 @@ public abstract class AbstractSubjectProperty {
 	@Setter
 	protected TrialHandler trialHandler;
 
-	private CriterionConverter criterionConverter;
+	protected CriterionConverter criterionConverter;
 
 	public CriterionConverter getCriterionConverter() {
 		if (criterionConverter == null)

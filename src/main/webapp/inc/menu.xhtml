@@ -18,7 +18,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ice="http://www.icesoft.com/icefaces/component">
 	<ice:menuBar orientation="vertical">
-		<ice:menuItem value="#{labels['pages.menu.user']}">
+		<ice:menuItem value="#{labels['pages.menu.user']}" >
 			<ice:menuItem value="#{labels['pages.menu.personalDetails']}"
 				actionListener="#{randi2Page.myLogin}" />
 			<ice:menuItem value="#{labels['pages.menu.preferences']}">
@@ -45,12 +45,13 @@
 			<ice:menuItemSeparator rendered="#{permissionVerifier.allowedCreateTrial}"/>
 			<ice:menuItem id="create" value="#{labels['pages.menu.create']}"
 				actionListener="#{randi2Page.createTrial}" rendered="#{permissionVerifier.allowedCreateTrial}" />
-			<ice:menuItemSeparator/>
+			<ice:menuItemSeparator/> 
 			<ice:menuItem id="simulationItem" value="#{labels['pages.menu.simulation']}"
 				actionListener="#{randi2Page.simulateTrialOnly}" />
 		</ice:menuItem>
 		<ice:menuItem id="tSubjectMenu" value="#{labels['pages.menu.trialSubject']}" rendered="#{permissionVerifier.allowedRandomize}">
-			<ice:menuItem id="add" value="#{labels['pages.menu.add']}" actionListener="#{randi2Page.addTrialSubject}"/>
+			<ice:menuItem id="add" value="#{labels['pages.menu.add']}" actionListener="#{randi2Page.addTrialSubject}" />
+			<ice:menuItem id="addResponse" value="#{labels['pages.menu.response']}" rendered="#{permissionVerifier.allowedAddResponse}" actionListener="#{randi2Page.addResponse}" />
 		</ice:menuItem>
 		<ice:menuItem value="#{labels['pages.menu.trialSite']}" rendered="#{permissionVerifier.allowedReadTrialSite}">
 			<ice:menuItem value="#{labels['pages.menu.myTrialSite']}"
