@@ -355,8 +355,9 @@ public class TrialServiceImpl implements TrialService {
 		} else if (subject.getId() == AbstractDomainObject.NOT_YET_SAVED_ID) {
 			throw new IllegalArgumentException(
 					"Trial subject must be a persistent object");
-		} else if (entityManager.find(TrialSubject.class, subject.getId())
-				.getResponseProperty() != null) {
+		}
+		TrialSubject tmp = (TrialSubject) entityManager.createQuery("from TrialSubject t where t.id = ?").setParameter(1, subject.getId()).getSingleResult();
+		if (tmp.getResponseProperty() != null) {
 			throw new ValidationException(
 					"Response for trial subject with id: " + subject.getId()
 							+ " has been already saved");

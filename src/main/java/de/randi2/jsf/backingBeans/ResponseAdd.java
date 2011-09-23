@@ -27,7 +27,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
 import lombok.Setter;
-
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
 import de.randi2.jsf.wrappers.CriterionWrapper;
@@ -40,7 +39,7 @@ import de.randi2.unsorted.ContraintViolatedException;
 
 /**
  * @author Natalie Waskowzow
- *
+ * 
  */
 
 @ManagedBean(name = "responseAdd")
@@ -48,32 +47,29 @@ import de.randi2.unsorted.ContraintViolatedException;
 public class ResponseAdd {
 
 	private Trial currentTrial = null;
-	
+
 	private ArrayList<CriterionWrapper<? extends Serializable>> properties = null;
-	
+
 	@ManagedProperty(value = "#{loginHandler}")
 	@Setter
 	private LoginHandler loginHandler;
-	
+
 	private List<SelectItem> selectItems = null;
-	
-	private SubjectProperty<String> responseProperty=null;
-	
+
+	private SubjectProperty<String> responseProperty = null;
+
 	private TrialSubject tSubject = new TrialSubject();
 
-	private String tSubjectID="";
-	
+	private String tSubjectID = "";
+
 	private boolean tSubjectIdentified;
-	
+
 	@ManagedProperty(value = "#{trialHandler}")
 	@Setter
 	private TrialHandler trialHandler;
-	
+
 	private String responsePropertyValue;
-	
-	
-	
-	
+
 	@SuppressWarnings("unchecked")
 	public void setCurrentTrial(Trial currentTrial) {
 		this.currentTrial = currentTrial;
@@ -87,68 +83,64 @@ public class ResponseAdd {
 			properties.add(cWrapper);
 		}
 	}
-	
-	
-	public void addResponse(){	
+
+	public void addResponse() {
 		trialHandler.addResponse(tSubject);
 		resetResponse();
 	}
-	
+
 	public List<SelectItem> getSelectItems() {
 		if (selectItems == null) {
 			selectItems = new ArrayList<SelectItem>();
-			String option1=currentTrial.getTreatmentResponse().getOption1();
-			String option2=currentTrial.getTreatmentResponse().getOption2();
-			selectItems.add(new SelectItem(option1,option1));
-			selectItems.add(new SelectItem(option2,option2));
+			String option1 = currentTrial.getTreatmentResponse().getOption1();
+			String option2 = currentTrial.getTreatmentResponse().getOption2();
+			selectItems.add(new SelectItem(option1, option1));
+			selectItems.add(new SelectItem(option2, option2));
 		}
 		return selectItems;
 	}
-	
-	
-	public SubjectProperty<String> getResponseProperty(){
+
+	public SubjectProperty<String> getResponseProperty() {
 		if (responseProperty == null) {
-			responseProperty = new SubjectProperty<String>(currentTrial.getTreatmentResponse());
+			responseProperty = new SubjectProperty<String>(
+					currentTrial.getTreatmentResponse());
 		}
 		return responseProperty;
 	}
-	
-	
-	
+
 	public void setResponsePropertyValue(String responsePropertyValue) {
-		try {
-			this.getResponseProperty().setValue(responsePropertyValue);
-			this.responsePropertyValue=responsePropertyValue;
-		} catch (ContraintViolatedException e) {
-			e.printStackTrace();
+		if (responsePropertyValue != null && !responsePropertyValue.isEmpty()) {
+			try {
+				this.getResponseProperty().setValue(responsePropertyValue);
+				this.responsePropertyValue = responsePropertyValue;
+			} catch (ContraintViolatedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
-
 
 	public String getResponsePropertyValue() {
 		return responsePropertyValue;
 	}
 
-
 	public boolean istSubjectIdentified() {
 		return tSubjectIdentified;
 	}
 
-	
 	public TrialSubject gettSubject() {
 		return tSubject;
 	}
-	
-	public String gettSubjectID(){
+
+	public String gettSubjectID() {
 		return tSubjectID;
 	}
-	
-	public void settSubjectID (String tSubjectID){
-		this.tSubjectID=tSubjectID;
-		if(currentTrial!=null){
+
+	public void settSubjectID(String tSubjectID) {
+		this.tSubjectID = tSubjectID;
+		if (currentTrial != null) {
 			List<TrialSubject> tSubjects = currentTrial.getSubjects();
-			for(TrialSubject tSubject:tSubjects){
-				if(tSubject.getIdentification().equals(tSubjectID)){
+			for (TrialSubject tSubject : tSubjects) {
+				if (tSubject.getIdentification().equals(tSubjectID)) {
 					this.tSubject = tSubject;
 					if (tSubject.getResponseProperty() == null) {
 						this.tSubject.setResponseProperty(this
@@ -160,15 +152,15 @@ public class ResponseAdd {
 			}
 		}
 	}
-	
-	public boolean isResponseAdded(String tSubjectId){
-		if(currentTrial!=null){
+
+	public boolean isResponseAdded(String tSubjectId) {
+		if (currentTrial != null) {
 			List<TrialSubject> tSubjects = currentTrial.getSubjects();
-			for(TrialSubject tSubject:tSubjects){
-				if(tSubject.getIdentification().equals(tSubjectId)){
+			for (TrialSubject tSubject : tSubjects) {
+				if (tSubject.getIdentification().equals(tSubjectId)) {
 					if (tSubject.getResponseProperty() == null) {
 						return false;
-					}else{
+					} else {
 						return true;
 					}
 				}
@@ -176,16 +168,15 @@ public class ResponseAdd {
 		}
 		return false;
 	}
-	
+
 	public Trial getCurrentTrial() {
 		return currentTrial;
 	}
-	
+
 	private void resetResponse() {
 		tSubject = new TrialSubject();
 		tSubjectID = null;
-		tSubjectIdentified=false;
+		tSubjectIdentified = false;
 	}
-	
-	
+
 }

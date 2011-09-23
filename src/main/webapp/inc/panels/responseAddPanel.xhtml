@@ -111,8 +111,8 @@
 							</f:facet>
 							<ice:panelGroup>
 								<ice:selectOneRadio id="responseValue"
-									value="#{responseAdd.responsePropertyValue}" required="true">
-									<f:selectItems value="#{responseAdd.selectItems}" />
+									value="#{responseAdd.responsePropertyValue}" required="true" partialSubmit="true">
+									<f:selectItems value="#{responseAdd.selectItems}"/>
 								</ice:selectOneRadio>
 								<ice:message for="responseValue" styleClass="errorMsg" />
 							</ice:panelGroup>
