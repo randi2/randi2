@@ -86,7 +86,7 @@ public class HibernateAclServiceTest extends AbstractDaoTest{
 	@Test
 	@Transactional
 	public void testRemoveACEs(){
-		assertEquals(2, entityManager.createQuery("from AccessControlEntryHibernate ace where ace.roleName = ? and ace.sid.sidname = ?").setParameter(1, Role.ROLE_MONITOR.getName()).setParameter(2, "monitor@trialsite1.de").getResultList().size());
+		assertEquals(14, entityManager.createQuery("from AccessControlEntryHibernate ace where ace.roleName = ? and ace.sid.sidname = ?").setParameter(1, Role.ROLE_MONITOR.getName()).setParameter(2, "monitor@trialsite1.de").getResultList().size());
 		aclService.removeACEs("monitor@trialsite1.de", Role.ROLE_MONITOR.getName());
 		entityManager.flush();
 		assertEquals(0, entityManager.createQuery("from AccessControlEntryHibernate ace where ace.roleName = ? and ace.sid.sidname = ?").setParameter(1, Role.ROLE_MONITOR.getName()).setParameter(2, "monitor@trialsite1.de").getResultList().size());

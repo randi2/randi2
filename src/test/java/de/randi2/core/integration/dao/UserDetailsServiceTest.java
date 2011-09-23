@@ -54,9 +54,10 @@ public class UserDetailsServiceTest extends AbstractDaoTest{
 	@Test
 	public void getUsernameTest() {
 		
-		Login l = factory.getLogin();
-		l.setUsername(testStringUtil.getWithLength(10)+"@xyt.com");
-		loginDao.create(l);
+		Login l = initUsernameTest();
+		
+		entityManager.flush();
+		entityManager.clear();
 
 		Login l2 = (Login) userDetailsServiceImpl.loadUserByUsername(l.getUsername());
 		assertEquals(l.getId(), l2.getId());
@@ -68,5 +69,12 @@ public class UserDetailsServiceTest extends AbstractDaoTest{
 		}
 	
 		
+	}
+	
+	private Login initUsernameTest(){
+		Login l = factory.getLogin();
+		l.setUsername(testStringUtil.getWithLength(Login.MIN_USERNAME_LENGTH) + "@xyz.com");
+		loginDao.create(l);
+		return l;
 	}
 }

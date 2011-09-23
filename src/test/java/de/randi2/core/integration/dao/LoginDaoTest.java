@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.dao.LoginDao;
@@ -44,13 +45,21 @@ public class LoginDaoTest extends AbstractDaoTest{
 	}
 
 	@Test
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void getUsernameTest() {
-		Login l = factory.getLogin();
-		l.setUsername(testStringUtil.getWithLength(Login.MIN_USERNAME_LENGTH) + "@xyz.com");
-		loginDao.create(l);
+		Login l = initUsernameTest();
+		entityManager.clear();
 		Login l2 = loginDao.get(l.getUsername());
 		assertEquals(l.getId(), l2.getId());
 		assertEquals(l.getUsername(), l2.getUsername());
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	private Login initUsernameTest(){
+		Login l = factory.getLogin();
+		l.setUsername(testStringUtil.getWithLength(Login.MIN_USERNAME_LENGTH) + "@xyz.com");
+		loginDao.create(l);
+		return l;
 	}
 
 	
