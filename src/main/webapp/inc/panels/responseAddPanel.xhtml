@@ -38,11 +38,11 @@
 									value="#{responseAdd.tSubjectID}" required="true" size="25"
 									partialSubmit="true">
 									<f:validator
-										validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
-									<f:attribute name="dObject" value="#{responseAdd.tSubject}" />
-									<f:validator
 										validatorId="de.randi2.jsf.validators.RESPONSE_VALIDATOR" />
 									<f:attribute name="responseAdd" value="#{responseAdd}" />
+									<f:validator
+										validatorId="de.randi2.jsf.validators.RANDI2_VALIDATOR" />
+									<f:attribute name="dObject" value="#{responseAdd.tSubject}" />
 								</ice:inputText>
 							</ice:panelGrid>
 					    	<ice:message for="identification" styleClass="errorMsg" />

@@ -173,9 +173,11 @@ public class ResponseAdd {
 		return currentTrial;
 	}
 
-	private void resetResponse() {
+	public void resetResponse() {
 		tSubject = new TrialSubject();
 		tSubjectID = null;
+		responseProperty = null;
+		responsePropertyValue = null;
 		tSubjectIdentified = false;
 	}
 

@@ -31,7 +31,10 @@ public class ResponseValidator implements Validator, Serializable {
 			throws ValidatorException {
 		ResponseAdd bean = (ResponseAdd) arg1.getAttributes().get(
 				"responseAdd");
-		
+		if (!arg2.toString().equals(bean.gettSubject().getIdentification())) {
+			bean.resetResponse();
+			bean.gettSubject().setIdentification(arg2.toString());
+		}
 		if (bean.isResponseAdded(arg2.toString()) && !bean.istSubjectIdentified()) {
 			String message = "Response for this trial subject has been already added";
 			throw new ValidatorException(new FacesMessage(
