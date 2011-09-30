@@ -29,14 +29,13 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Transient;
 
-
 import de.randi2.model.AbstractDomainObject;
 
 @Entity
 public class LogEntry {
 
 	public enum ActionType {
-		LOGIN, LOGOUT, CREATE, UPDATE, DELETE, RANDOMIZE;
+		LOGIN, LOGOUT, CREATE, UPDATE, DELETE, RANDOMIZE, ADD_RESPONSE;
 	};
 
 	@Id
@@ -87,9 +86,10 @@ public class LogEntry {
 	/**
 	 * @return
 	 */
-	public String getUiAction(){
-		StringBuffer htmlString = new StringBuffer("<p style=\"font-weight: bold; color:");
-		switch(action){
+	public String getUiAction() {
+		StringBuffer htmlString = new StringBuffer(
+				"<p style=\"font-weight: bold; color:");
+		switch (action) {
 		case LOGIN:
 			htmlString.append("#66CC00");
 			break;
@@ -108,8 +108,12 @@ public class LogEntry {
 		case RANDOMIZE:
 			htmlString.append("#339999");
 			break;
+		case ADD_RESPONSE:
+			htmlString.append("#003399");
+			break;
 		}
-		return htmlString.append("\">").append(action.toString()).append("</p>").toString();
+		return htmlString.append("\">").append(action.toString())
+				.append("</p>").toString();
 	}
 
 	public void setAction(ActionType action) {

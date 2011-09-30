@@ -26,7 +26,7 @@ import de.randi2.utility.logging.LogEntry.ActionType;
 
 public interface LogService {
 
-	public void logRandomize(ActionType action, String username, Trial trial, TrialSubject trialSubject);
+	public void logSubjectAction(ActionType action, String username, Trial trial, TrialSubject trialSubject);
 	
 	public void logChange(ActionType action, String username, AbstractDomainObject value);
 	

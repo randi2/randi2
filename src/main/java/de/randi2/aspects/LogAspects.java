@@ -36,9 +36,9 @@ import de.randi2.utility.logging.LogEntry.ActionType;
 public class LogAspects {
 
 	/** The log service. */
-	@Autowired private LogService logService;
-	
-	
+	@Autowired
+	private LogService logService;
+
 	/**
 	 * Log create new object.
 	 * 
@@ -49,12 +49,13 @@ public class LogAspects {
 	 *             the throwable
 	 */
 	@Around("execution(public void de.randi2.services.*.create*(..))")
-	public void logCreateNewObject(ProceedingJoinPoint pjp) throws Throwable{
-		pjp.proceed();		
-		logService.logChange(ActionType.CREATE, SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
+	public void logCreateNewObject(ProceedingJoinPoint pjp) throws Throwable {
+		pjp.proceed();
+		logService.logChange(ActionType.CREATE, SecurityContextHolder
+				.getContext().getAuthentication().getName(),
+				((AbstractDomainObject) pjp.getArgs()[0]));
 	}
-	
-	
+
 	/**
 	 * Log update object.
 	 * 
@@ -67,14 +68,16 @@ public class LogAspects {
 	 *             the throwable
 	 */
 	@Around("execution(public * de.randi2.services.*.update*(..))")
-	public Object logUpdateObject(ProceedingJoinPoint pjp) throws Throwable{
-		Object o = pjp.proceed();	
-		if(!pjp.getSignature().toShortString().equals("TrialServiceImpl.update(..)"))
-			logService.logChange(ActionType.UPDATE, SecurityContextHolder.getContext().getAuthentication().getName(), ((AbstractDomainObject)pjp.getArgs()[0]));
+	public Object logUpdateObject(ProceedingJoinPoint pjp) throws Throwable {
+		Object o = pjp.proceed();
+		if (!pjp.getSignature().toShortString()
+				.equals("TrialServiceImpl.update(..)"))
+			logService.logChange(ActionType.UPDATE, SecurityContextHolder
+					.getContext().getAuthentication().getName(),
+					((AbstractDomainObject) pjp.getArgs()[0]));
 		return o;
 	}
-	
-	
+
 	/**
 	 * Log randomize.
 	 * 
@@ -87,13 +90,14 @@ public class LogAspects {
 	 *             the throwable
 	 */
 	@Around("execution(public * de.randi2.services.*.randomize*(..))")
-	public Object  logRandomize(ProceedingJoinPoint pjp) throws Throwable{
-		Object o = pjp.proceed();	
-		logService.logRandomize(ActionType.RANDOMIZE,  SecurityContextHolder.getContext().getAuthentication().getName(), Trial.class.cast(o), ((TrialSubject)pjp.getArgs()[1]));
+	public Object logRandomize(ProceedingJoinPoint pjp) throws Throwable {
+		Object o = pjp.proceed();
+		logService.logSubjectAction(ActionType.RANDOMIZE, SecurityContextHolder
+				.getContext().getAuthentication().getName(),
+				Trial.class.cast(o), ((TrialSubject) pjp.getArgs()[1]));
 		return o;
 	}
-	
-	
+
 	/**
 	 * Log login.
 	 * 
@@ -104,9 +108,29 @@ public class LogAspects {
 	 *             the throwable
 	 */
 	@Around("execution(public * de.randi2.utility.security.DaoAuthenticationProviderWithLock.additionalAuthenticationChecks*(..))")
-	public void logLogin(ProceedingJoinPoint pjp) throws Throwable{
+	public void logLogin(ProceedingJoinPoint pjp) throws Throwable {
 		pjp.proceed();
-		logService.logGet(ActionType.LOGIN, SecurityContextHolder.getContext().getAuthentication().getName());
+		logService.logGet(ActionType.LOGIN, SecurityContextHolder.getContext()
+				.getAuthentication().getName());
+	}
+
+	/**
+	 * Log a new patient response.
+	 * 
+	 * @param pjp
+	 *            the pjp
+	 * 
+	 * @return the object
+	 * 
+	 * @throws Throwable
+	 *             the throwable
+	 */
+	@Around("execution(public * de.randi2.services.*.addResponse*(..))")
+	public void logResponse(ProceedingJoinPoint pjp) throws Throwable {
+		pjp.proceed();
+		logService.logSubjectAction(ActionType.ADD_RESPONSE, SecurityContextHolder
+				.getContext().getAuthentication().getName(),
+				((Trial) pjp.getArgs()[0]), ((TrialSubject) pjp.getArgs()[1]));
 	}
 
 }

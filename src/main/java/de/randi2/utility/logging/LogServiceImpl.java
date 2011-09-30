@@ -36,8 +36,8 @@ public class LogServiceImpl implements LogService {
 	protected EntityManager entityManager;
 
 	@PersistenceContext
-    public void setEntityManager(EntityManager entityManager) {
-	        this. entityManager = entityManager;
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 	@Override
@@ -53,12 +53,11 @@ public class LogServiceImpl implements LogService {
 		entry.setUiName(value.getUIName());
 		entityManager.persist(entry);
 	}
-	
-	
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void logRandomize(LogEntry.ActionType action, String username, Trial trial,
-			TrialSubject trialSubject) {
+	public void logSubjectAction(LogEntry.ActionType action, String username,
+			Trial trial, TrialSubject trialSubject) {
 		LogEntry entry = new LogEntry();
 		entry.setAction(action);
 		entry.setUsername(username);
@@ -67,9 +66,8 @@ public class LogServiceImpl implements LogService {
 		entry.setValue(trialSubject.toString());
 		entry.setUiName(trialSubject.getUIName());
 		entityManager.persist(entry);
-		
-	}
 
+	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -79,13 +77,12 @@ public class LogServiceImpl implements LogService {
 		entry.setUsername(username);
 		entityManager.persist(entry);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<LogEntry> getLogEntries() {
-		return entityManager.createQuery(
-				"from LogEntry").getResultList();
+		return entityManager.createQuery("from LogEntry").getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -93,7 +90,8 @@ public class LogServiceImpl implements LogService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<LogEntry> getLogEntries(
 			Class<? extends AbstractDomainObject> clazz, long id) {
-		List<LogEntry> entries = entityManager.createQuery(
+		List<LogEntry> entries = entityManager
+				.createQuery(
 						"from LogEntry as entry where entry.clazz = ? and entry.identifier = ?")
 				.setParameter(1, clazz).setParameter(2, id).getResultList();
 		return entries;
@@ -103,9 +101,9 @@ public class LogServiceImpl implements LogService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<LogEntry> getLogEntries(String username) {
-		List<LogEntry> entries = entityManager.createQuery(
-				"from LogEntry as entry where entry.username = ?")
-		.setParameter(1, username).getResultList();
+		List<LogEntry> entries = entityManager
+				.createQuery("from LogEntry as entry where entry.username = ?")
+				.setParameter(1, username).getResultList();
 		return entries;
 	}
 
@@ -119,42 +117,64 @@ public class LogServiceImpl implements LogService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void logTrialChange(LogEntry.ActionType action, String username, Trial oldTrial, Trial changedTrial){
+	public void logTrialChange(LogEntry.ActionType action, String username,
+			Trial oldTrial, Trial changedTrial) {
 		LogEntry entry = new LogEntry();
 		entry.setAction(action);
 		entry.setUsername(username);
 		entry.setClazz(Trial.class);
 		entry.setIdentifier(changedTrial.getId());
-		
 
 		StringBuilder sb = new StringBuilder();
-		if(!oldTrial.getName().equals(changedTrial.getName())){
-			sb.append("Name: ").append(oldTrial.getName()).append(" -> ").append(changedTrial.getName()).append(" | ");
+		if (!oldTrial.getName().equals(changedTrial.getName())) {
+			sb.append("Name: ").append(oldTrial.getName()).append(" -> ")
+					.append(changedTrial.getName()).append(" | ");
 		}
-		if(!oldTrial.getAbbreviation().equals(changedTrial.getAbbreviation())){
-			sb.append("Abbreviation: ").append(oldTrial.getAbbreviation()).append(" -> ").append(changedTrial.getAbbreviation()).append(" | ");
+		if (!oldTrial.getAbbreviation().equals(changedTrial.getAbbreviation())) {
+			sb.append("Abbreviation: ").append(oldTrial.getAbbreviation())
+					.append(" -> ").append(changedTrial.getAbbreviation())
+					.append(" | ");
 		}
-		if(!oldTrial.getDescription().equals(changedTrial.getDescription())){
-			sb.append("Description: ").append(oldTrial.getDescription()).append(" -> ").append(changedTrial.getDescription()).append(" | ");
+		if (!oldTrial.getDescription().equals(changedTrial.getDescription())) {
+			sb.append("Description: ").append(oldTrial.getDescription())
+					.append(" -> ").append(changedTrial.getDescription())
+					.append(" | ");
 		}
-		if(!oldTrial.getStartDate().equals(changedTrial.getStartDate())){
+		if (!oldTrial.getStartDate().equals(changedTrial.getStartDate())) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			sb.append("Start-Date: ").append(sdf.format(oldTrial.getStartDate().getTime())).append(" -> ").append(sdf.format(changedTrial.getStartDate().getTime())).append(" | ");
+			sb.append("Start-Date: ")
+					.append(sdf.format(oldTrial.getStartDate().getTime()))
+					.append(" -> ")
+					.append(sdf.format(changedTrial.getStartDate().getTime()))
+					.append(" | ");
 		}
-		if(!oldTrial.getEndDate().equals(changedTrial.getEndDate())){
-			 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			sb.append("End-Date: ").append(sdf.format(oldTrial.getEndDate().getTime())).append(" -> ").append(sdf.format(changedTrial.getEndDate().getTime())).append(" | ");
+		if (!oldTrial.getEndDate().equals(changedTrial.getEndDate())) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sb.append("End-Date: ")
+					.append(sdf.format(oldTrial.getEndDate().getTime()))
+					.append(" -> ")
+					.append(sdf.format(changedTrial.getEndDate().getTime()))
+					.append(" | ");
 		}
-		if(!oldTrial.getLeadingSite().equals(changedTrial.getLeadingSite())){
-			sb.append("Leading Site: ").append(oldTrial.getLeadingSite().getName()).append(" -> ").append(changedTrial.getLeadingSite().getName()).append(" | ");
+		if (!oldTrial.getLeadingSite().equals(changedTrial.getLeadingSite())) {
+			sb.append("Leading Site: ")
+					.append(oldTrial.getLeadingSite().getName()).append(" -> ")
+					.append(changedTrial.getLeadingSite().getName())
+					.append(" | ");
 		}
-		if(!oldTrial.getSponsorInvestigator().equals(changedTrial.getSponsorInvestigator())){
-			sb.append("Sponsor investigator: ").append(oldTrial.getSponsorInvestigator().getUIName()).append(" -> ").append(changedTrial.getSponsorInvestigator().getUIName()).append(" | ");
+		if (!oldTrial.getSponsorInvestigator().equals(
+				changedTrial.getSponsorInvestigator())) {
+			sb.append("Sponsor investigator: ")
+					.append(oldTrial.getSponsorInvestigator().getUIName())
+					.append(" -> ")
+					.append(changedTrial.getSponsorInvestigator().getUIName())
+					.append(" | ");
 		}
-		if(!(oldTrial.getStatus() == changedTrial.getStatus())){
-			sb.append("Status: ").append(oldTrial.getStatus()).append(" -> ").append(changedTrial.getStatus());
+		if (!(oldTrial.getStatus() == changedTrial.getStatus())) {
+			sb.append("Status: ").append(oldTrial.getStatus()).append(" -> ")
+					.append(changedTrial.getStatus());
 		}
-		if(sb.length()==0){
+		if (sb.length() == 0) {
 			sb.append(changedTrial.getAbbreviation());
 		}
 		entry.setUiName(sb.toString());
@@ -162,5 +182,4 @@ public class LogServiceImpl implements LogService {
 		entityManager.persist(entry);
 	}
 
-	
 }
