@@ -17,6 +17,7 @@
  */
 package de.randi2.jsf.converters;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.faces.component.UIComponent;
@@ -29,6 +30,12 @@ import de.randi2.model.randomization.BlockRandomizationConfig;
 
 @FacesConverter(value = "de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER")
 public class BlockRandomizationTypeConverter implements Converter {
+
+	private final Locale locale;
+
+	public BlockRandomizationTypeConverter(Locale locale) {
+		this.locale = locale;
+	}
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
@@ -43,15 +50,7 @@ public class BlockRandomizationTypeConverter implements Converter {
 	private BlockRandomizationConfig.TYPE findBlockTypeForl16edValue(
 			String value) {
 		ResourceBundle rb = ResourceBundle.getBundle(
-				"de.randi2.jsf.i18n.algorithms",
-				((LoginHandler) FacesContext
-						.getCurrentInstance()
-						.getApplication()
-						.getELResolver()
-						.getValue(
-								FacesContext.getCurrentInstance()
-										.getELContext(), null, "loginHandler"))
-						.getChosenLocale());
+				"de.randi2.jsf.i18n.algorithms", locale);
 		for (String key : rb.keySet()) {
 			if (rb.getString(key).equals(value)) {
 				String[] results = key.split("\\.");
@@ -67,21 +66,12 @@ public class BlockRandomizationTypeConverter implements Converter {
 			Object value) {
 		String result = null;
 		if (value != null && value instanceof BlockRandomizationConfig.TYPE) {
-			result = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.algorithms",
-					((LoginHandler) FacesContext
-							.getCurrentInstance()
-							.getApplication()
-							.getELResolver()
-							.getValue(
-									FacesContext.getCurrentInstance()
-											.getELContext(), null,
-									"loginHandler")).getChosenLocale())
-					.getString(
-							BlockRandomizationConfig.class.getCanonicalName()
-									+ "."
-									+ ((BlockRandomizationConfig.TYPE) value)
-											.toString());
+			result = ResourceBundle.getBundle("de.randi2.jsf.i18n.algorithms",
+					locale).getString(
+					BlockRandomizationConfig.class.getCanonicalName()
+							+ "."
+							+ ((BlockRandomizationConfig.TYPE) value)
+									.toString());
 		}
 		return result;
 	}

@@ -42,12 +42,17 @@
 				</ice:selectOneMenu>
 				<ice:outputLabel rendered="#{blockR.renderVariable}"
 					value="#{labels['pages.blockR.constraint']}" />
-				<ice:selectOneMenu rendered="#{blockR.renderVariable}"
+				<!-- <ice:selectOneMenu rendered="#{blockR.renderVariable}"
 					id="variableBlockType"
 					value="#{trialHandler.currentObject.randomizationConfiguration.type}"
 					partialSubmit="true"
 					converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
 					<f:selectItems value="#{enums.blockSizeTypeItems}" />
+				</ice:selectOneMenu>-->
+				<ice:selectOneMenu id="variableBlockType"  rendered="#{blockR.renderVariable}" partialSubmit="true"
+					value="#{trialHandler.currentObject.randomizationConfiguration.type}">
+					<f:selectItems value="#{enums.blockSizeTypeItems}" />
+					<f:converter binding="#{blockR.typeConverter}" />
 				</ice:selectOneMenu>
 				<ice:outputLabel value="#{labels['pages.blockR.blockSize']}"
 					rendered="#{!blockR.renderVariable}" />
