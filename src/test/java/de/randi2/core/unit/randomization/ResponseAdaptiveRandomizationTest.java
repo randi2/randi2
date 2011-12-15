@@ -20,7 +20,7 @@ import de.randi2.model.randomization.ResponseAdaptiveRConfig;
 import de.randi2.model.randomization.ResponseAdaptiveRandomizationTempData;
 import de.randi2.model.randomization.ResponseAdaptiveUrn;
 import de.randi2.randomization.ResponseAdaptiveRandomization;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 
 public class ResponseAdaptiveRandomizationTest {
@@ -59,7 +59,7 @@ public class ResponseAdaptiveRandomizationTest {
 		SubjectProperty<String> response = new SubjectProperty<String>(treatmentResponse);
 		try {
 			response.setValue("success");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("could not set value to subject property");
 		}
 		s.setResponseProperty(response);
@@ -102,7 +102,7 @@ public class ResponseAdaptiveRandomizationTest {
 		SubjectProperty<String> response = new SubjectProperty<String>(treatmentResponse);
 		try {
 			response.setValue("success");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("could not set value to subject property");
 		}
 		s.setResponseProperty(response);
@@ -151,7 +151,7 @@ public class ResponseAdaptiveRandomizationTest {
 				} else {
 					response.setValue("failure");
 				}
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail("could not set value to subject property");
 			}
 			s.setResponseProperty(response);

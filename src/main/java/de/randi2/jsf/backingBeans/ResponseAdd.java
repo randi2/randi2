@@ -35,7 +35,7 @@ import de.randi2.model.Trial;
 import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 /**
  * @author Natalie Waskowzow
@@ -113,7 +113,7 @@ public class ResponseAdd {
 			try {
 				this.getResponseProperty().setValue(responsePropertyValue);
 				this.responsePropertyValue = responsePropertyValue;
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				e.printStackTrace();
 			}
 		}

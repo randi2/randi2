@@ -202,7 +202,7 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial> {
 						temp.addStrata(new DichotomousConstraint(Arrays
 								.asList(new String[] { temp
 										.getConfiguredValues().get(1) })));
-					} catch (ContraintViolatedException e) {
+					} catch (ConstraintViolatedException e) {
 						e.printStackTrace();
 					}
 				}
