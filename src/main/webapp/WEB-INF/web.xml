@@ -96,11 +96,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>/icefaces/*</url-pattern>
 	</servlet-mapping>
-	<context-param>
-		<description>Google Maps API key is required if gMap component is used. Sign up for an API key from http://code.google.com/apis/maps/signup.html</description>
-		<param-name>com.icesoft.faces.gmapKey</param-name>
-		<param-value>ABQIAAAADlu0ZiSTam64EKaCQr9eTRTOTuQNzJNXRlYRLknj4cQ89tFfpxTEqxQnVWL4k55OPICgF5_SOZE06A</param-value>
-	</context-param>
 	<servlet>
 		<servlet-name>Resource Servlet</servlet-name>
 		<servlet-class>com.icesoft.faces.webapp.CompatResourceServlet</servlet-class>
