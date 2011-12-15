@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class OrdinalConstraintDatabaseTest extends
 		AbstractDomainDatabaseTest<OrdinalConstraint> {
@@ -34,7 +34,7 @@ public class OrdinalConstraintDatabaseTest extends
 		elements.add("Value3");
 		try {
 			constraint = new OrdinalConstraint(elements);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}

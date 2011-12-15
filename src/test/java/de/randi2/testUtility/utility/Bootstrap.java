@@ -68,7 +68,7 @@ import de.randi2.services.ServiceException;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
 import de.randi2.services.UserService;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 import de.randi2.utility.BoxedException;
 import de.randi2.utility.security.RolesAndRights;
 
@@ -430,7 +430,7 @@ public class Bootstrap {
 //			trial.addCriterion(cr1);
 //			trial.addCriterion(cr2);
 //
-//		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 //			BoxedException.throwBoxed(e);
 //		}
 //
@@ -540,7 +540,7 @@ public class Bootstrap {
 						trial.getCriteria().get(2)).getOption2());
 			}
 
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			e.printStackTrace();
 		}
 		

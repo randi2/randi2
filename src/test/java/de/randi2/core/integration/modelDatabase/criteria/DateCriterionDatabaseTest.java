@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.criteria.DateCriterion;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class DateCriterionDatabaseTest extends AbstractDomainDatabaseTest<DateCriterion>{
 
@@ -68,7 +68,7 @@ public class DateCriterionDatabaseTest extends AbstractDomainDatabaseTest<DateCr
 			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(DateConstraint.class, dbCriterion.getContstraintType());
 
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			//fail();
 		}
 	}

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class DichotomousConstraintDatabaseTest  extends AbstractDomainDatabaseTest<DichotomousConstraint> {
 
@@ -32,7 +32,7 @@ public class DichotomousConstraintDatabaseTest  extends AbstractDomainDatabaseTe
 		elements.add("Value1");
 		try {
 			constraint = new DichotomousConstraint(elements);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}

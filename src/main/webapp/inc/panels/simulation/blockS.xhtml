@@ -41,9 +41,9 @@
 			value="#{labels['pages.blockR.constraint']}" />
 		<ice:selectOneMenu rendered="#{alg.blockR.renderVariable}"
 			id="variableBlockType"
-			value="#{alg.conf.type}" partialSubmit="true"
-			converter="de.randi2.jsf.converters.BLOCKRANDOMIZATION_TYPE_CONVERTER">
+			value="#{alg.conf.type}" partialSubmit="true">
 			<f:selectItems value="#{enums.blockSizeTypeItems}" />
+			<f:converter binding="#{blockR.typeConverter}" />
 		</ice:selectOneMenu>
 		<ice:outputText value="#{labels['pages.blockR.blockSize']}"
 			rendered="#{!alg.blockR.renderVariable}" />

@@ -43,7 +43,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import de.randi2.model.criteria.DichotomousCriterion;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 /**
  * The Class TrialSubject.
@@ -134,7 +134,7 @@ public class TrialSubject extends AbstractDomainObject {
 		for (SubjectProperty p : properties) {
 			try {
 				stratum.add(p.getCriterion().getId() + "_" + p.getStratum());
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				e.printStackTrace();
 			}
 		}

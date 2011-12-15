@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -33,17 +34,25 @@ import com.icesoft.faces.component.ext.HtmlInputText;
 import lombok.Getter;
 import lombok.Setter;
 
+import de.randi2.jsf.backingBeans.AlgorithmConfig.AlgorithmPanelId;
 import de.randi2.jsf.controllerBeans.LoginHandler;
 import de.randi2.jsf.controllerBeans.SimulationHandler;
 import de.randi2.jsf.controllerBeans.TrialHandler;
+import de.randi2.jsf.converters.BlockRandomizationTypeConverter;
+import de.randi2.model.randomization.AbstractRandomizationConfig;
+import de.randi2.model.randomization.BiasedCoinRandomizationConfig;
 import de.randi2.model.randomization.BlockRandomizationConfig;
+import de.randi2.model.randomization.CompleteRandomizationConfig;
+import de.randi2.model.randomization.MinimizationConfig;
+import de.randi2.model.randomization.TruncatedBinomialDesignConfig;
+import de.randi2.model.randomization.UrnDesignConfig;
 
 @ManagedBean(name = "blockR")
-@RequestScoped
+@SessionScoped
 public class BlockR {
 
 	public static enum BlockDesignTypeId {
-		VARIABLE_BLOCK("variableBlockSize"), CONSTANT_BOLCK("constantBlockSize");
+		VARIABLE_BLOCK("variableBlockSize"), CONSTANT_BLOCK("constantBlockSize");
 
 		private String id = null;
 
@@ -66,24 +75,6 @@ public class BlockR {
 
 	private List<SelectItem> blockRandTypes;
 
-	public List<SelectItem> getBlockRandTypes() {
-		if (blockRandTypes == null) {
-			ResourceBundle bundle = ResourceBundle.getBundle(
-					"de.randi2.jsf.i18n.algorithms",
-					loginHandler.getChosenLocale());
-			blockRandTypes = new ArrayList<SelectItem>();
-			blockRandTypes.add(new SelectItem(BlockDesignTypeId.CONSTANT_BOLCK
-					.toString(), bundle
-					.getString(BlockRandomizationConfig.class
-							.getCanonicalName() + ".constantBlockSize")));
-			blockRandTypes.add(new SelectItem(BlockDesignTypeId.VARIABLE_BLOCK
-					.toString(), bundle
-					.getString(BlockRandomizationConfig.class
-							.getCanonicalName() + ".variableBlockSize")));
-
-		}
-		return blockRandTypes;
-	}
 
 	/**
 	 * The following property is a virtual property used only for the UI. It
@@ -95,18 +86,42 @@ public class BlockR {
 	@Getter
 	private boolean renderVariable = false;
 
+
+	@Setter
+	private int possitionForSimulation;
+
+	private BlockRandomizationTypeConverter blockRandomizationTypeConverter;
+	
+	
+	public List<SelectItem> getBlockRandTypes() {
+		if (blockRandTypes == null) {
+			ResourceBundle bundle = ResourceBundle.getBundle(
+					"de.randi2.jsf.i18n.algorithms",
+					loginHandler.getChosenLocale());
+			blockRandTypes = new ArrayList<SelectItem>();
+			blockRandTypes.add(new SelectItem(BlockDesignTypeId.CONSTANT_BLOCK
+					.toString(), bundle
+					.getString(BlockRandomizationConfig.class
+							.getCanonicalName() + ".constantBlockSize")));
+			blockRandTypes.add(new SelectItem(BlockDesignTypeId.VARIABLE_BLOCK
+					.toString(), bundle
+					.getString(BlockRandomizationConfig.class
+							.getCanonicalName() + ".variableBlockSize")));
+			
+		}
+		return blockRandTypes;
+	}
+
 	public void setSelectedBlockRandTypes(String selectedBlockRandTypes) {
 		this.selectedBlockRandTypes = selectedBlockRandTypes;
 		if (selectedBlockRandTypes.equals(BlockDesignTypeId.VARIABLE_BLOCK
 				.toString())) {
 			renderVariable = true;
-
+			
 		} else
 			renderVariable = false;
 	}
 
-	@Setter
-	private int possitionForSimulation;
 
 	public void minValueChanged(ValueChangeEvent event) {
 		// set maximum block size to minimum block size, in case of constant
@@ -138,4 +153,12 @@ public class BlockR {
 		selectedBlockRandTypes = null;
 	}
 
+	public BlockRandomizationTypeConverter getTypeConverter(){
+		if(blockRandomizationTypeConverter == null){
+			blockRandomizationTypeConverter = new BlockRandomizationTypeConverter(loginHandler.getChosenLocale());
+		}
+		return blockRandomizationTypeConverter;
+	}
+
+	
 }

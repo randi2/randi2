@@ -31,7 +31,7 @@ import de.randi2.model.randomization.MinimizationMapElementWrapper;
 import de.randi2.randomization.Minimization;
 import de.randi2.simulation.distribution.UniformDistribution;
 import de.randi2.simulation.model.DistributionSubjectProperty;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class MinimizationTest {
 
@@ -163,7 +163,7 @@ public class MinimizationTest {
 					new UniformDistribution<String>(cr2.getConfiguredValues(),
 							1)));
 
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			e.printStackTrace();
 		}
 
@@ -223,7 +223,7 @@ public class MinimizationTest {
 					dsp.getCriterion());
 			try {
 				pr.setValue(dsp.getNextSubjectValue());
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 			}
 			tempSet.add(pr);
 		}

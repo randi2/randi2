@@ -34,7 +34,7 @@ import lombok.Getter;
 import lombok.Setter;
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 /**
  * This class maps the needed behaviour of a Trial subject. With the Classes
@@ -83,10 +83,10 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		return inclusionConstraint;
 	}
 
-	public abstract void setInclusionConstraint(C inclusionConstraint) throws ContraintViolatedException;
+	public abstract void setInclusionConstraint(C inclusionConstraint) throws ConstraintViolatedException;
 	
 	@SuppressWarnings("unchecked")
-	public void setInclusionConstraintAbstract(AbstractConstraint<?> inclusionConstraint) throws ContraintViolatedException{
+	public void setInclusionConstraintAbstract(AbstractConstraint<?> inclusionConstraint) throws ConstraintViolatedException{
 		setInclusionConstraint((C) inclusionConstraint);
 	}
 	
@@ -111,7 +111,7 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		}
 	}
 	
-	public C stratify(V value) throws ContraintViolatedException{
+	public C stratify(V value) throws ConstraintViolatedException{
 		this.isValueCorrect(value);
 		if(strata==null || strata.isEmpty())
 			return null;
@@ -119,7 +119,7 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 			if(stratum.checkValue(value))
 				return stratum;
 		}
-		throw new ContraintViolatedException();
+		throw new ConstraintViolatedException();
 //		throw new Randi2Error("Valid value could not be assigned to any stratum.");
 	}
 
@@ -129,14 +129,14 @@ public abstract class AbstractCriterion<V extends Serializable, C extends Abstra
 		return inclusionConstraint!=null;
 	}
 
-	public abstract void isValueCorrect(V value) throws ContraintViolatedException;
+	public abstract void isValueCorrect(V value) throws ConstraintViolatedException;
 
 	public boolean checkValue(V value){
 		try{
 			isValueCorrect(value);
 			return true;
 		}
-		catch(ContraintViolatedException e){
+		catch(ConstraintViolatedException e){
 			return false;
 		}
 	}

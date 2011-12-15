@@ -24,7 +24,7 @@ import java.util.List;
 import javax.persistence.Entity;
 
 import de.randi2.model.criteria.constraints.DateConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 @Entity
 public class DateCriterion extends
@@ -34,9 +34,9 @@ public class DateCriterion extends
 
 	@Override
 	public void isValueCorrect(GregorianCalendar value)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		if (value == null) {
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		} else if (inclusionConstraint != null) {
 			inclusionConstraint.isValueCorrect(value);
 		}
@@ -71,7 +71,7 @@ public class DateCriterion extends
 	}
 	
 	@Override
-	public void setInclusionConstraint(DateConstraint inclusionConstraint) throws ContraintViolatedException {
+	public void setInclusionConstraint(DateConstraint inclusionConstraint) throws ConstraintViolatedException {
 			this.inclusionConstraint = inclusionConstraint;
 	}
 

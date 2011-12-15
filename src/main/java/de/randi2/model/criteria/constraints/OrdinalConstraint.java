@@ -31,7 +31,7 @@ import lombok.Setter;
 
 import org.hibernate.annotations.CollectionOfElements;
 
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 @Entity
 public class OrdinalConstraint extends AbstractConstraint<String> {
@@ -42,7 +42,7 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 	protected OrdinalConstraint(){}
 	
 	public OrdinalConstraint(List<String> args)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		super(args);
 	}
 
@@ -52,18 +52,18 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 
 
 	@Override
-	public void isValueCorrect(String _value) throws ContraintViolatedException {
+	public void isValueCorrect(String _value) throws ConstraintViolatedException {
 		if(!expectedValues.contains(_value)){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 		
 	}
 
 	@Override
 	protected void configure(List<String> args)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		if(args == null || args.size() <1 || args.get(0) == null){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 		this.expectedValues = new HashSet<String>(args);
 		

@@ -14,7 +14,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>{
 
@@ -45,7 +45,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 	
 		try {
 			criterion.setInclusionConstraint(new FreeTextConstraint(Arrays.asList(new String[]{"Value1"})));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 
@@ -56,7 +56,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 
 		try {
 			criterion.setInclusionConstraint(new FreeTextConstraint(Arrays.asList(new String[]{"Test1", "Test2"})));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			assertNotNull(e);
 		}
 
@@ -69,7 +69,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 	}
 	
 	@Test
-	public void testWithStratification() throws ContraintViolatedException {
+	public void testWithStratification() throws ConstraintViolatedException {
 		criterion.setDescription("test");
 		
 
@@ -85,7 +85,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		try {
 			criterion.stratify("LALALALA");
 			fail("AGAIN -> WRONG!");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 
 	}
@@ -149,7 +149,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		try {
 			constraintA = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
 			constraintB = new FreeTextConstraint(Arrays.asList(new String[]{"b"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -182,7 +182,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 	}
 	
 	@Test
-	public void testCheckValueCorrect() throws ContraintViolatedException{
+	public void testCheckValueCorrect() throws ConstraintViolatedException{
 		assertTrue(criterion.checkValue("asdafsadfasdf"));
 		assertTrue(criterion.checkValue("b"));
 		criterion.setInclusionConstraint(new FreeTextConstraint(Arrays.asList(new String[]{"a"})));
@@ -190,7 +190,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 	}
 	
 	@Test
-	public void testCheckValueIncorrect() throws ContraintViolatedException{
+	public void testCheckValueIncorrect() throws ConstraintViolatedException{
 		criterion.setInclusionConstraint(new FreeTextConstraint(Arrays.asList(new String[]{"a"})));
 		assertFalse(criterion.checkValue("x"));
 	}
@@ -210,7 +210,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 			assertNotNull(criterion.getInclusionConstraint());
 			criterion.setInclusionConstraint(null);
 			assertNull(criterion.getInclusionConstraint());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -221,7 +221,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 			FreeTextConstraint constraint = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
 			criterion.setInclusionConstraint(constraint);
 			assertEquals(constraint, criterion.getInclusionConstraint());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -232,7 +232,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 			FreeTextConstraint constraint = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
 			criterion.setInclusionConstraint(constraint);
 			assertTrue(criterion.isInclusionCriterion());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -241,7 +241,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 	public void testIsInclusionConstraintFalse(){
 			try {
 				criterion.setInclusionConstraint(null);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail();
 			}
 			assertFalse(criterion.isInclusionCriterion());
@@ -255,7 +255,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		try {
 			constraintA = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
 			constraintB = new FreeTextConstraint(Arrays.asList(new String[]{"b"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -263,7 +263,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		try {
 			 criterion.stratify("c");
 			 fail();
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 	}
 	
@@ -275,7 +275,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		try {
 			constraintA = new FreeTextConstraint(Arrays.asList(new String[]{"a"}));
 			constraintB = new FreeTextConstraint(Arrays.asList(new String[]{"b"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -283,7 +283,7 @@ public class FreeTextCriterionTest extends AbstractDomainTest<FreeTextCriterion>
 		try {
 			assertEquals(constraintA, criterion.stratify("a"));
 			assertEquals(constraintB, criterion.stratify("b"));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}

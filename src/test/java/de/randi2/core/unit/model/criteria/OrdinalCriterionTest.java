@@ -13,7 +13,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class OrdinalCriterionTest extends AbstractDomainTest<OrdinalCriterion> {
 
@@ -69,7 +69,7 @@ private OrdinalCriterion criterion;
 
 		try {
 			criterion.setInclusionConstraint(new OrdinalConstraint(Arrays.asList(new String[]{"Value1"})));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 
@@ -81,7 +81,7 @@ private OrdinalCriterion criterion;
 
 		try {
 			criterion.setInclusionConstraint(new OrdinalConstraint(Arrays.asList(new String[]{"SHIT"})));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			assertNotNull(e);
 		}
 
@@ -107,7 +107,7 @@ private OrdinalCriterion criterion;
 	}
 	
 	@Test
-	public void testWithStratification() throws ContraintViolatedException {
+	public void testWithStratification() throws ConstraintViolatedException {
 		criterion.setDescription("test");
 		List<String> elements = new ArrayList<String>();
 		elements.add("Value1");
@@ -128,7 +128,7 @@ private OrdinalCriterion criterion;
 		try {
 			criterion.stratify("LALALALA");
 			fail("AGAIN -> WRONG!");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 
 	}
@@ -191,7 +191,7 @@ private OrdinalCriterion criterion;
 		try {
 			constraintA = new OrdinalConstraint(Arrays.asList(new String[]{"a"}));
 			constraintB = new OrdinalConstraint(Arrays.asList(new String[]{"b"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -251,7 +251,7 @@ private OrdinalCriterion criterion;
 			assertNotNull(criterion.getInclusionConstraint());
 			criterion.setInclusionConstraint(null);
 			assertNull(criterion.getInclusionConstraint());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}
@@ -262,7 +262,7 @@ private OrdinalCriterion criterion;
 			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(new String[]{"Value1"}));
 			criterion.setInclusionConstraint(constraint);
 			assertEquals(constraint, criterion.getInclusionConstraint());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}
@@ -273,7 +273,7 @@ private OrdinalCriterion criterion;
 			OrdinalConstraint constraint = new OrdinalConstraint(Arrays.asList(new String[]{"Value1"}));
 			criterion.setInclusionConstraint(constraint);
 			assertTrue(criterion.isInclusionCriterion());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}
@@ -282,7 +282,7 @@ private OrdinalCriterion criterion;
 	public void testIsInclusionConstraintFalse(){
 			try {
 				criterion.setInclusionConstraint(null);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage());
 			}
 			assertFalse(criterion.isInclusionCriterion());
@@ -296,7 +296,7 @@ private OrdinalCriterion criterion;
 		try {
 			constraintA = new OrdinalConstraint(Arrays.asList(new String[]{"a"}));
 			constraintB = new OrdinalConstraint(Arrays.asList(new String[]{"b"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -304,7 +304,7 @@ private OrdinalCriterion criterion;
 		try {
 			 criterion.stratify("c");
 			 fail();
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 	}
 	
@@ -316,7 +316,7 @@ private OrdinalCriterion criterion;
 		try {
 			constraintA = new OrdinalConstraint(Arrays.asList(new String[]{"Value1"}));
 			constraintB = new OrdinalConstraint(Arrays.asList(new String[]{"Value2"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 		criterion.addStrata(constraintA);
@@ -324,7 +324,7 @@ private OrdinalCriterion criterion;
 		try {
 			assertEquals(constraintA, criterion.stratify("Value1"));
 			assertEquals(constraintB, criterion.stratify("Value2"));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}

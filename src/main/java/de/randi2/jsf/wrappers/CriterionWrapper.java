@@ -40,7 +40,7 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 /**
  * UI Wrapper for the Criterion
@@ -84,7 +84,7 @@ public class CriterionWrapper<V extends Serializable> {
 				// subjectProperty.setValue((V) new String());
 				// else if(getPanelType().equals(ORDPANEL))
 				// subjectProperty.setValue(wrappedCriterion.getConfiguredValues().get(0));
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				e.printStackTrace();
 			}
 
@@ -288,7 +288,7 @@ public class CriterionWrapper<V extends Serializable> {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			e.printStackTrace();
 		}
 	}

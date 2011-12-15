@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousConstraint> {
 
@@ -32,7 +32,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		elements.add("Value1");
 		try {
 			constraint = new DichotomousConstraint(elements);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}
@@ -43,7 +43,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		try {
 			constraint = new DichotomousConstraint(null);
 			fail("the list of constraints should not be null");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		try {
 			constraint = new DichotomousConstraint(elements);
 			fail("the list of constraints should be not empty");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	
@@ -64,7 +64,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		try {
 			constraint = new DichotomousConstraint(elements);
 			fail("the list of constraints should not contain more than two elements");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	
@@ -75,7 +75,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		try {
 			constraint = new DichotomousConstraint(elements);
 			fail("the list of constraints should not contain one element with the value null");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	@Test
@@ -85,7 +85,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		try {
 			constraint = new DichotomousConstraint(elements);
 			assertEquals("a", constraint.getExpectedValue());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("the list of constraints is ok");
 		}
 	}
@@ -103,7 +103,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	public void testIsValueCorrect_WithCorrectValue(){
 		try {
 			constraint.isValueCorrect(elements.get(0));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Value is correct");
 		}
 	}
@@ -113,7 +113,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 		try {
 			constraint.isValueCorrect("ValueXYZ");
 			fail("Value is not correct");
-		} catch (ContraintViolatedException e) {		}
+		} catch (ConstraintViolatedException e) {		}
 	}
 	
 	@Test
@@ -130,7 +130,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	
 	
 	@Test
-	public void testEqualsAndHashCode_SameObjects() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_SameObjects() throws ConstraintViolatedException{
 		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
 		DichotomousConstraint constraint2 = constraint1;
 		assertEquals(constraint1.hashCode(), constraint2.hashCode());
@@ -138,20 +138,20 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_Null() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_Null() throws ConstraintViolatedException{
 		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
 		assertFalse(constraint1.equals(null));
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_DifferentClasses() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_DifferentClasses() throws ConstraintViolatedException{
 		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
 		String constraint2 = "";
 		assertFalse(constraint1.equals(constraint2));
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedCorrectAndValueNull() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedCorrectAndValueNull() throws ConstraintViolatedException{
 		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
 		DichotomousConstraint constraint2 = new DichotomousConstraint(elements);
 		constraint1.setExpectedValue("a");
@@ -160,7 +160,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedNullAndValueNot() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedNullAndValueNot() throws ConstraintViolatedException{
 		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
 		DichotomousConstraint constraint2 = new DichotomousConstraint(elements);
 		constraint1.setExpectedValue(null);
@@ -169,7 +169,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedAndValueUnequal() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedAndValueUnequal() throws ConstraintViolatedException{
 		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
 		DichotomousConstraint constraint2 = new DichotomousConstraint(elements);
 		constraint1.setExpectedValue("a");
@@ -178,7 +178,7 @@ public class DichotomousConstraintTest extends AbstractDomainTest<DichotomousCon
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedAndValueEqual() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedAndValueEqual() throws ConstraintViolatedException{
 		DichotomousConstraint constraint1 = new DichotomousConstraint(elements);
 		DichotomousConstraint constraint2 = new DichotomousConstraint(elements);
 		String[] values = { stringUtil.getWithLength(254),
