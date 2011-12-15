@@ -41,7 +41,7 @@ public class PasswordValidator implements ConstraintValidator<Password, String>{
 		if(password.length()<= max && password.length()>= min){
 			String pLetter = ".*[A-Za-z].*";
 			String pNumber = ".*[0-9].*";
-			String pSpecialSign = ".*[-\\[\\]\\^,.#+;:_'*!\"§$%&/()=?|<>\\\\].*@{}";
+			String pSpecialSign = ".*[-\\[\\]\\^,.#+;:_'*!\"§$%&/()@{}=?|<>\\\\].*";
 			return password.matches(pLetter) && password.matches(pNumber)
 					&& password.matches(pSpecialSign);			
 		}else if(password.length()==hash_length) return true;
