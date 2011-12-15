@@ -30,7 +30,7 @@ import lombok.Setter;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 import de.randi2.utility.BoxedException;
 
 public class ConstraintWrapper<V extends Serializable> {
@@ -67,7 +67,7 @@ public class ConstraintWrapper<V extends Serializable> {
 						(List<String>) tValues);
 		} catch (ClassCastException ex1) {
 			BoxedException.throwBoxed(ex1);
-		} catch (ContraintViolatedException ex2) {
+		} catch (ConstraintViolatedException ex2) {
 			BoxedException.throwBoxed(ex2);
 		}
 	}
@@ -87,7 +87,7 @@ public class ConstraintWrapper<V extends Serializable> {
 			try {
 				wrappedConstraint = (AbstractConstraint<V>) new DateConstraint(
 						Arrays.asList(new GregorianCalendar[] { date1, date2 }));
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				e.printStackTrace();
 			}
 

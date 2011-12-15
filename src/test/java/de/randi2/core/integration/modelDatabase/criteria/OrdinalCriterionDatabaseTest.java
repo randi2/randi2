@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class OrdinalCriterionDatabaseTest extends AbstractDomainDatabaseTest<OrdinalCriterion> {
 
@@ -84,7 +84,7 @@ public class OrdinalCriterionDatabaseTest extends AbstractDomainDatabaseTest<Ord
 			assertTrue(dbCriterion.getElements().containsAll(elements));
 			assertTrue(elements.containsAll(dbCriterion.getElements()));
 
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			//fail();
 		}
 	}
@@ -141,7 +141,7 @@ public class OrdinalCriterionDatabaseTest extends AbstractDomainDatabaseTest<Ord
 			assertTrue(dbCriterion.getElements().containsAll(elements));
 			assertTrue(elements.containsAll(dbCriterion.getElements()));
 			assertEquals(2, dbCriterion.getStrata().size());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			//fail();
 		}
 	}

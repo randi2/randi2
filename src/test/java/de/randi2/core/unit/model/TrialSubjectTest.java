@@ -24,7 +24,7 @@ import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 	
@@ -73,7 +73,7 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 				co = new DichotomousConstraint(value);
 				co.setId(getNextId());
 				dCriterion1.addStrata(co);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage());
 			}
 		}
@@ -101,7 +101,7 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 				co = new DichotomousConstraint(value);
 				co.setId(getNextId());
 				dCriterion2.addStrata(co);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage());
 			}
 		}
@@ -130,7 +130,7 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 				co = new DichotomousConstraint(value);
 				co.setId(getNextId());
 				dCriterion3.addStrata(co);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage());
 			}
 		}
@@ -184,7 +184,7 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 				co = new OrdinalConstraint(value);
 				co.setId(getNextId());
 				oCriterion1.addStrata(co);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage());
 			}
 		}
@@ -214,7 +214,7 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 							p1.setValue("option" + j);
 							p2.setValue("option" + k);
 							p3.setValue("option" + l);
-						} catch (ContraintViolatedException e) {
+						} catch (ConstraintViolatedException e) {
 							fail(e.getMessage());
 						}
 						subject.setProperties(properties);
@@ -255,7 +255,7 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 								p2.setValue("option" + k);
 								p3.setValue("option" + l);
 								p4.setValue("option" + m);
-							} catch (ContraintViolatedException e) {
+							} catch (ConstraintViolatedException e) {
 								fail(e.getMessage());
 							}
 							subject.setProperties(properties);
@@ -523,7 +523,7 @@ public class TrialSubjectTest extends AbstractDomainTest<TrialSubject> {
 							p1.setValue("option" + j);
 							p2.setValue("option" + k);
 							p3.setValue("option" + l);
-						} catch (ContraintViolatedException e) {
+						} catch (ConstraintViolatedException e) {
 							fail(e.getMessage());
 						}
 						subject.setProperties(properties);

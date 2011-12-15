@@ -28,7 +28,7 @@ import de.randi2.simulation.model.DistributionSubjectProperty;
 import de.randi2.simulation.model.SimulationRawDataEntry;
 import de.randi2.simulation.model.SimulationResult;
 import de.randi2.simulation.model.SimulationRun;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 import de.randi2.utility.Pair;
 
 @Service("simulationService")
@@ -44,7 +44,7 @@ public class SimulationServiceImpl implements SimulationService {
 		try {
 			copyTrial = copyAndPrepareTrial(trial, properties,
 					distributionTrialSites);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			return null;
 		}
 		Map<String, String> strataIdsNames = new HashMap<String, String>();
@@ -134,7 +134,7 @@ public class SimulationServiceImpl implements SimulationService {
 	 */
 	private static Trial copyAndPrepareTrial(Trial trial,
 			List<DistributionSubjectProperty> properties,
-			AbstractDistribution<TrialSite> distributionTrialSites) throws ContraintViolatedException{
+			AbstractDistribution<TrialSite> distributionTrialSites) throws ConstraintViolatedException{
 		long id = 0;
 		// copy plain trail data
 		Trial cTrial = new Trial();
@@ -199,7 +199,7 @@ public class SimulationServiceImpl implements SimulationService {
 						cco = new DichotomousConstraint(values);
 						cco.setId(id++);
 						ccr.addStrata(cco);
-					} catch (ContraintViolatedException e) {
+					} catch (ConstraintViolatedException e) {
 					}
 				}
 				dsp.setCriterion(ccr);
@@ -219,7 +219,7 @@ public class SimulationServiceImpl implements SimulationService {
 						cco = new OrdinalConstraint(values);
 						cco.setId(id++);
 						ccr.addStrata(cco);
-					} catch (ContraintViolatedException e) {
+					} catch (ConstraintViolatedException e) {
 					}
 				}
 				dsp.setCriterion(ccr);
@@ -287,7 +287,7 @@ public class SimulationServiceImpl implements SimulationService {
 					dsp.getCriterion());
 			try {
 				pr.setValue(dsp.getNextSubjectValue());
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 			}
 			tempSet.add(pr);
 		}

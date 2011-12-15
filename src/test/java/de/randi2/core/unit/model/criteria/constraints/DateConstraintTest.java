@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 
@@ -34,7 +34,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			secondDate =new GregorianCalendar(2002,10,22);
 			try {
 				constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate,secondDate}));
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage());
 			}
 		}
@@ -46,7 +46,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			try {
 				constraint = new DateConstraint(elements);
 				fail("the list of constraints should be not null");
-			} catch (ContraintViolatedException e) {}
+			} catch (ConstraintViolatedException e) {}
 		}
 		
 		@Test
@@ -55,7 +55,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			try {
 				constraint = new DateConstraint(elements);
 				fail("the list of constraints should be not empty");
-			} catch (ContraintViolatedException e) {}
+			} catch (ConstraintViolatedException e) {}
 		}
 		
 		
@@ -68,7 +68,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			try {
 				constraint = new DateConstraint(elements);
 				fail("the list of constraints should not contain more than two elements");
-			} catch (ContraintViolatedException e) {}
+			} catch (ConstraintViolatedException e) {}
 		}
 		
 		
@@ -79,7 +79,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			try {
 				constraint = new DateConstraint(elements);
 				fail("the list of constraints should not contain one element with the value null");
-			} catch (ContraintViolatedException e) {}
+			} catch (ConstraintViolatedException e) {}
 		}
 		
 		@Test
@@ -91,7 +91,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 				constraint = new DateConstraint(elements);
 				assertEquals(date, constraint.getFirstDate());
 				assertNull(constraint.getSecondDate());
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail("the list of constraints is ok");
 			}
 		}
@@ -104,7 +104,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			try {
 				constraint = new DateConstraint(elements);
 				fail("the list of constraints should not contain two elements with the value null");
-			} catch (ContraintViolatedException e) {}
+			} catch (ConstraintViolatedException e) {}
 		}	
 		
 		@Test
@@ -117,7 +117,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 				constraint = new DateConstraint(elements);
 				assertEquals(date, constraint.getFirstDate());
 				assertNull(constraint.getSecondDate());
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail("the list of constraints is ok");
 			}
 		}	
@@ -133,7 +133,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 				constraint = new DateConstraint(elements);
 				assertNull(constraint.getFirstDate());
 				assertEquals(date, constraint.getSecondDate());
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail("the list of constraints is ok");
 			}
 		}	
@@ -149,7 +149,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 				constraint = new DateConstraint(elements);
 				assertEquals(date1, constraint.getFirstDate());
 				assertEquals(date2, constraint.getSecondDate());
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail("the list of constraints is ok");
 			}
 		}	
@@ -164,7 +164,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			try {
 				constraint = new DateConstraint(elements);
 				fail("first date should be before the second one");
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 			}
 		}	
 		
@@ -173,7 +173,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			try {
 				constraint.isValueCorrect(null);
 				fail("Value is not correct"); 
-			} catch (ContraintViolatedException e) {		}
+			} catch (ConstraintViolatedException e) {		}
 		}
 		
 		@Test
@@ -185,7 +185,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(date2);
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			try{
@@ -193,7 +193,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 				constraint.isValueCorrect(new GregorianCalendar(2010,5,2));
 				constraint.isValueCorrect(date1);
 				constraint.isValueCorrect(date2);
-			}catch (ContraintViolatedException e) {
+			}catch (ConstraintViolatedException e) {
 				fail("Value is correct"); 
 			}
 		}
@@ -207,17 +207,17 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(date2);
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			try{
 				constraint.isValueCorrect(new GregorianCalendar(2011,3,2));
 				fail("Value is not correct"); 
-			}catch (ContraintViolatedException e) {	}
+			}catch (ConstraintViolatedException e) {	}
 			try{
 				constraint.isValueCorrect(new GregorianCalendar(2001,3,2));
 				fail("Value is not correct"); 
-			}catch (ContraintViolatedException e) {	}
+			}catch (ConstraintViolatedException e) {	}
 		}
 		
 		
@@ -229,12 +229,12 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(null);
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			try{
 				constraint.isValueCorrect(new GregorianCalendar(2011,3,2));
-			}catch (ContraintViolatedException e) {	
+			}catch (ConstraintViolatedException e) {	
 				fail("Value is correct");
 				}
 		}
@@ -247,13 +247,13 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(null);
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			try{
 				constraint.isValueCorrect(new GregorianCalendar(2009,3,2));
 				fail("Value is not correct");
-			}catch (ContraintViolatedException e) {	}
+			}catch (ConstraintViolatedException e) {	}
 		}
 		
 		
@@ -265,12 +265,12 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(date);
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			try{
 				constraint.isValueCorrect(new GregorianCalendar(2001,3,2));
-			}catch (ContraintViolatedException e) {	
+			}catch (ConstraintViolatedException e) {	
 				fail("Value is correct");
 				}
 		}
@@ -283,13 +283,13 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(date);
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			try{
 				constraint.isValueCorrect(new GregorianCalendar(2011,3,2));
 				fail("Value is not correct");
-			}catch (ContraintViolatedException e) {	}
+			}catch (ConstraintViolatedException e) {	}
 		}
 		
 		@Test
@@ -307,7 +307,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(date2);
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			
@@ -321,7 +321,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(null);
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			
@@ -335,7 +335,7 @@ public class DateConstraintTest extends	AbstractDomainTest<DateConstraint> {
 			elements.add(new GregorianCalendar(2010,0,1));
 			try {
 				constraint = new DateConstraint(elements);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail(e.getMessage()); 
 			}
 			

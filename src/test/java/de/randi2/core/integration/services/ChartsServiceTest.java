@@ -34,7 +34,7 @@ import de.randi2.services.ChartData;
 import de.randi2.services.ChartsService;
 import de.randi2.services.TrialService;
 import de.randi2.services.TrialSiteService;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 import de.randi2.utility.BoxedException;
 
 @Transactional
@@ -486,7 +486,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 			validTrial.addCriterion(cr2);
 
 
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			BoxedException.throwBoxed(e);
 		}
 
@@ -524,7 +524,7 @@ public class ChartsServiceTest extends AbstractServiceTest {
 					subprob2.setValue(cr2.getOption2());
 				}
 			
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				BoxedException.throwBoxed(e);
 			}
 			

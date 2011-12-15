@@ -30,7 +30,7 @@ import org.hibernate.annotations.Target;
 
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 
 /**
@@ -78,11 +78,11 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	 * 
 	 * @return the stratum
 	 * 
-	 * @throws ContraintViolatedException
+	 * @throws ConstraintViolatedException
 	 *             the contraint violated exception
 	 */
 	@Transient
-	public long getStratum() throws ContraintViolatedException {
+	public long getStratum() throws ConstraintViolatedException {
 		AbstractConstraint<?> constraint = criterion.stratify(value);
 		if(constraint == null) return -1;
 		else return constraint.getId();
@@ -105,10 +105,10 @@ public final class SubjectProperty<V extends Serializable> extends AbstractDomai
 	 * @param value
 	 *            the new value
 	 * 
-	 * @throws ContraintViolatedException
+	 * @throws ConstraintViolatedException
 	 *             the contraint violated exception
 	 */
-	public void setValue(V value) throws ContraintViolatedException {
+	public void setValue(V value) throws ConstraintViolatedException {
 		criterion.isValueCorrect(value);
 		this.value = value;
 	}

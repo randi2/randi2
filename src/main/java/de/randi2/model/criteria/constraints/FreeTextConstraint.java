@@ -19,7 +19,7 @@ package de.randi2.model.criteria.constraints;
 
 import java.util.List;
 
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 import javax.persistence.Entity;
 
 import lombok.Getter;
@@ -40,25 +40,25 @@ public class FreeTextConstraint extends AbstractConstraint<String>{
 	}
 	
 	public FreeTextConstraint(List<String> args)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		super(args);
 	}
 
 	
 	@Override
 	protected void configure(List<String> args)
-			throws ContraintViolatedException {	
+			throws ConstraintViolatedException {	
 		if (args == null || args.size() != 1 || args.get(0) == null)
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		this.expectedValue = args.get(0);
 	}
 
 	
 	
 	@Override
-	public void isValueCorrect(String _value) throws ContraintViolatedException {
+	public void isValueCorrect(String _value) throws ConstraintViolatedException {
 		if (!expectedValue.equals(_value)) {
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 		
 	}

@@ -27,7 +27,7 @@ import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 import de.randi2.utility.ReflectionUtil;
 
 /**
@@ -156,7 +156,7 @@ public abstract class AbstractTrialHandler extends AbstractHandler<Trial> {
 						temp.addStrata(new DichotomousConstraint(Arrays
 								.asList(new String[] { temp
 										.getConfiguredValues().get(1) })));
-					} catch (ContraintViolatedException e) {
+					} catch (ConstraintViolatedException e) {
 						e.printStackTrace();
 					}
 				} else {

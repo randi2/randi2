@@ -17,7 +17,7 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 
 @SuppressWarnings("unchecked")
@@ -42,7 +42,7 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 		try {
 			subjectString.setValue(criterion.getOption1());
 			assertEquals(criterion.getOption1(), subjectString.getValue());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
 		entityManager.persist(subjectString);
@@ -74,7 +74,7 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 			subjectString.setValue(criterion.getElements().get(0));
 			assertEquals(criterion.getElements().get(0), subjectString
 					.getValue());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
 		entityManager.persist(subjectString);
@@ -99,7 +99,7 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 				criterion);
 		try {
 			subject.setValue(new GregorianCalendar());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
 		entityManager.persist(subject);
@@ -122,7 +122,7 @@ public class SubjectPropertyDatabaseTest extends AbstractDomainDatabaseTest<Subj
 		SubjectProperty<String> subject = new SubjectProperty<String>(criterion);
 		try {
 			subject.setValue("test");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Constraint violated: " + e.getMessage());
 		}
 		entityManager.persist(subject);

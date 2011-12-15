@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class DateConstaintDatabaseTest extends	AbstractDomainDatabaseTest<DateConstraint> {
 
@@ -32,7 +32,7 @@ public class DateConstaintDatabaseTest extends	AbstractDomainDatabaseTest<DateCo
 		secondDate =new GregorianCalendar(2002,10,22);
 		try {
 			constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate,secondDate}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}

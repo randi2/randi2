@@ -23,7 +23,7 @@ import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.model.randomization.MinimizationMapElementWrapper;
 import de.randi2.model.randomization.MinimizationTempData;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<MinimizationTempData> {
 
@@ -229,7 +229,7 @@ public class MinimizationTempDataTest extends AbstractDomainDatabaseTest<Minimiz
 		assertEquals(8.0,mtemp1DB.getCountConstraints().get(oc1).getMap().get(treatmentArm2));
 		assertEquals(9.0,mtemp1DB.getCountConstraints().get(oc1).getMap().get(treatmentArm3));
 		
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("initialization failed");
 		}
 	}

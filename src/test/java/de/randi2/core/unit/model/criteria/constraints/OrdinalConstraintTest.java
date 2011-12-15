@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class OrdinalConstraintTest extends
 		AbstractDomainTest<OrdinalConstraint> {
@@ -35,7 +35,7 @@ public class OrdinalConstraintTest extends
 		elements.add("Value3");
 		try {
 			constraint = new OrdinalConstraint(elements);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}
@@ -45,7 +45,7 @@ public class OrdinalConstraintTest extends
 		try {
 			constraint = new OrdinalConstraint(null);
 			fail("the list of constraints should not be null");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	@Test
@@ -54,7 +54,7 @@ public class OrdinalConstraintTest extends
 		try {
 			constraint = new OrdinalConstraint(elements);
 			fail("the list of constraints should be not empty");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	
@@ -71,7 +71,7 @@ public class OrdinalConstraintTest extends
 					assertTrue(constraint.getExpectedValues().contains(j+""));
 				}
 			}
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("the list of constraints is ok");
 		}
 	}
@@ -84,7 +84,7 @@ public class OrdinalConstraintTest extends
 		try {
 			constraint = new OrdinalConstraint(elements);
 			fail("the list of constraints should not contain one element with the value null");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	@Test
@@ -95,7 +95,7 @@ public class OrdinalConstraintTest extends
 			constraint = new OrdinalConstraint(elements);
 			assertEquals(1, constraint.getExpectedValues().size());
 			assertEquals("a", constraint.getExpectedValues().iterator().next());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("the list of constraints is ok");
 		}
 	}
@@ -114,7 +114,7 @@ public class OrdinalConstraintTest extends
 	public void testIsValueCorrect_WithCorrectValue(){
 		try {
 			constraint.isValueCorrect(elements.get(0));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Value is correct");
 		}
 	}
@@ -124,7 +124,7 @@ public class OrdinalConstraintTest extends
 		try {
 			constraint.isValueCorrect("ValueXYZ");
 			fail("Value is not correct");
-		} catch (ContraintViolatedException e) {		}
+		} catch (ConstraintViolatedException e) {		}
 	}
 	
 	@Test
@@ -139,7 +139,7 @@ public class OrdinalConstraintTest extends
 	
 	
 	@Test
-	public void testEqualsAndHashCode_SameObjects() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_SameObjects() throws ConstraintViolatedException{
 		OrdinalConstraint constraint1 = new OrdinalConstraint(elements);
 		OrdinalConstraint constraint2 = constraint1;
 		assertEquals(constraint1.hashCode(), constraint2.hashCode());
@@ -147,20 +147,20 @@ public class OrdinalConstraintTest extends
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_Null() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_Null() throws ConstraintViolatedException{
 		OrdinalConstraint constraint1 = new OrdinalConstraint(elements);
 		assertFalse(constraint1.equals(null));
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_DifferentClasses() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_DifferentClasses() throws ConstraintViolatedException{
 		OrdinalConstraint constraint1 = new OrdinalConstraint(elements);
 		String constraint2 = "";
 		assertFalse(constraint1.equals(constraint2));
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedCorrectAndValueNull() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedCorrectAndValueNull() throws ConstraintViolatedException{
 		OrdinalConstraint constraint1 = new OrdinalConstraint(elements);
 		OrdinalConstraint constraint2 = new OrdinalConstraint(elements);
 		Set<String> expectesValues1 = new HashSet<String>();
@@ -173,7 +173,7 @@ public class OrdinalConstraintTest extends
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedNullAndValueNot() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedNullAndValueNot() throws ConstraintViolatedException{
 		OrdinalConstraint constraint1 = new OrdinalConstraint(elements);
 		OrdinalConstraint constraint2 = new OrdinalConstraint(elements);
 		Set<String> expectesValues1 = new HashSet<String>();
@@ -186,7 +186,7 @@ public class OrdinalConstraintTest extends
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedAndValueUnequal() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedAndValueUnequal() throws ConstraintViolatedException{
 		OrdinalConstraint constraint1 = new OrdinalConstraint(elements);
 		OrdinalConstraint constraint2 = new OrdinalConstraint(elements);
 		constraint1.getExpectedValues().add("a");
@@ -195,7 +195,7 @@ public class OrdinalConstraintTest extends
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedAndValueEqual() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedAndValueEqual() throws ConstraintViolatedException{
 		OrdinalConstraint constraint1 = new OrdinalConstraint(elements);
 		OrdinalConstraint constraint2 = new OrdinalConstraint(elements);
 		String[] values = { stringUtil.getWithLength(254),
@@ -215,13 +215,13 @@ public class OrdinalConstraintTest extends
 		try {
 			constraint = new OrdinalConstraint(elements);
 			fail("the list of constraints should be not empty");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 		
 		elements.add("Value1");
 		try {
 			constraint = new OrdinalConstraint(elements);
 			assertTrue(constraint.getExpectedValues().contains("Value1"));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("the list of constraints is ok");
 		}
 		elements.add("Value2");
@@ -229,7 +229,7 @@ public class OrdinalConstraintTest extends
 			constraint = new OrdinalConstraint(elements);
 			assertTrue(constraint.getExpectedValues().containsAll(elements));
 			assertTrue(elements.containsAll(constraint.getExpectedValues()));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("the list of constraints is ok");
 		}
 		
@@ -241,23 +241,23 @@ public class OrdinalConstraintTest extends
 	public void testIsValueCorrect(){
 		try {
 			constraint.isValueCorrect(elements.get(0));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Value is correct");
 		}
 		try {
 			constraint.isValueCorrect(elements.get(1));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Value is correct");
 		}
 		try {
 			constraint.isValueCorrect(elements.get(2));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Value is correct");
 		}
 		try {
 			constraint.isValueCorrect("ValueXYZ");
 			fail("Value is not correct");
-		} catch (ContraintViolatedException e) {		}
+		} catch (ConstraintViolatedException e) {		}
 	}
 	
 	@Test

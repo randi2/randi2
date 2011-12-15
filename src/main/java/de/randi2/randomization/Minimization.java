@@ -17,7 +17,7 @@ import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.randomization.MinimizationConfig;
 import de.randi2.model.randomization.MinimizationMapElementWrapper;
 import de.randi2.model.randomization.MinimizationTempData;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 
@@ -124,7 +124,7 @@ public class Minimization extends RandomizationAlgorithm<MinimizationConfig>{
 						tempData.getCountConstraints().put(prop.getCriterion().stratify(prop.getValue()), actMap);
 					}
 					relevantConstraints.put(prop.getCriterion().stratify(prop.getValue()), actMap);
-				} catch (ContraintViolatedException e) {	}
+				} catch (ConstraintViolatedException e) {	}
 		}
 		
 		//calculate imbalance scores

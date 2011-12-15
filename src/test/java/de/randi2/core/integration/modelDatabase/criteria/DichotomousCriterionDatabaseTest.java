@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest<DichotomousCriterion>{
 
@@ -64,7 +64,7 @@ public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest
 			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(DichotomousConstraint.class, dbCriterion.getContstraintType());
 
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -100,7 +100,7 @@ public class DichotomousCriterionDatabaseTest extends AbstractDomainDatabaseTest
 			assertEquals(DichotomousConstraint.class, dbCriterion.getContstraintType());
 			assertEquals(2,dbCriterion.getStrata().size());
 
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}

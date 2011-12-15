@@ -23,7 +23,7 @@ import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 /**
  *
@@ -73,7 +73,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 
 		try {
 			criterion.setInclusionConstraint(new DichotomousConstraint(Arrays.asList(new String[]{"Ja"})));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 
@@ -83,14 +83,14 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 
 		try {
 			criterion.setInclusionConstraint(new DichotomousConstraint(Arrays.asList(new String[]{"SHIT"})));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			assertNotNull(e);
 		}
 
 	}
 
 	@Test
-	public void testWithStratification() throws ContraintViolatedException {
+	public void testWithStratification() throws ConstraintViolatedException {
 		criterion.setOption1("Ja");
 		criterion.setOption2("Nein");
 
@@ -106,7 +106,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		try {
 			criterion.stratify("LALALALA");
 			fail("AGAIN -> WRONG!");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 
 	}
@@ -181,7 +181,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		try {
 			constraintA = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
 			constraintB = new DichotomousConstraint(Arrays.asList(new String[]{"b"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -239,7 +239,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 			assertNotNull(criterion.getInclusionConstraint());
 			criterion.setInclusionConstraint(null);
 			assertNull(criterion.getInclusionConstraint());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -250,7 +250,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
 			criterion.setInclusionConstraint(constraint);
 			assertEquals(constraint, criterion.getInclusionConstraint());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -261,7 +261,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 			DichotomousConstraint constraint = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
 			criterion.setInclusionConstraint(constraint);
 			assertTrue(criterion.isInclusionCriterion());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -270,7 +270,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 	public void testIsInclusionConstraintFalse(){
 			try {
 				criterion.setInclusionConstraint(null);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail();
 			}
 			assertFalse(criterion.isInclusionCriterion());
@@ -284,7 +284,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		try {
 			constraintA = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
 			constraintB = new DichotomousConstraint(Arrays.asList(new String[]{"b"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -292,7 +292,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		try {
 			 criterion.stratify("c");
 			 fail();
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 	}
 	
@@ -304,7 +304,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		try {
 			constraintA = new DichotomousConstraint(Arrays.asList(new String[]{"a"}));
 			constraintB = new DichotomousConstraint(Arrays.asList(new String[]{"b"}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -312,7 +312,7 @@ public class DichotomousCriterionTest extends AbstractDomainTest<DichotomousCrit
 		try {
 			assertEquals(constraintA, criterion.stratify("a"));
 			assertEquals(constraintB, criterion.stratify("b"));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}

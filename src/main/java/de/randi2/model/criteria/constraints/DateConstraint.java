@@ -25,7 +25,7 @@ import javax.persistence.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 @Entity
 public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
@@ -52,9 +52,9 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 	 * 		- if the second date is null the constraint has no upper bound
 	 * 		- if both values are set the constraint defined a range
 	 * @param list
-	 * @throws ContraintViolatedException
+	 * @throws ConstraintViolatedException
 	 */
-	public DateConstraint(List<GregorianCalendar> list) throws ContraintViolatedException {
+	public DateConstraint(List<GregorianCalendar> list) throws ConstraintViolatedException {
 		super(list);
 	}
 
@@ -66,14 +66,14 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 	 */
 	@Override
 	protected void configure(List<GregorianCalendar> list)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		if(list==null || list.size() ==0 || list.size()>2){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}else if (list.size()==1) {
 			if(list.get(0) != null){
 				firstDate = list.get(0);
 				secondDate = null;
-			}else throw new ContraintViolatedException();
+			}else throw new ConstraintViolatedException();
 		}else{
 			GregorianCalendar actFirstDate = list.get(0);
 			GregorianCalendar actSecondDate = list.get(1);
@@ -86,7 +86,7 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 			}else if(actFirstDate == null && actSecondDate!=null){
 				firstDate = null;
 				secondDate = list.get(1);
-			}else throw new ContraintViolatedException();
+			}else throw new ConstraintViolatedException();
 		}
 	}
 
@@ -95,15 +95,15 @@ public class DateConstraint extends AbstractConstraint<GregorianCalendar> {
 	 */
 	@Override
 	public void isValueCorrect(GregorianCalendar value)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		if(value ==null){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}else if( firstDate!=null && secondDate!=null && (value.before(firstDate) || value.after(secondDate))){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}else if(firstDate!=null && secondDate==null && value.before(firstDate) ){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}else if( firstDate==null && secondDate!=null && value.after(secondDate) ){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 	}
 	

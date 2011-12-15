@@ -8,7 +8,7 @@ import org.junit.Test;
 import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.simulation.distribution.UniformDistribution;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 import static junit.framework.Assert.*;
 
@@ -23,7 +23,7 @@ public class DistributionSubjectPropertyTest {
 		dc.setOption2("option2");
 		try {
 			dc.setStrata(Arrays.asList(new DichotomousConstraint(Arrays.asList(new String[]{"option1"})),new DichotomousConstraint(Arrays.asList(new String[]{"option2"}))));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		UniformDistribution<DichotomousConstraint> distri = new UniformDistribution<DichotomousConstraint>(dc.getStrata());

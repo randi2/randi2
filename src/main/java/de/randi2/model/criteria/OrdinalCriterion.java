@@ -29,7 +29,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CollectionOfElements;
 
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 /**
  * <p>
@@ -76,9 +76,9 @@ public class OrdinalCriterion extends
 	}
 
 	@Override
-	public void isValueCorrect(String value) throws ContraintViolatedException {
+	public void isValueCorrect(String value) throws ConstraintViolatedException {
 		if(!elements.contains(value)){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}		
 	}
 	
@@ -90,11 +90,11 @@ public class OrdinalCriterion extends
 	
 	@Override
 	public void setInclusionConstraint(OrdinalConstraint inclusionConstraint)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		if(inclusionConstraint == null || elements.containsAll(inclusionConstraint.expectedValues)){
 			this.inclusionConstraint = inclusionConstraint;
 		}else{
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 	}
 

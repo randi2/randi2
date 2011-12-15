@@ -14,7 +14,7 @@ import de.randi2.model.criteria.DateCriterion;
 import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.constraints.DateConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 
@@ -50,7 +50,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		GregorianCalendar date =new GregorianCalendar(2000,12,10) ;
 		try {
 			criterion.setInclusionConstraint(new DateConstraint(Arrays.asList(new GregorianCalendar[]{date})));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 		GregorianCalendar date1 =new GregorianCalendar(2001,12,10) ;
@@ -67,7 +67,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 	}
 	
 	@Test
-	public void testWithStratification() throws ContraintViolatedException {
+	public void testWithStratification() throws ConstraintViolatedException {
 		criterion.setDescription("test");
 		
 		assertNull(criterion.stratify(secondDate));
@@ -85,7 +85,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		try {
 			criterion.stratify(new GregorianCalendar(1993,7,1));
 			fail("AGAIN -> WRONG!");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 	}
 	
@@ -148,7 +148,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		try {
 			constraintA = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate}));
 			constraintB = new DateConstraint(Arrays.asList(new GregorianCalendar[]{secondDate}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -187,7 +187,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 	}
 	
 	@Test
-	public void testCheckValueIncorrect() throws ContraintViolatedException{
+	public void testCheckValueIncorrect() throws ConstraintViolatedException{
 		criterion.setInclusionConstraint(new DateConstraint(Arrays.asList(new GregorianCalendar[]{secondDate})));
 		assertFalse(criterion.checkValue(firstDate));
 	}
@@ -212,7 +212,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 			assertNotNull(criterion.getInclusionConstraint());
 			criterion.setInclusionConstraint(null);
 			assertNull(criterion.getInclusionConstraint());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -223,7 +223,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 			DateConstraint constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate}));
 			criterion.setInclusionConstraint(constraint);
 			assertEquals(constraint, criterion.getInclusionConstraint());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -234,7 +234,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 			DateConstraint constraint = new DateConstraint(Arrays.asList(new GregorianCalendar[]{firstDate}));
 			criterion.setInclusionConstraint(constraint);
 			assertTrue(criterion.isInclusionCriterion());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -243,7 +243,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 	public void testIsInclusionConstraintFalse(){
 			try {
 				criterion.setInclusionConstraint(null);
-			} catch (ContraintViolatedException e) {
+			} catch (ConstraintViolatedException e) {
 				fail();
 			}
 			assertFalse(criterion.isInclusionCriterion());
@@ -257,7 +257,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		try {
 			constraintA = new DateConstraint(Arrays.asList(new GregorianCalendar[]{null, firstDate}));
 			constraintB = new DateConstraint(Arrays.asList(new GregorianCalendar[]{null, secondDate}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -265,7 +265,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		try {
 			 criterion.stratify(new GregorianCalendar());
 			 fail();
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 	}
 	
@@ -277,7 +277,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		try {
 			constraintA = new DateConstraint(Arrays.asList(new GregorianCalendar[]{null, firstDate}));
 			constraintB = new DateConstraint(Arrays.asList(new GregorianCalendar[]{null, secondDate}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		criterion.addStrata(constraintA);
@@ -285,7 +285,7 @@ public class DateCriterionTest extends AbstractDomainTest<DateCriterion>{
 		try {
 			assertEquals(constraintA, criterion.stratify(firstDate));
 			assertEquals(constraintB, criterion.stratify(secondDate));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}

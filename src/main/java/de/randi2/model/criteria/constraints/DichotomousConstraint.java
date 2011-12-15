@@ -23,7 +23,7 @@ import javax.persistence.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 @Entity
 public class DichotomousConstraint extends AbstractConstraint<String> {
@@ -31,7 +31,7 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 	protected DichotomousConstraint(){}
 	
 	public DichotomousConstraint(List<String> args)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		super(args);
 	}
 
@@ -42,17 +42,17 @@ public class DichotomousConstraint extends AbstractConstraint<String> {
 
 
 	@Override
-	public void isValueCorrect(String _value) throws ContraintViolatedException {
+	public void isValueCorrect(String _value) throws ConstraintViolatedException {
 		if (!expectedValue.equals(_value)) {
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 	}
 
 	@Override
 	protected void configure(List<String> args)
-			throws ContraintViolatedException {
+			throws ConstraintViolatedException {
 		if (args == null || args.size() != 1 || args.get(0) == null)
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		this.expectedValue = args.get(0);
 	}
 	

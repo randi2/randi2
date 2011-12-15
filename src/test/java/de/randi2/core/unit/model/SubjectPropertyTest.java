@@ -19,7 +19,7 @@ import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.OrdinalCriterion;
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 @SuppressWarnings("unchecked")
 public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
@@ -81,14 +81,14 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 				criterion);
 		try {
 			subjectString.setValue("Value1");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 		assertEquals("Value1", subjectString.getValue());
 		try {
 			subjectString.setValue("ValueXYZ");
 			fail("no exception");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 	}
 
@@ -109,7 +109,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 			constraint2 = new OrdinalConstraint(Arrays
 					.asList(new String[] { "Value2" }));
 			constraint2.setId(345);
-		} catch (ContraintViolatedException e1) {
+		} catch (ConstraintViolatedException e1) {
 			fail();
 		}
 		criterion.addStrata(constraint1);
@@ -120,21 +120,21 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 		try {
 			subjectString.getStratum();
 			fail();
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			assertNotNull(e);
 		}
 
 		try {
 			subjectString.setValue("Value1");
 			assertEquals(123, subjectString.getStratum());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 
 		try {
 			subjectString.setValue("Value2");
 			assertEquals(345, subjectString.getStratum());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}
@@ -179,7 +179,7 @@ public class SubjectPropertyTest extends AbstractDomainTest<SubjectProperty> {
 			subject2.setValue("test");
 			assertEquals(subject1, subject2);
 			assertEquals(subject1.hashCode(), subject2.hashCode());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		assertFalse(subject1.equals(subject3));

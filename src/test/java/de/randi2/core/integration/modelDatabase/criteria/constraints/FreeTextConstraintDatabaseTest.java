@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class FreeTextConstraintDatabaseTest extends	AbstractDomainDatabaseTest<FreeTextConstraint> {
 
@@ -29,7 +29,7 @@ public class FreeTextConstraintDatabaseTest extends	AbstractDomainDatabaseTest<F
 		element="value";
 		try {
 			constraint = new FreeTextConstraint(Arrays.asList(new String[]{element}));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail(e.getMessage());
 		}
 	}

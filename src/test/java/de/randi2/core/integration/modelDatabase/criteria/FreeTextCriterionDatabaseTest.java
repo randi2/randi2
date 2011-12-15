@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.randi2.model.criteria.FreeTextCriterion;
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.testUtility.utility.AbstractDomainDatabaseTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 public class FreeTextCriterionDatabaseTest extends AbstractDomainDatabaseTest<FreeTextCriterion>{
 
@@ -67,7 +67,7 @@ public class FreeTextCriterionDatabaseTest extends AbstractDomainDatabaseTest<Fr
 			assertEquals(constraint.getId(), dbCriterion.getInclusionConstraint().getId());
 			assertEquals(FreeTextConstraint.class, dbCriterion.getContstraintType());
 
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 	}

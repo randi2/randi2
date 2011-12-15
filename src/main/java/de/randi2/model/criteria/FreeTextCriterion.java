@@ -23,7 +23,7 @@ import java.util.List;
 import javax.persistence.Entity;
 
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 /**
  * 
@@ -36,9 +36,9 @@ public class FreeTextCriterion extends AbstractCriterion<String, FreeTextConstra
 	private static final long serialVersionUID = 7359750785478879268L;
 
 	@Override
-	public void isValueCorrect(String value) throws ContraintViolatedException {
+	public void isValueCorrect(String value) throws ConstraintViolatedException {
 		if(value == null || value.length()==0){
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 		if(inclusionConstraint!=null){
 			inclusionConstraint.isValueCorrect(value);
@@ -57,7 +57,7 @@ public class FreeTextCriterion extends AbstractCriterion<String, FreeTextConstra
 	}
 	
 	@Override
-	public void setInclusionConstraint(FreeTextConstraint inclusionConstraint) throws ContraintViolatedException {
+	public void setInclusionConstraint(FreeTextConstraint inclusionConstraint) throws ConstraintViolatedException {
 			this.inclusionConstraint = inclusionConstraint;
 	}
 	

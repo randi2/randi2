@@ -22,29 +22,29 @@ import java.util.List;
 import javax.persistence.Entity;
 
 import de.randi2.model.AbstractDomainObject;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 @Entity    //(name="constraints") //constraints is a reserved word in derby database!
 public abstract class AbstractConstraint<V extends Object> extends AbstractDomainObject{
 
 	private static final long serialVersionUID = -5608235144658474459L;
 	
-	public AbstractConstraint(List<V> args) throws ContraintViolatedException{
+	public AbstractConstraint(List<V> args) throws ConstraintViolatedException{
 		configure(args);
 	}
 	
 	protected AbstractConstraint(){}
 	
-	protected abstract void configure(List<V> args) throws ContraintViolatedException;
+	protected abstract void configure(List<V> args) throws ConstraintViolatedException;
 
-	public abstract void isValueCorrect(V _value) throws ContraintViolatedException;
+	public abstract void isValueCorrect(V _value) throws ConstraintViolatedException;
 
 	public boolean checkValue(V value){
 		try{
 			isValueCorrect(value);
 			return true;
 		}
-		catch(ContraintViolatedException e){
+		catch(ConstraintViolatedException e){
 			return false;
 		}
 	}

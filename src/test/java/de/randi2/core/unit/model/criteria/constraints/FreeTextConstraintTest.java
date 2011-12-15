@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import de.randi2.model.criteria.constraints.FreeTextConstraint;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 
 public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstraint> {
@@ -27,7 +27,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	}
 	
 	@Before
-	public void setUp() throws ContraintViolatedException{
+	public void setUp() throws ConstraintViolatedException{
 		elements.add("value");
 		constraint = new FreeTextConstraint(elements);
 	}
@@ -38,7 +38,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 		try {
 			constraint = new FreeTextConstraint(null);
 			fail("the list of constraints should not be null");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 		try {
 			constraint = new FreeTextConstraint(elements);
 			fail("the list of constraints should be not empty");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	
@@ -59,7 +59,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 		try {
 			constraint = new FreeTextConstraint(elements);
 			fail("the list of constraints should not contain more than two elements");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	
@@ -70,7 +70,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 		try {
 			constraint = new FreeTextConstraint(elements);
 			fail("the list of constraints should not contain one element with the value null");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 	}
 	
 	@Test
@@ -80,7 +80,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 		try {
 			constraint = new FreeTextConstraint(elements);
 			assertEquals("a", constraint.getExpectedValue());
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("the list of constraints is ok");
 		}
 	}
@@ -98,7 +98,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	public void testIsValueCorrect_WithCorrectValue(){
 		try {
 			constraint.isValueCorrect(elements.get(0));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Value is correct");
 		}
 	}
@@ -108,7 +108,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 		try {
 			constraint.isValueCorrect("ValueXYZ");
 			fail("Value is not correct");
-		} catch (ContraintViolatedException e) {		}
+		} catch (ConstraintViolatedException e) {		}
 	}
 	
 	@Test
@@ -125,7 +125,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	
 	
 	@Test
-	public void testEqualsAndHashCode_SameObjects() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_SameObjects() throws ConstraintViolatedException{
 		FreeTextConstraint constraint1 = new FreeTextConstraint(elements);
 		FreeTextConstraint constraint2 = constraint1;
 		assertEquals(constraint1.hashCode(), constraint2.hashCode());
@@ -133,20 +133,20 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_Null() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_Null() throws ConstraintViolatedException{
 		FreeTextConstraint constraint1 = new FreeTextConstraint(elements);
 		assertFalse(constraint1.equals(null));
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_DifferentClasses() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_DifferentClasses() throws ConstraintViolatedException{
 		FreeTextConstraint constraint1 = new FreeTextConstraint(elements);
 		String constraint2 = "";
 		assertFalse(constraint1.equals(constraint2));
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedCorrectAndValueNull() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedCorrectAndValueNull() throws ConstraintViolatedException{
 		FreeTextConstraint constraint1 = new FreeTextConstraint(elements);
 		FreeTextConstraint constraint2 = new FreeTextConstraint(elements);
 		constraint1.setExpectedValue("a");
@@ -155,7 +155,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedNullAndValueNot() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedNullAndValueNot() throws ConstraintViolatedException{
 		FreeTextConstraint constraint1 = new FreeTextConstraint(elements);
 		FreeTextConstraint constraint2 = new FreeTextConstraint(elements);
 		constraint1.setExpectedValue(null);
@@ -164,7 +164,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedAndValueUnequal() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedAndValueUnequal() throws ConstraintViolatedException{
 		FreeTextConstraint constraint1 = new FreeTextConstraint(elements);
 		FreeTextConstraint constraint2 = new FreeTextConstraint(elements);
 		constraint1.setExpectedValue("a");
@@ -173,7 +173,7 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	}
 	
 	@Test
-	public void testEqualsAndHashCode_ExpectedAndValueEqual() throws ContraintViolatedException{
+	public void testEqualsAndHashCode_ExpectedAndValueEqual() throws ConstraintViolatedException{
 		FreeTextConstraint constraint1 = new FreeTextConstraint(elements);
 		FreeTextConstraint constraint2 = new FreeTextConstraint(elements);
 		String[] values = { stringUtil.getWithLength(254),
@@ -194,25 +194,25 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 		try {
 			constraint = new FreeTextConstraint(elements);
 			fail("the list of constraints should be not empty");
-		} catch (ContraintViolatedException e) {}
+		} catch (ConstraintViolatedException e) {}
 		
 		elements.add("Value1");
 		try {
 			constraint = new FreeTextConstraint(elements);
 			assertTrue(constraint.getExpectedValue().equals("Value1"));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("the list of constraints is ok");
 		}
 		elements.add("Value2");
 		try {
 			constraint = new FreeTextConstraint(elements);
 			fail("the list of constraints has more than two objects");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 		try {
 			constraint = new FreeTextConstraint(null);
 			fail("the list of constraints is null");
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 		}
 		
 	}
@@ -223,13 +223,13 @@ public class FreeTextConstraintTest extends	AbstractDomainTest<FreeTextConstrain
 	public void testIsValueCorrect(){
 		try {
 			constraint.isValueCorrect(elements.get(0));
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail("Value is correct");
 		}
 		try {
 			constraint.isValueCorrect("ValueXYZ");
 			fail("Value is not correct");
-		} catch (ContraintViolatedException e) {		}
+		} catch (ConstraintViolatedException e) {		}
 	}
 	
 	@Test

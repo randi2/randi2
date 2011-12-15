@@ -28,7 +28,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import de.randi2.model.criteria.constraints.DichotomousConstraint;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 
 @Entity
 public class DichotomousCriterion extends AbstractCriterion<String, DichotomousConstraint> {
@@ -66,9 +66,9 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 	}
 
 	@Override
-	public void isValueCorrect(String value) throws ContraintViolatedException {
+	public void isValueCorrect(String value) throws ConstraintViolatedException {
 		if (!(option1.equals(value) || option2.equals(value))) {
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 		if (inclusionConstraint != null) {
 			inclusionConstraint.isValueCorrect(value);
@@ -81,11 +81,11 @@ public class DichotomousCriterion extends AbstractCriterion<String, DichotomousC
 	}
 	
 	@Override
-	public void setInclusionConstraint(DichotomousConstraint inclusionConstraint) throws ContraintViolatedException {
+	public void setInclusionConstraint(DichotomousConstraint inclusionConstraint) throws ConstraintViolatedException {
 		if(inclusionConstraint == null || option1.equals(inclusionConstraint.getExpectedValue()) || option2.equals(inclusionConstraint.getExpectedValue())){ 
 			this.inclusionConstraint = inclusionConstraint;
 		}else{
-			throw new ContraintViolatedException();
+			throw new ConstraintViolatedException();
 		}
 	}
 

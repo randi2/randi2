@@ -31,7 +31,7 @@ import de.randi2.model.criteria.constraints.DichotomousConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.CompleteRandomizationConfig;
 import de.randi2.testUtility.utility.AbstractDomainTest;
-import de.randi2.unsorted.ContraintViolatedException;
+import de.randi2.unsorted.ConstraintViolatedException;
 import de.randi2.utility.Pair;
 import java.util.Arrays;
 
@@ -735,7 +735,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 					.asList(new String[] { "option2" }));
 			d2.setId(2);
 			criterion1.addStrata(d2);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		DichotomousCriterion criterion2 = new DichotomousCriterion();
@@ -752,7 +752,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 					.asList(new String[] { "option2" }));
 			d2.setId(2);
 			criterion2.addStrata(d2);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		validTrial.addCriterion(criterion1);
@@ -811,7 +811,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 					.asList(new String[] { "option2" }));
 			d2.setId(2);
 			criterion1.addStrata(d2);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		DichotomousCriterion criterion2 = new DichotomousCriterion();
@@ -828,7 +828,7 @@ public class TrialTest extends AbstractDomainTest<Trial> {
 					.asList(new String[] { "option2" }));
 			d2.setId(2);
 			criterion2.addStrata(d2);
-		} catch (ContraintViolatedException e) {
+		} catch (ConstraintViolatedException e) {
 			fail();
 		}
 		validTrial.addCriterion(criterion1);
