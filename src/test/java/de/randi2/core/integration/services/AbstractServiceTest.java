@@ -8,8 +8,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.context.ManagedSessionContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;

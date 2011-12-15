@@ -20,31 +20,28 @@ package de.randi2.model.randomization;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.MapKey;
-
 @Entity
 @DiscriminatorValue("BLOCK")
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 public class BlockRandomizationTempData extends AbstractRandomizationTempData {
 
 	private static final long serialVersionUID = -5150967612749185875L;
 
-	
-	 @CollectionOfElements(targetElement = Block.class, fetch=FetchType.EAGER)
-	 @MapKey(targetElement = String.class, columns = {@Column(name="mapkey",nullable=false)})
-	 private Map<String, Block> blocks = new HashMap<String, Block>();
-	 
-	
+	// @CollectionOfElements(targetElement = Block.class, fetch=FetchType.EAGER)
+	// @MapKey(targetElement = String.class, columns =
+	// {@Column(name="mapkey",nullable=false)})
+	@OneToMany
+	@MapKeyColumn
+	private Map<String, Block> blocks = new HashMap<String, Block>();
 
 	public Block getBlock(String stratum) {
 		return blocks.get(stratum);

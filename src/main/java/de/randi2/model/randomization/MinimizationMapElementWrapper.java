@@ -2,14 +2,12 @@ package de.randi2.model.randomization;
 
 import java.util.Map;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.MapKeyColumn;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import org.hibernate.annotations.CollectionOfElements;
-
 import de.randi2.model.AbstractDomainObject;
 import de.randi2.model.TreatmentArm;
 
@@ -20,8 +18,8 @@ public class MinimizationMapElementWrapper extends AbstractDomainObject {
 
 	private static final long serialVersionUID = -2604596009904498229L;
 	
-	
-	@CollectionOfElements(targetElement=Double.class, fetch=FetchType.EAGER)
+	@ElementCollection
+	@MapKeyColumn
 	private Map<TreatmentArm, Double> map;
 
 

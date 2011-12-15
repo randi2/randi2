@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
   <AbstractConstraint/>
-  <AbstractConstraint_expectedValues/>
   <ObjectIdentityHibernate/>
   <SidHibernate/>
   <AclHibernate/>
@@ -16,7 +15,6 @@
   <TreatmentArm/>
   <Block_Treatmentarm/>
   <Criterion_AbstractConstraint/>
-  <Criterion_elements/>
   <LogEntry/>
   <Login/>
   <Role/>
@@ -26,6 +24,8 @@
   <MinimizationTempData_CountConstraints/>
   <MinimizationTempData_Probabilities/>
   <MinimizationTempData_countTrialSites/>
+  <OrdinalConstraint_expectedValues/>
+  <OrdinalCriterion_elements/>
   <RandomisationTempData_Block/>
   <ResponseAdaptiveUrn/>
   <RandomisationTempData_ResponseAdaptiveUrn/>

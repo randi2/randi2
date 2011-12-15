@@ -22,13 +22,11 @@ import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Column;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.MapKey;
 
 @Entity
 @DiscriminatorValue("URN")
@@ -38,10 +36,8 @@ public class UrnDesignTempData extends AbstractRandomizationTempData {
 
 	private static final long serialVersionUID = -2572300725790883698L;
 
-
-	
-	 @CollectionOfElements(targetElement = Urn.class)
-	 @MapKey(targetElement = String.class, columns = {@Column(name="mapkey",nullable=false)})
+	@OneToMany
+	@MapKeyColumn
 	 private Map<String, Urn> urns = new HashMap<String, Urn>();
 	 
 	 

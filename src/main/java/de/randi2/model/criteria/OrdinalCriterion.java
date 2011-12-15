@@ -20,14 +20,11 @@ package de.randi2.model.criteria;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import org.hibernate.annotations.CollectionOfElements;
-
 import de.randi2.model.criteria.constraints.OrdinalConstraint;
 import de.randi2.unsorted.ConstraintViolatedException;
 
@@ -49,7 +46,7 @@ public class OrdinalCriterion extends
 	/**
 	 * List object storing the possible values.
 	 */
-	@CollectionOfElements(fetch=FetchType.EAGER)
+	@ElementCollection
 	@Getter @Setter
 	private List<String> elements;
 

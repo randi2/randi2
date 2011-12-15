@@ -20,12 +20,10 @@ package de.randi2.model.randomization;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.MapKey;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -47,9 +45,8 @@ public class ResponseAdaptiveRandomizationTempData extends
 	 */
 	private static final long serialVersionUID = 7079082707404044733L;
 	
-
-	@CollectionOfElements(targetElement = ResponseAdaptiveUrn.class)
-	@MapKey(targetElement = String.class, columns = {@Column(name="mapkey",nullable=false)})
+	@OneToMany
+	@MapKeyColumn
 	private Map<String, ResponseAdaptiveUrn> responseAdaptiveUrns = new HashMap<String, ResponseAdaptiveUrn>();
 	 
 	 

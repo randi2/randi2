@@ -58,9 +58,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-	<listener>
-		<listener-class>de.randi2.utility.listener.SessionListener</listener-class>
-	</listener>
 	<!-- JSF - icefaces - configuration -->
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

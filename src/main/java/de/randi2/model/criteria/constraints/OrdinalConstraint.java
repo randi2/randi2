@@ -23,14 +23,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import org.hibernate.annotations.CollectionOfElements;
-
 import de.randi2.unsorted.ConstraintViolatedException;
 
 @Entity
@@ -46,7 +43,7 @@ public class OrdinalConstraint extends AbstractConstraint<String> {
 		super(args);
 	}
 
-	@CollectionOfElements(fetch=FetchType.EAGER)
+	@ElementCollection
 	@Getter @Setter
 	public Set<String> expectedValues;
 

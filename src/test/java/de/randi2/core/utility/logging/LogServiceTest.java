@@ -1,12 +1,14 @@
 package de.randi2.core.utility.logging;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.context.ManagedSessionContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +22,8 @@ import de.randi2.model.Person;
 import de.randi2.testUtility.utility.DomainObjectFactory;
 import de.randi2.testUtility.utility.InitializeDatabaseUtil;
 import de.randi2.testUtility.utility.TestStringUtil;
-import de.randi2.utility.logging.LogService;
 import de.randi2.utility.logging.LogEntry.ActionType;
-import static junit.framework.Assert.*;
+import de.randi2.utility.logging.LogService;
 
 //import static junit.framework.Assert.*;
 
