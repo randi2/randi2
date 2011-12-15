@@ -55,7 +55,7 @@ public interface TrialService extends AbstractService<Trial> {
 	 * @param subject
 	 * @return
 	 */
-	public Trial randomize(Trial trial, TrialSubject subject);
+	public Trial randomize(Trial trial, TrialSubject subject) throws IllegalArgumentException;
 
 	/**
 	 * Method for the retrieval of all subjects randomized by a specific

@@ -46,11 +46,10 @@ import de.randi2.model.TrialSubject;
 import de.randi2.model.criteria.AbstractCriterion;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.exceptions.TrialStateException;
+import de.randi2.utility.logging.LogEntry.ActionType;
 import de.randi2.utility.logging.LogService;
 import de.randi2.utility.mail.MailServiceInterface;
 import de.randi2.utility.mail.exceptions.MailErrorException;
-
-import de.randi2.utility.logging.LogEntry.ActionType;
 
 @Service("trialService")
 public class TrialServiceImpl implements TrialService {
@@ -93,25 +92,34 @@ public class TrialServiceImpl implements TrialService {
 	@Override
 	// secured with own SecurityAspect
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Trial randomize(Trial trial, TrialSubject subject) {
+	public Trial randomize(Trial trial, TrialSubject subject) throws IllegalArgumentException {
 		trial = entityManager.find(Trial.class, trial.getId());
+
+		if (subject.getIdentification() != null && !isTrialSubjectIdentficationUnique(trial, subject)) {
+			throw new IllegalArgumentException("Trial subject identifier is not unique");
+		}
+
 		logger.debug("user: "
 				+ SecurityContextHolder.getContext().getAuthentication()
 						.getName() + " randomized in trial " + trial.getName());
 		subject.setTrialSite(trialSiteDao.get(((Login) SecurityContextHolder
-				.getContext().getAuthentication().getPrincipal()).getPerson())); // TODO if trialSiteDao.get == null
+				.getContext().getAuthentication().getPrincipal()).getPerson())); // TODO
+																					// if
+																					// trialSiteDao.get
+																					// ==
+																					// null
 		subject.setInvestigator(((Login) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()));
 		TreatmentArm assignedArm = trial.getRandomizationConfiguration()
 				.getAlgorithm().randomize(subject);
 		subject.setArm(assignedArm);
-		// TODO Internal Subject's Identification
 		subject.setRandNumber(subject.getTrialSite().getName() + "_"
 				+ trial.getAbbreviation() + "_" + assignedArm.getName() + "_"
 				+ (assignedArm.getSubjects().size() + 1));
 		subject.setCounter((trial.getSubjects().size() + 1));
 		if (subject.getIdentification() == null)
 			subject.setIdentification(subject.getRandNumber());
+
 		entityManager.persist(subject);
 		assignedArm.addSubject(subject);
 		Trial t = trialDao.update(trial);
@@ -123,6 +131,18 @@ public class TrialServiceImpl implements TrialService {
 			logger.error("mail error", e);
 		}
 		return t;
+	}
+
+	private boolean isTrialSubjectIdentficationUnique(Trial trial,
+			TrialSubject newSubject) {
+
+		for (TrialSubject subject : trial.getSubjects()) {
+			if (subject.getIdentification().equalsIgnoreCase(
+					newSubject.getIdentification()))
+				return false;
+		}
+
+		return true;
 	}
 
 	@Override
@@ -346,7 +366,7 @@ public class TrialServiceImpl implements TrialService {
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "AFTER_ACL_COLLECTION_READ" })
+	@Secured({ "ROLE_USER", "AFTER_ACL_COLLECTION_READ" })
 	public List<Trial> getAll(TrialSite site) {
 		if (site == null)
 			return null;

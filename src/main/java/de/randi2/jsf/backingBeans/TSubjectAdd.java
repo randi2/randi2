@@ -101,7 +101,12 @@ public class TSubjectAdd {
 			tempSet.add((SubjectProperty) cw.getSubjectProperty());
 		}
 		trialSubject.setProperties(tempSet);
+		try{
 		currentTrial = trialService.randomize(currentTrial, trialSubject);
+		}catch (Exception e) {
+			Randi2.showMessage(e);
+			return Randi2.ERROR;
+		}
 		addedSubjectID = trialSubject.getIdentification();
 		addedSubjectArm = trialSubject.getArm().getUIName();
 		popups.showSubjectAddedPopup();
