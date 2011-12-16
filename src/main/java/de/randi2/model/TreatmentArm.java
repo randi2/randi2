@@ -27,11 +27,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
@@ -49,7 +49,7 @@ public class TreatmentArm extends AbstractDomainObject{
 	/** The name. */
 	@NotNull
 	@NotEmpty
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	private String name = null;
 
 	/** The description. */

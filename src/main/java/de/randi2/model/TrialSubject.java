@@ -34,15 +34,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import de.randi2.model.criteria.DichotomousCriterion;
 import de.randi2.unsorted.ConstraintViolatedException;
 
 /**
@@ -68,13 +67,13 @@ public class TrialSubject extends AbstractDomainObject {
 	/** The identification. */
 	@NotNull
 	@NotEmpty
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	private String identification;
 
 	/** The rand number. */
 	@NotNull
 	@NotEmpty
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	private String randNumber;
 	
 	/** The counter. */
@@ -127,11 +126,10 @@ public class TrialSubject extends AbstractDomainObject {
 	 * 
 	 * @return the stratum
 	 */
-	@SuppressWarnings("unchecked")
 	@Transient
 	public String getStratum() {
 		List<String> stratum = new ArrayList<String>();
-		for (SubjectProperty p : properties) {
+		for (SubjectProperty<?> p : properties) {
 			try {
 				stratum.add(p.getCriterion().getId() + "_" + p.getStratum());
 			} catch (ConstraintViolatedException e) {

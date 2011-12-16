@@ -30,12 +30,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import de.randi2.utility.validations.ContactPerson;
@@ -62,26 +62,26 @@ public class TrialSite extends AbstractDomainObject {
 	/** The name. */
 	@Column(unique = true)
 	@NotEmpty
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	private String name = "";
 
 	/** The street. */
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	@NotNull
 	private String street = "";
 	
 	/** The postcode. */
-	@Length(max = MAX_LENGTH_POSTCODE)
+	@Size(max = MAX_LENGTH_POSTCODE)
 	@NotNull
 	private String postcode = "";
 	
 	/** The city. */
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	@NotNull
 	private String city = "";
 	
 	/** The country. */
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	private String country = "";
 	
 	/** The password. */

@@ -43,19 +43,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import de.randi2.model.criteria.AbstractCriterion;
-import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.criteria.DichotomousCriterion;
+import de.randi2.model.criteria.constraints.AbstractConstraint;
 import de.randi2.model.enumerations.TrialStatus;
 import de.randi2.model.randomization.AbstractRandomizationConfig;
 import de.randi2.utility.Pair;
@@ -91,13 +91,13 @@ public class Trial extends AbstractDomainObject {
 	/** The name. */
 	@NotNull()
 	@NotEmpty()
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	@Getter
 	@Setter
 	private String name = "";
 
 	/** The abbreviation. */
-	@Length(max = MAX_VARCHAR_LENGTH)
+	@Size(max = MAX_VARCHAR_LENGTH)
 	@Getter
 	@Setter
 	private String abbreviation = "";

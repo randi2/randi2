@@ -26,12 +26,12 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import de.randi2.model.enumerations.Gender;
@@ -67,16 +67,16 @@ public class Person extends AbstractDomainObject {
 	// Persons Data
 	/** The surname. */
 	@NotEmpty
-	@Length(max=MAX_NAME_LENGTH)
+	@Size(max = MAX_NAME_LENGTH)
 	private String surname = "";
 	
 	/** The firstname. */
 	@NotEmpty
-	@Length(max=MAX_NAME_LENGTH)
+	@Size(max = MAX_NAME_LENGTH)
 	private String firstname = "";
 	
 	/** The title. */
-	@Length(max=MAX_TITLE_LENGTH)
+	@Size(max = MAX_TITLE_LENGTH)
 	private String title = "";
 	
 	/** The sex. */

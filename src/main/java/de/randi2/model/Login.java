@@ -32,11 +32,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.core.GrantedAuthority;
@@ -96,7 +96,7 @@ class Login extends AbstractDomainObject implements UserDetails {
 
 	/** The username. */
 	@Column(unique = true)
-	@Length(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
+	@Size(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
 	@EMailRANDI2
 	@NotEmpty
 	private String username = "";
