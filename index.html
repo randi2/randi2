@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Randi2 by randi2</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Randi2</h1>
+          <h2>Online Randomization Software</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/randi2/randi2/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/randi2/randi2/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/randi2/randi2" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>RANDI2</h1>
+
+<p>RANDI2 is a Web Based application for convenient and state-of-the-art randomization within clinical trials. It supports all modern randomization algorithms (complete, biased coin, truncated randomization, block randomization, and the Wei’s urn model randomization), configurable trial subject properties, stratification and definition of inclusion criteria. Furthermore it enables easy management of multi-center trials and users, supports the GCP-role models and audit functionality and visualizes the randomization and trial progress.</p>
+
+<h2>PROJECT AND LICENSE</h2>
+
+<p>RANDI2 is developed with help of the German Cancer Research Center and used among others by the Heidelberg University Hospital. </p>
+
+<p>Last not least: it is Open Source (GPL ver. 3.0) so feel free to try it out.</p>
+
+<h2>HOW CAN I USE RANDI2?</h2>
+
+<p>RANDI2 can be run in any JEE application server of your choice and with almost any common database management system. The current version supports MySQL and PostgreSQL out of the box but the configuration for any other system is very easy. </p>
+
+<h2>HISTORY</h2>
+
+<p>The project RANDI2 was born as a practical course for the Medical Informatics students at the Heilbronn University in 2006. The aim was to develop a new web based, randomization software for the German Cancer Research Center. After one year of work a prototype of the RANDI2 system has been realized and its functionality was indeed very satisfying. This led to the decision, to continue the project under the wings of the German Cancer Research Center and to make it open source. By this time the developers decided also to change the technology stack (from JavaServerPages, Model-2-Architecture to Ajax enabled JavaServerFaces combined with Spring and Hibernate on the server side) and basically to rewrite the whole software - the RANDI2 project, as we know it, was born. </p>
+
+<h2>GOAL</h2>
+
+<p>Since then the project‘s main goal is to deliver a state-of-the art, open source randomization solution which will be not only well-known but also regularly used by the RCT's conducting institutions world-wide. To accomplish this ambitious goal the RANDI2 team established an expert group in Heidelberg for an ongoing discussion about the system, randomization algorithms, new features and other improvements with scientists working in different institutions around the campus. Last not least: the development of RANDI2 is very technology-driven and assures the use of modern frameworks and techniques. </p>
+
+<h2>WHY DO WE NEED RANDOMIZATION?</h2>
+
+<p>"The randomization process is pivotal for clinical trials with more than one treatment arm. Whenever new therapies have to be compared with standard treatments or even with another experimental treatment, it should happen under the same boundary conditions. Chance is described in (Kendall 2003) as a random error appearing to cause an association between an intervention and an outcome. The most important design strategy to minimize such random errors is to have a large sample size, but in most cases it is a matter of ethics to minimize the sample size. Thus, it should be stipulated that a clinical trial comparison with two or more treatment arms is ideally randomized. As it is stressed in (Rosenberger et al. 2002) randomization in a clinical trial is an issue in each of the three components design, conduct, and analysis. And we will concentrate in this paper on design and the execution process. In the randomization process patients are allocated randomly to one of those treatment arms. In practice it is often the case that there is the need to adapt the randomization process to the study design and the patient recruitment. The open source project RANDI2 provides a platform for the electronic randomization and possesses a much more reliable method than conventional telephone and fax procedures. It is flexible in use and can be customized to the demands of the study. However, other existing electronic systems are sometimes inflexible and not freely available. Thus, the development of RANDI2 was started." 
+Schrimpf D, Plotnicki L, Pilz L Web-based open source application for the randomization process in clinical trials: RANDI2; J Clin Pharm</p>
+
+<h2>FEATURES</h2>
+
+<h3>RANDOMIZATION ALGORITHMS</h3>
+
+<p>The current version implements following randomization algorithms:</p>
+
+<ul>
+<li>Complete randomization - simple algorithm where the chance of each treatment arm is exactly the same. This approach guarantees that the allocation process is fully random.</li>
+<li>Biased coin randomization - represents an evolution of the complete randomization algorithm, where an uneven distribution over the treatments arms is used.</li>
+<li>Truncated randomization - helpful if the exact patients' amount in the treatment arms is well defined and needs to be reached.</li>
+<li>Block randomization - perfect algorithm for small amount of patients. Works with permuted blocks of specified size.</li>
+<li>Wei’s urn model randomization - algorithm which uses the "balls-in-a-urn" principle.
+Stratification of these algorithms, if reasonable, can be applied. The user can defined any amount of the desired strata groups using the configured trial subject's properties.</li>
+</ul><h3>TRIAL SUBJECT PROPERTIES</h3>
+
+<p>During the trial configuration process, the user can specify the important subject's properties which will entered by the investigator before the randomization process and stored in the system. RANDI2 supports currently following types of properties:</p>
+
+<ul>
+<li>Dichotomous - a property with two well defined characteristics (e.g.: gender)</li>
+<li>Ordinal - a well defined set of characteristics (e.g.: tumor status)</li>
+<li>Calendar Date - a calendar date (e.g.: day of birth)</li>
+<li>Free Text - any possible string
+The defined trial subject's properties can be used as stratification factors or inclusion/exclusion criteria*.</li>
+</ul><h3>INTERNATIONALIZATION</h3>
+
+<p>The system is currently shipped with support for the German and English language. Due to the fully internationalized backend, adding another localization is a simple process which doesn't involve any programming skills at all.</p>
+
+<h3>USER ROLES</h3>
+
+<p>Each RANDI2 user is characterized by a set of rights and roles which defines exactly what she/he can do and see in the system. The set of the predefined roles is inspired by the Good Clinical Practice. Following roles are available:</p>
+
+<ul>
+<li>Administrator - the system administrator. Manages the trial sites and the users. No access to the trials or the randomization process.</li>
+<li>Principal Investigator - can create a trial or under some circumstances edit it. Can access the trial history and manage own trial site by creating users assigned to his/hers trial site. Can't start the randomization process.</li>
+<li>Investigator - can access the trials which his site is participating in. Can randomize patients.</li>
+<li>Statistician - has access to one specific trial and its data for the auditing and analysis purposes.</li>
+<li>Monitor - has access to the trial data to audit the randomization process.</li>
+</ul><h3>FULL AUDIT</h3>
+
+<p>Each user action made in the system from signing-in, to the randomization itself is logged and stored in the RANDI2 database.</p>
+
+<h3>DATA EXPORT AND VISUALIZATION</h3>
+
+<p>The randomization data generated by the system can be exported as a plain CSV file or in the MS Excel format. Furthermore a quick overview about randomization status can be visualized in form of a variety of charts.</p>
+        </section>
+
+        <footer>
+          Randi2 is maintained by <a href="https://github.com/randi2">randi2</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
